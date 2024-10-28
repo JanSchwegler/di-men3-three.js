@@ -4,6 +4,6 @@ Während des dritten Semesters habe ich vor im Mentorat three.js kennenzulernen 
 
 - [Projektdefinition](projektdefinition.md)
 - [Dokumentation](dokumentation/dokumentation.md)
-- Website
+- [Übersicht](index.html)
 
 # Persönliche Anmerkungen & Fazit

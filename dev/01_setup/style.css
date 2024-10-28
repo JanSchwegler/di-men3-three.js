@@ -1,0 +1,16 @@
+/* reset */
+* {
+    box-sizing: border-box;
+}
+
+html, body, div, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, form, input, button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-decoration: none;
+}
+
+/* style */
+body {
+    background-color: lightgrey;
+}
