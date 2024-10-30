@@ -1,9 +1,9 @@
 # MEN3 - three.js
-Während des dritten Semesters habe ich vor im Mentorat three.js kennenzulernen und einfache Umsetzungen zu realisieren. Dabei wird mich Samuel Dunkel als Mentor unterstützen. In dieser Dokuemntation wird meine Arbeit sowie meine Erkentnisse festgehalten. Zusätzlich soll diese Dokumentation als Übersicht und Leitfaden für weitere umsetzungen dienen. Dazu werde ich praktische Codesnippets einbauen.
-[Projektdefinition](projektdefinition.md){:target="_blank"}
+Im dritten Semester plane ich, mich im Rahmen eines Mentorats mit Three.js vertraut zu machen und einfache Anwendungen zu realisieren. Samuel Dunkel wird mich dabei als Mentor unterstützen. Meine Arbeit und Erkenntnisse werde ich in einer Dokumentation festhalten, die als Übersicht und Leitfaden für zukünftige Projekte dienen und praktische Codesnippets enthalten soll.
 
 - [Projektdefinition](projektdefinition.md)
 - [Dokumentation](dokumentation/dokumentation.md)
 - [Übersicht](index.html)
 
 # Persönliche Anmerkungen & Fazit
+[default link](default link.md){:target="_blank"}
