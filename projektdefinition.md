@@ -12,10 +12,10 @@ Der Mentor [Samuel Dunkel](https://dunkel.cc/){:target="_blank"} unterstützt mi
 
 Während des Mentorats (MEN3) werde ich die JavaScript Library [Three.js](https://threejs.org/){:target="_blank"} kennenlernen und erforschen. Ich werde die Basics erlernen und anwenden.
 
-Ich arbeite gerne im Web und im 3D-Raum, daher begeistert mich die Möglichkeit, diese beiden Bereiche miteinander zu verbinden. Bereits habe ich den Scene Viewer von Google genutzt, um eigene 3D-Objekte online darzustellen, dieser beietet sehr begrenzte Funktionen. Mit Three.js möchte ich meine Fähigkeiten erweitern und lernen, 3D-Objekte im Web nicht nur darzustellen, sondern auch interaktiv zu gestalten, um zukünftig noch vielseitigere Projekte realisieren zu können.
+Ich arbeite gerne im Web und im 3D-Raum, daher begeistert mich die Möglichkeit, diese beiden Bereiche miteinander zu verbinden. Bereits habe ich den Scene Viewer von Google genutzt, um eigene 3D-Objekte online darzustellen, dieser bietet sehr begrenzte Funktionen. Mit Three.js möchte ich meine Fähigkeiten erweitern und lernen, 3D-Objekte im Web nicht nur darzustellen, sondern auch interaktiv zu gestalten, um zukünftig noch vielseitigere Projekte realisieren zu können.
 
-Das Projekt konzentriert sich auf die technische Umsetzung, ohne die Integration in andere Systeme. Es werden kleinere Websites entwickelt, die jeweils unterschiedliche technologischen Aspekte demonstrieren. Diese Umsetzungen richten sich ausschließlich auf die Technik und verzichten bewusst auf ausgearbeitete Designaspekte.
-Zu Beginn werde ich die grundlegende Integration von Three.js und einfache Darstellung eines 3D-Objekts erlernen. Anschließend werde ich schrittweise komplexere Funktionen und Anwendungsmöglichkeiten umsetzen. Parallel dazu dokumentiere ich kontinuierlich den Codeaufbau der einzelnen Projekte, um die Struktur jeder Umsetzung festzuhalten.
+Das Projekt konzentriert sich auf die technische Umsetzung, ohne die Integration in andere Systeme. Es werden kleinere Websites entwickelt, die jeweils unterschiedliche technologischen Aspekte demonstrieren. Diese Umsetzungen richten sich ausschliesslich auf die Technik und verzichten bewusst auf ausgearbeitete Designaspekte.
+Zu Beginn werde ich die grundlegende Integration von Three.js und einfache Darstellung eines 3D-Objekts erlernen. Anschliessend werde ich schrittweise komplexere Funktionen und Anwendungsmöglichkeiten umsetzen. Parallel dazu dokumentiere ich kontinuierlich den Codeaufbau der einzelnen Projekte, um die Struktur jeder Umsetzung festzuhalten.
 
 ## Ziele
 
