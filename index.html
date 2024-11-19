@@ -6,11 +6,19 @@
     <title>Document</title>
 </head>
 <body>
+    <script type="module" src="main.js"></script>
     <h1>Mentorat 3</h1>
     <a href="/di-men3-three.js/projektdefinition">Projektdefinition</a><br>
     <a href="/di-men3-three.js/dokumentation/dokumentation">Dokumentation</a>
     <hr>
     <a href="/di-men3-three.js/dist/src/01_setup/setup.html">01 Setup</a><br>
     <a href="/di-men3-three.js/dist/src/02_line/index.html">02 Line</a><br>
+    <script type="module">
+        // Insert HTML content at this position in the script
+        document.body.insertAdjacentHTML(
+          'beforeend', // Options: 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
+          '<p>This content was inserted dynamically by the script!</p>'
+        );
+    </script>
 </body>
 </html>
