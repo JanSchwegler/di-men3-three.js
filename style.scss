@@ -17,3 +17,14 @@ $background-color: #d1d1d1;
 body {
     background-color: $background-color;
 }
+
+#dev-nav {
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    width: 300px;
+    height: auto;
+    border: solid 3px #000;
+    padding: 20px;
+    background-color: $background-color;
+}
