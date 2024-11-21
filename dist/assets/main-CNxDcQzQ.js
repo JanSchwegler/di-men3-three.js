@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";document.body.insertAdjacentHTML("beforeend",'<div id="dev-nav"><a href="/src/01_setup/setup.html">01 Setup</a><br><a href="/src/02_line/index.html">02 Line</a><br></div>');
