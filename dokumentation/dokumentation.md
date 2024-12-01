@@ -9,14 +9,20 @@ This documentation provides a comprehensive guide to getting started with Three.
 - [3. Setting Up the Development Environment for Three.js](#3-setting-up-the-development-environment-for-threejs)
   - [3.1. Step-by-Step Installation](#31-step-by-step-installation)
   - [3.2. Important Commands](#32-important-commands)
+- [Linking Project Files](#linking-project-files)
+  - [HTML](#html)
+  - [Javascript](#javascript)
+  - [SASS](#sass)
+- [Create Code Exclusively for Development Hidden in the Final Build](#create-code-exclusively-for-development-hidden-in-the-final-build)
 - [4. Basic Structure of a Minimal Three.js File](#4-basic-structure-of-a-minimal-threejs-file)
   - [4.1. Import](#41-import)
   - [4.2. Fallback / WebGL compatibility check](#42-fallback--webgl-compatibility-check)
   - [4.3. Scene](#43-scene)
   - [4.4. Camera](#44-camera)
-  - [4.5. Renderer](#45-renderer)
   - [4.6. Objects](#46-objects)
+  - [4.5. Renderer](#45-renderer)
   - [4.7. Base Code](#47-base-code)
+- [Testings](#testings)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -93,7 +99,7 @@ Before working with Three.js, it’s essential to set up a development environme
 
 7. **Run and Build the Website**
 
-   To see the index.html Page, you need to run the Vite Server. You also need to Build the Files to run idependent of the Server. The necessary commands are listed in the following capter.
+    To see the index.html Page, you need to run the Vite Server. You also need to Build the Files to run idependent of the Server. The necessary commands are listed in the following capter.
 
 ## 3.2. Important Commands
 
@@ -124,11 +130,66 @@ Before working with Three.js, it’s essential to set up a development environme
   npx vite build
   ```
 
+# Linking Project Files  
+For a basic website, we need an `index.html`, `main.js`, and `style.css`.
+
+## HTML  
+The HTML is structured normally with a link to the `main.js` file. If you link a CSS file directly, it should also be included. When using SASS, there’s no need to link the SASS file in the HTML, as we link it in the main.js.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+
+    <!-- optioanal css link -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <!-- js link -->
+    <script type="module" src="main.js"></script>
+
+</body>
+</html>
+```
+
+## Javascript
+At the top of the JavaScript file, we import the SASS file:
+```javascript
+import '/style.scss';
+```
+
+## SASS  
+With Vite (if SASS is installed), no additional configuration is needed for SASS to work. However, the SASS file must be imported in the `main.js` file, as shown in the JavaScript section.
+
+# Create Code Exclusively for Development Hidden in the Final Build
+To include code in the development environment that is excluded from the final build, you can use the following `if` statement:
+
+```javascript
+if (import.meta.env.DEV) {
+  // Code to execute
+}
+```
+In HTML, it can look like this:
+```html
+<script type="module">
+  if (import.meta.env.DEV) {
+    document.body.insertAdjacentHTML(
+      'beforeend', // Options: 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
+      '<div id="dev-block"></div>'
+    );
+  }
+</script>
+```
+
 # 4. Basic Structure of a Minimal Three.js File
 
 This chapter outlines the fundamental components of a Three.js file. Using this code, you can display 3D objects on a website.
 
-[At the end](#5), you’ll find the complete base code for quick reference and copy-paste use.
+At the end of this chapter, you’ll find the complete base code for quick reference and copy-paste use.
 
 ## 4.1. Import
 
@@ -185,9 +246,26 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 5; // Move the camera away from the origin
 ```
 
+## 4.6. Objects
+
+To display something in the scene, you need to add a 3D object. You can add your own or load a [primitive](https://threejs.org/manual/#en/primitives).
+
+Remember the structure of an object: it requires geometry and material (or texture), both combined into a new mesh.
+
+```javascript
+// Object
+// ├── Geometry (defines the shape)
+// └── Material (defines the surface appearance)
+
+const geometry = new THREE.BoxGeometry(); // Define the shape
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Define the surface appearance
+const cube = new THREE.Mesh(geometry, material); // Combine shape and material
+scene.add(cube); // Add the cube to the scene
+```
+
 ## 4.5. Renderer
 
-The renderer is responsible for rendering the scene and camera onto the screen. The `WebGLRenderer` is the default and most widely used renderer in Three.js.
+And finally, the renderer is responsible for rendering the scene and camera onto the screen. The `WebGLRenderer` is the default and most widely used renderer in Three.js.
 
 ```javascript
 const renderer = new THREE.WebGLRenderer();
@@ -196,17 +274,6 @@ document.body.appendChild(renderer.domElement); // Attach the canvas to the docu
 
 // Later you render the Scene. If there is not only a still image, you have to create a loop
 renderer.render(scene, camera); // Render the scene from the camera's perspective
-```
-
-## 4.6. Objects
-
-To display something in the scene, you need to add a 3D object. You can add your own or load a primitive.
-
-```javascript
-const geometry = new THREE.BoxGeometry(); // Define the shape
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Define the surface appearance
-const cube = new THREE.Mesh(geometry, material); // Combine shape and material
-scene.add(cube); // Add the cube to the scene
 ```
 
 ## 4.7. Base Code
@@ -253,3 +320,11 @@ function createScene() {
   }
 }
 ```
+
+# Testings
+- [ ] responsive
+- [ ] orbit / controls
+- [ ] load my own
+- [ ] materials / textures
+- [ ] lights
+- [ ] environment / background
