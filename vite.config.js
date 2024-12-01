@@ -9,6 +9,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         setup: resolve(__dirname, 'src/01_setup/setup.html'),
         line: resolve(__dirname, 'src/02_line/index.html'),
+        responsive: resolve(__dirname, 'src/03_responsive/index.html'),
       }
     }
   }
