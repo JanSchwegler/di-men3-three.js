@@ -9,20 +9,23 @@ This documentation provides a comprehensive guide to getting started with Three.
 - [3. Setting Up the Development Environment for Three.js](#3-setting-up-the-development-environment-for-threejs)
   - [3.1. Step-by-Step Installation](#31-step-by-step-installation)
   - [3.2. Important Commands](#32-important-commands)
-- [Linking Project Files](#linking-project-files)
-  - [HTML](#html)
-  - [Javascript](#javascript)
-  - [SASS](#sass)
-- [Create Code Exclusively for Development Hidden in the Final Build](#create-code-exclusively-for-development-hidden-in-the-final-build)
-- [4. Basic Structure of a Minimal Three.js File](#4-basic-structure-of-a-minimal-threejs-file)
-  - [4.1. Import](#41-import)
-  - [4.2. Fallback / WebGL compatibility check](#42-fallback--webgl-compatibility-check)
-  - [4.3. Scene](#43-scene)
-  - [4.4. Camera](#44-camera)
-  - [4.6. Objects](#46-objects)
-  - [4.5. Renderer](#45-renderer)
-  - [4.7. Base Code](#47-base-code)
-- [Testings](#testings)
+- [4. Linking Project Files](#4-linking-project-files)
+  - [4.1. HTML](#41-html)
+  - [4.2. Javascript](#42-javascript)
+  - [4.3. SASS](#43-sass)
+- [5. Create Code Exclusively for Development Hidden in the Final Build](#5-create-code-exclusively-for-development-hidden-in-the-final-build)
+- [6. Basic Structure of a Minimal Three.js File](#6-basic-structure-of-a-minimal-threejs-file)
+  - [6.1. Import](#61-import)
+  - [6.2. Fallback / WebGL compatibility check](#62-fallback--webgl-compatibility-check)
+  - [6.3. Scene](#63-scene)
+  - [6.4. Camera](#64-camera)
+  - [6.5. Objects](#65-objects)
+  - [6.6. Renderer](#66-renderer)
+  - [6.7. Base Code](#67-base-code)
+- [7. Responsive Canvas](#7-responsive-canvas)
+  - [7.1. Canvas Handling](#71-canvas-handling)
+  - [7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#72-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
+- [8. Todo Pages](#8-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -130,11 +133,11 @@ Before working with Three.js, it’s essential to set up a development environme
   npx vite build
   ```
 
-# Linking Project Files  
-For a basic website, we need an `index.html`, `main.js`, and `style.css`.
+# 4. Linking Project Files  
+For a basic website, you need an `index.html`, `main.js`, and `style.css`.
 
-## HTML  
-The HTML is structured normally with a link to the `main.js` file. If you link a CSS file directly, it should also be included. When using SASS, there’s no need to link the SASS file in the HTML, as we link it in the main.js.
+## 4.1. HTML  
+The HTML is structured normally with a link to the `main.js` file. If you link a CSS file directly, it should also be included. When using SASS, there’s no need to link the SASS file in the HTML, as you link it in the main.js.
 
 ```html
 <!DOCTYPE html>
@@ -156,16 +159,16 @@ The HTML is structured normally with a link to the `main.js` file. If you link a
 </html>
 ```
 
-## Javascript
-At the top of the JavaScript file, we import the SASS file:
+## 4.2. Javascript
+At the top of the JavaScript file, you import the SASS file:
 ```javascript
 import '/style.scss';
 ```
 
-## SASS  
+## 4.3. SASS  
 With Vite (if SASS is installed), no additional configuration is needed for SASS to work. However, the SASS file must be imported in the `main.js` file, as shown in the JavaScript section.
 
-# Create Code Exclusively for Development Hidden in the Final Build
+# 5. Create Code Exclusively for Development Hidden in the Final Build
 To include code in the development environment that is excluded from the final build, you can use the following `if` statement:
 
 ```javascript
@@ -185,13 +188,13 @@ In HTML, it can look like this:
 </script>
 ```
 
-# 4. Basic Structure of a Minimal Three.js File
+# 6. Basic Structure of a Minimal Three.js File
 
 This chapter outlines the fundamental components of a Three.js file. Using this code, you can display 3D objects on a website.
 
 At the end of this chapter, you’ll find the complete base code for quick reference and copy-paste use.
 
-## 4.1. Import
+## 6.1. Import
 
 To use Three.js, import the necessary modules at the top of your file.
 
@@ -202,7 +205,7 @@ import * as THREE from "three";
 // Additional modules can be imported here
 ```
 
-## 4.2. Fallback / WebGL compatibility check
+## 6.2. Fallback / WebGL compatibility check
 
 Although rare, some devices or browsers may not support WebGL 2. Implementing a fallback ensures a better user experience.
 
@@ -217,18 +220,18 @@ if (!WebGL.isWebGL2Available()) {
 }
 ```
 
-## 4.3. Scene
+## 6.3. Scene
 
 The scene acts as a container for all the objects, lights, and cameras.
 
-![Three.js File](images/5_2_threejs-structure.svg)
+![Three.js File](images/6_3_threejs-structure.svg)
 [Image Source: threejs.org](https://threejs.org/manual/#en/fundamentals)
 
 ```javascript
 const scene = new THREE.Scene();
 ```
 
-## 4.4. Camera
+## 6.4. Camera
 
 The `PerspectiveCamera` is commonly used for 3D scenes.
 There are two types:
@@ -246,7 +249,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 5; // Move the camera away from the origin
 ```
 
-## 4.6. Objects
+## 6.5. Objects
 
 To display something in the scene, you need to add a 3D object. You can add your own or load a [primitive](https://threejs.org/manual/#en/primitives).
 
@@ -263,7 +266,7 @@ const cube = new THREE.Mesh(geometry, material); // Combine shape and material
 scene.add(cube); // Add the cube to the scene
 ```
 
-## 4.5. Renderer
+## 6.6. Renderer
 
 And finally, the renderer is responsible for rendering the scene and camera onto the screen. The `WebGLRenderer` is the default and most widely used renderer in Three.js.
 
@@ -276,7 +279,7 @@ document.body.appendChild(renderer.domElement); // Attach the canvas to the docu
 renderer.render(scene, camera); // Render the scene from the camera's perspective
 ```
 
-## 4.7. Base Code
+## 6.7. Base Code
 
 Below is the complete base code, combining all the steps above into a functional Three.js setup.
 
@@ -321,7 +324,137 @@ function createScene() {
 }
 ```
 
-# Testings
+# 7. Responsive Canvas
+A canvas has two sizes: its visible display size on the page and its internal pixel resolution. To maintain responsiveness, both sizes must be set and updated accordingly. Additionally, you can adjust the camera distance for fixed elements.
+
+## 7.1. Canvas Handling
+Ideally, you should create and style the canvas using HTML and CSS.
+```html
+<canvas id="canvas"></canvas>
+<style>
+  #canvas {
+    height: 100vh;
+    width: 100%;
+    /* display block is important to eliminate the white border */
+    display: block;
+  }
+</style>
+```
+In a function, both sizes are reset based on the canvas display size. In the main function, you add an event listener for the `resize` event and also call the function once during the initial load. (If you start and stop rendering, you may also add and remove the event listener to improve performance.)
+
+Within the function, you read the new display size and set it as the render size (internal pixel resolution). Additionally, set the canvas `width` and `height` attributes to ensure the resolution matches the actual display size. Finally, correct the aspect ratio to eliminate any distortion.
+
+Retina displays often create a mismatch between physical and browser-reported pixel sizes. This issue can be resolved for sharper renders at the cost of performance.
+
+**Standard Calculation without Extra Resolution for Retina Displays**
+```javascript
+// Handle resizing of the window
+window.addEventListener('resize', onResize, false);
+onResize();
+
+function onResize() {
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  // Set renderer size and adjust canvas attributes
+  renderer.setSize(width, height, false);
+  canvas.width = width;
+  canvas.height = height;
+
+  // Update camera aspect ratio and projection matrix
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+}
+``` 
+
+**Enhanced resolution based on the device's actual pixel ratio, limited to 2x for performance reasons.**
+```javascript
+// Handle resizing of the window
+window.addEventListener('resize', onResize, false);
+onResize();
+
+function onResize() {
+  const pixelRatio = Math.min(window.devicePixelRatio, 2); // Limit to 2x for performance
+  const width = Math.round(canvas.clientWidth * pixelRatio);
+  const height = Math.round(canvas.clientHeight * pixelRatio);
+
+  // Set renderer size and adjust canvas attributes
+  renderer.setSize(width, height, false);
+  canvas.width = width;
+  canvas.height = height;
+
+  // Update camera aspect ratio and projection matrix
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+}
+``` 
+
+## 7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding
+Due to the manual definition of object size and padding, this solution is not recommended for pages with zoomable websites.
+
+During window resizing, the camera’s Z position is also adjusted to ensure the object remains visible with the correct padding. This adjustment is based on the camera’s FOV and the aspect ratio of the viewport. Before performing the calculation, you need to define the object's `width`, `height`, and `padding` to ensure accurate results.
+
+```javascript
+const objectWidth = 1;
+const objectHeight = 1;
+const padding = 1;
+```
+
+To start, ignore the aspect ratio and calculate the distance using only the FOV, object size, and padding. This is done with a tangent calculation. (Technically, this calculates the distance for an aspect ratio of 1, which corresponds to a square viewport.)
+
+![Calculation sketch](images/5_2_calculation.jpg)
+
+You halve the FOV to form a right triangle. With this, you can now calculate the height:
+
+$$
+\text{height} = \tan\left(\frac{\text{length of the opposite side}}{\text{FOV angle}}\right)
+$$
+
+- To calculate the FOV angle, first convert the FOV from degrees to radians and then halve it:
+
+$$
+\text{FOV angle (radians)} = \frac{\frac{\text{FOV (degrees)} \times \pi}{180}}{2}
+$$
+
+- For the opposite side, take half of the object's width or height and add the padding. To ensure the object fits in the viewport, use the width if the aspect ratio is portrait, and the height if the aspect ratio is landscape:
+
+$$
+\text{Opposite side} = \frac{\text{Object width or height}}{2} + \text{Padding}
+$$
+
+After the calculation, simply divide the result by the aspect ratio when the browser is in portrait mode to adjust for the aspect ratio.
+
+**In code, this looks like this:**
+
+You can use a separate function to handle the camera movement, which is called from within the resize function. With high FOV values, the camera may move very close to the object in order to spread, for example, a 180° view across the screen. To prevent the camera from intersecting with the object, there is a minimum distance value of 1.
+
+```javascript
+function onResize() {
+  adjustCameraToObject();
+}
+
+function adjustCameraToObject() {
+  // set dimensions and padding
+  const objectWidth = 1;
+  const objectHeight = 1;
+  const padding = 1;
+  // get new camera aspect ratio
+  const aspectRatio = camera.aspect;
+  // get camera fov in radiants
+  const fov = camera.fov * (Math.PI / 180);
+  // initialize distance to use later on
+  let distance;
+
+  if (aspectRatio > 1) { // Landscape mode
+      // calculate distance with height and set min to 1
+      distance = Math.max((objectHeight / 2 + padding) / Math.tan(fov / 2), 1);
+  } else { // Portrait mode
+      // calculate distance with width and set min to 1
+      distance = Math.max((objectWidth / 2 + padding) / Math.tan(fov / 2) / aspectRatio, 1);
+  }
+  camera.position.z = distance;
+}
+```
+
+# 8. Todo Pages
 - [ ] responsive
 - [ ] orbit / controls
 - [ ] load my own
