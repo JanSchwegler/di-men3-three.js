@@ -31,7 +31,7 @@ function main() {
 
     function createCube() {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 });
+        const material = new THREE.MeshBasicMaterial({ color: 0xecadff });
         return new THREE.Mesh(geometry, material);
     }
 
