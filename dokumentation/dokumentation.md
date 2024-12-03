@@ -22,16 +22,16 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [6.5. Objects](#65-objects)
   - [6.6. Renderer](#66-renderer)
   - [6.7. Base Code](#67-base-code)
-- [Nesting](#nesting)
-  - [Supported Nestable Objects](#supported-nestable-objects)
-  - [Passed Properties](#passed-properties)
-  - [Example of Adding a Base Object and a Nested Object](#example-of-adding-a-base-object-and-a-nested-object)
-  - [Bypassing Inheritance](#bypassing-inheritance)
-- [lil-gui / Brwoser controls](#lil-gui--brwoser-controls)
-- [7. Responsive Canvas](#7-responsive-canvas)
-  - [7.1. Canvas Handling](#71-canvas-handling)
-  - [7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#72-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
-- [8. Todo Pages](#8-todo-pages)
+- [7. Nesting](#7-nesting)
+  - [7.1. Supported Nestable Objects](#71-supported-nestable-objects)
+  - [7.2. Passed Properties](#72-passed-properties)
+  - [7.3. Example of Adding a Base Object and a Nested Object](#73-example-of-adding-a-base-object-and-a-nested-object)
+  - [7.4. Bypassing Inheritance](#74-bypassing-inheritance)
+- [8. lil-gui / Brwoser controls](#8-lil-gui--brwoser-controls)
+- [9. Responsive Canvas](#9-responsive-canvas)
+  - [9.1. Canvas Handling](#91-canvas-handling)
+  - [9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#92-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
+- [10. Todo Pages](#10-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -330,10 +330,10 @@ function createScene() {
 }
 ```
 
-# Nesting
+# 7. Nesting
 Nesting in Three.js allows you to group objects under a parent, simplifying the management of complex structures. When a parent object is transformed (position, rotation, scale), its child objects inherit those transformations.
 
-## Supported Nestable Objects
+## 7.1. Supported Nestable Objects
 You can nest any Three.js object, including:
 - Meshes
 - Groups
@@ -342,14 +342,14 @@ You can nest any Three.js object, including:
 - Helpers
 - Custom Objects
 
-## Passed Properties
+## 7.2. Passed Properties
 - **Position**: Child positions are relative to the parent.
 - **Rotation**: Child rotations are combined with the parent's.
 - **Scale**: Parent scale applies proportionally to children.
 
 This means changes to the parent automatically propagate to the children.
 
-## Example of Adding a Base Object and a Nested Object
+## 7.3. Example of Adding a Base Object and a Nested Object
 ```javascript
 const parent = new THREE.Mesh(
   new THREE.BoxGeometry(2, 2, 2),
@@ -365,7 +365,7 @@ parent.add(child); // Nest child under parent
 child.position.set(1, 1, 0); // Position relative to parent
 ```
 
-## Bypassing Inheritance
+## 7.4. Bypassing Inheritance
 If you need to bypass these transformations and set a child’s position in world space, you can detach it temporarily or transform the world position to the parent’s local space:
 
 ```javascript
@@ -385,7 +385,7 @@ parent.attach(child); // Reattach to parent
 
 After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
 
-# lil-gui / Brwoser controls
+# 8. lil-gui / Brwoser controls
 [lil-gui](https://lil-gui.georgealways.com/) is a lightweight library for adding interactive controls to your project. It’s perfect for quickly tweaking parameters in real-time, making it ideal for debugging, prototyping, and creative coding. 
 
 You can simply load it as an addon:
@@ -393,10 +393,10 @@ You can simply load it as an addon:
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 ```
 
-# 7. Responsive Canvas
+# 9. Responsive Canvas
 A canvas has two sizes: its visible display size on the page and its internal pixel resolution. To maintain responsiveness, both sizes must be set and updated accordingly. Additionally, you can adjust the camera distance for fixed elements.
 
-## 7.1. Canvas Handling
+## 9.1. Canvas Handling
 Ideally, you should create and style the canvas using HTML and CSS.
 ```html
 <canvas id="canvas"></canvas>
@@ -456,7 +456,7 @@ function onResize() {
 }
 ``` 
 
-## 7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding
+## 9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding
 Due to the manual definition of object size and padding, this solution is not recommended for pages with zoomable websites.
 
 During window resizing, the camera’s Z position is also adjusted to ensure the object remains visible with the correct padding. This adjustment is based on the camera’s FOV and the aspect ratio of the viewport. Before performing the calculation, you need to define the object's `width`, `height`, and `padding` to ensure accurate results.
@@ -523,12 +523,12 @@ function adjustCameraToObject() {
 }
 ```
 
-# 8. Todo Pages
+# 10. Todo Pages
 - [x] responsive
 - [ ] orbit / controls
-- [ ] nesting
-- [ ] add browser controls
-- [ ] load my own
+- [x] nesting
+- [ ] lil gui (add browser controls)
+- [ ] load my own object
 - [ ] materials / textures
 - [ ] lights
 - [ ] environment / background
