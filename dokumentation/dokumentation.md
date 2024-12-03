@@ -22,6 +22,12 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [6.5. Objects](#65-objects)
   - [6.6. Renderer](#66-renderer)
   - [6.7. Base Code](#67-base-code)
+- [Nesting](#nesting)
+  - [Supported Nestable Objects](#supported-nestable-objects)
+  - [Passed Properties](#passed-properties)
+  - [Example of Adding a Base Object and a Nested Object](#example-of-adding-a-base-object-and-a-nested-object)
+  - [Bypassing Inheritance](#bypassing-inheritance)
+- [lil-gui / Brwoser controls](#lil-gui--brwoser-controls)
 - [7. Responsive Canvas](#7-responsive-canvas)
   - [7.1. Canvas Handling](#71-canvas-handling)
   - [7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#72-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
@@ -324,6 +330,69 @@ function createScene() {
 }
 ```
 
+# Nesting
+Nesting in Three.js allows you to group objects under a parent, simplifying the management of complex structures. When a parent object is transformed (position, rotation, scale), its child objects inherit those transformations.
+
+## Supported Nestable Objects
+You can nest any Three.js object, including:
+- Meshes
+- Groups
+- Cameras
+- Lights
+- Helpers
+- Custom Objects
+
+## Passed Properties
+- **Position**: Child positions are relative to the parent.
+- **Rotation**: Child rotations are combined with the parent's.
+- **Scale**: Parent scale applies proportionally to children.
+
+This means changes to the parent automatically propagate to the children.
+
+## Example of Adding a Base Object and a Nested Object
+```javascript
+const parent = new THREE.Mesh(
+  new THREE.BoxGeometry(2, 2, 2),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+const child = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+);
+
+scene.add(parent); // Add parent at root
+parent.add(child); // Nest child under parent
+child.position.set(1, 1, 0); // Position relative to parent
+```
+
+## Bypassing Inheritance
+If you need to bypass these transformations and set a child’s position in world space, you can detach it temporarily or transform the world position to the parent’s local space:
+
+```javascript
+// Set child position based on world coordinates
+const targetWorldPosition = new THREE.Vector3(3, 2, 5);
+const localPosition = parent.worldToLocal(targetWorldPosition.clone());
+child.position.copy(localPosition);
+```
+
+Or, temporarily detach to set world position directly:
+
+```javascript
+scene.attach(child); // Temporarily remove from parent
+child.position.set(3, 2, 5); // Set world position
+parent.attach(child); // Reattach to parent
+```
+
+After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
+
+# lil-gui / Brwoser controls
+[lil-gui](https://lil-gui.georgealways.com/) is a lightweight library for adding interactive controls to your project. It’s perfect for quickly tweaking parameters in real-time, making it ideal for debugging, prototyping, and creative coding. 
+
+You can simply load it as an addon:
+```javascript
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+```
+
 # 7. Responsive Canvas
 A canvas has two sizes: its visible display size on the page and its internal pixel resolution. To maintain responsiveness, both sizes must be set and updated accordingly. Additionally, you can adjust the camera distance for fixed elements.
 
@@ -455,9 +524,12 @@ function adjustCameraToObject() {
 ```
 
 # 8. Todo Pages
-- [ ] responsive
+- [x] responsive
 - [ ] orbit / controls
+- [ ] nesting
+- [ ] add browser controls
 - [ ] load my own
 - [ ] materials / textures
 - [ ] lights
 - [ ] environment / background
+- [ ] user interaction -> scroll / click
