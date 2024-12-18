@@ -1,4 +1,11 @@
 {
+  "name": "di-men3-three.js",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
   "dependencies": {
     "three": "^0.169.0"
   },
