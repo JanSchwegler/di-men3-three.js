@@ -27,7 +27,10 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [7.2. Passed Properties](#72-passed-properties)
   - [7.3. Example of Adding a Base Object and a Nested Object](#73-example-of-adding-a-base-object-and-a-nested-object)
   - [7.4. Bypassing Inheritance](#74-bypassing-inheritance)
-- [8. lil-gui / Brwoser controls](#8-lil-gui--brwoser-controls)
+- [8. lil-gui (brwoser controls)](#8-lil-gui-brwoser-controls)
+  - [8.1. Create fields](#81-create-fields)
+  - [8.2. Include logic](#82-include-logic)
+  - [8.3. Nested controllers](#83-nested-controllers)
 - [9. Responsive Canvas](#9-responsive-canvas)
   - [9.1. Canvas Handling](#91-canvas-handling)
   - [9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#92-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
@@ -385,12 +388,74 @@ parent.attach(child); // Reattach to parent
 
 After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
 
-# 8. lil-gui / Brwoser controls
+# 8. lil-gui (brwoser controls)
 [lil-gui](https://lil-gui.georgealways.com/) is a lightweight library for adding interactive controls to your project. It’s perfect for quickly tweaking parameters in real-time, making it ideal for debugging, prototyping, and creative coding. 
 
 You can simply load it as an addon:
 ```javascript
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+```
+
+After loading the addon, you can create a gui:
+```javascript
+const gui = new GUI();
+
+// optionally add a title
+gui.title('GUI-Title')
+```
+
+## 8.1. Create fields
+Either define the varibales before adding them, often stored in an object:
+```javascript
+const settings = {
+  setting1: "string",
+  setting2: bool,
+  setting3: 10
+}
+
+gui.add(settings, 'setting1');
+gui.add(settings, 'setting2').name('Bool Flag'); // include name
+gui.add(settings, 'setting3', 1 , 100, 1); // include min, max and steps
+
+// use settings
+let string: settings.setting1;
+let bool: settings.setting2;
+let value: settings.setting3;
+```
+
+Or modify directly in the gui:
+```javascript
+gui.add(camera.position, 'z', 1, 10).name('Camera Distance');
+```
+
+## 8.2. Include logic
+Since changing the variables doesn't directly modify your 3D objects, you can incorporate additional logic:
+```javascript
+// insert code
+gui.add(settings, 'brightness', 0, 100).name('Brightness').onFinishChange( value => {
+	console.log( value );
+});
+// call function
+gui.add(settings, 'numCubes', 1, 100, 1).name('Number of Cubes').onChange(resetCubes);
+// on all changes
+gui.onChange( event => {
+  // readables:
+	event.object     // object that was modified
+	event.property   // string, name of property
+	event.value      // new value of controller
+	event.controller // controller that was modified
+
+  console.log(event.object);
+});
+```
+
+## 8.3. Nested controllers
+Organize controllers with nested structures for better clarity. This is done using folders:
+```javascript
+// add folder to gui
+const folder = gui.addFolder( 'Nested Settings' );
+// add setting to folder
+folder.add(nestedSettings, 'setting');
 ```
 
 # 9. Responsive Canvas
