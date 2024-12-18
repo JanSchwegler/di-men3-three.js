@@ -80,6 +80,9 @@ Before working with Three.js, it’s essential to set up a development environme
 
    # optinally install SASS
    npm install -D sass
+
+   # check installed packages
+   npm list
    ```
 
 5. **Configure Vite**
@@ -590,9 +593,9 @@ function adjustCameraToObject() {
 
 # 10. Todo Pages
 - [x] responsive
-- [ ] orbit / controls
+- [ ] orbit / zoom / pan
 - [x] nesting
-- [ ] lil gui (add browser controls)
+- [x] lil gui (add browser controls)
 - [ ] load my own object
 - [ ] materials / textures
 - [ ] lights
