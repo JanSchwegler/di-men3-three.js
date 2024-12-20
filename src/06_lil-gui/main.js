@@ -13,7 +13,6 @@ function main() {
     // create base elements
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-    // const camera = createCamera(numCubes * 2 * (1 / Math.sqrt(numCubes)));
     const camera = createCamera();
     let objects = []; // Array to store all cubes
     let previousCube = scene; // Start with the scene as the parent
