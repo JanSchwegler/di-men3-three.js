@@ -34,7 +34,12 @@ This documentation provides a comprehensive guide to getting started with Three.
 - [9. Responsive Canvas](#9-responsive-canvas)
   - [9.1. Canvas Handling](#91-canvas-handling)
   - [9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#92-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
-- [10. Todo Pages](#10-todo-pages)
+- [10. Orbit, Pan \& Zoom](#10-orbit-pan--zoom)
+  - [10.1. Disable functions](#101-disable-functions)
+  - [10.2. Set Limits](#102-set-limits)
+  - [10.3. Damping](#103-damping)
+- [11. Load GLB File](#11-load-glb-file)
+- [12. Todo Pages](#12-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -591,7 +596,66 @@ function adjustCameraToObject() {
 }
 ```
 
-# 10. Todo Pages
+# 10. Orbit, Pan & Zoom
+The [OrbitControls library](https://threejs.org/docs/index.html#examples/en/controls/OrbitControls) provides an easy way to orbit, pan, and zoom the camera using mouse or touch input.
+
+``` javascript
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+```
+
+Since these controls manipulate the camera, when created, the controller is automatically bound to the camera. For the listeners to work properly, it's necessary to link the canvas to the controls. Additionally, you can optionally listen for window-level inputs, such as resizing or key presses, to ensure the camera and controls behave correctly across various events.
+
+``` javascript
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.listenToKeyEvents( window );
+```
+
+When the user interacts with the camera through touch, the camera updates automatically. However, if you are animating or updating the camera (for example, with damping, smooth zoom, or auto-rotation) without direct user input, you must explicitly call the `controls.update()` function within the animation loop to ensure the camera's position and orientation are properly updated.
+
+``` javascript
+renderer.setAnimationLoop(render);
+function render() {
+    controls.update(); // controls update function
+    renderer.render(scene, camera);
+}
+```
+
+## 10.1. Disable functions
+Out of the box, orbit, pan, and zoom are enabled. You can easily disable them by:
+
+``` javascript
+controls.enableRotate = false; // Disable rotation
+controls.enableZoom = false;   // Disable zooming
+controls.enablePan = false;    // Disable panning
+```
+
+## 10.2. Set Limits
+For all the settings, you can set limits such as:
+
+``` javascript
+controls.maxDistance = 100;           // Limit the zoom out distance
+controls.minDistance = 1;             // Limit the zoom in distance
+controls.maxPolarAngle = Math.PI / 2; // Limit the vertical rotation (no flipping)
+```
+
+## 10.3. Damping
+For a smoother orbit and pan, it is recommended to set this setting to `true`. Additionally, it's important to update the camera controls every frame to account for the post-touch smoothing.
+
+``` javascript
+controls.enableDamping = true; // Smooths the movement
+controls.dampingFactor = 0.05; // The damping speed (default: 0.05)
+
+// controls.update();
+renderer.setAnimationLoop(render);
+function render() {
+    controls.update();
+    renderer.render(scene, camera);
+}
+```
+
+# 11. Load GLB File
+
+# 12. Todo Pages
 - [x] responsive
 - [ ] orbit / zoom / pan
 - [x] nesting
