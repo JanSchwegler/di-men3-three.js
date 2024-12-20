@@ -3,6 +3,7 @@ import * as THREE from "three";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 function main() {
     // get canvas
@@ -22,20 +23,38 @@ function main() {
     stats = new Stats();
     document.body.appendChild( stats.dom );
 
+    // Add GUI
+    const gui = new GUI();
+    let settings = {
+        vertecies: true
+    };
+    gui.add(settings, 'vertecies').name('Vertecies').onChange(
+        (value) => {
+            scene.getObjectByName('pointsGroupe').visible = value;
+        }
+    );
+
     // Add GLB model
+    let pointsGroupe = new THREE.Group();
+    pointsGroupe.name = 'pointsGroupe';
+    const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
+    const pointsMaterial = new THREE.PointsMaterial({ color: 0xff0000, size: 0.005, sizeAttenuation: true });
     const glbLoader = new GLTFLoader();
-    glbLoader.load('models/cube.glb', 
+    glbLoader.load('models/v07_bunny.glb',
         (gltf) => {
             const model = gltf.scene;
-
-            // Add a material to all meshes
-            const material = new THREE.MeshBasicMaterial({ color: 0xdddddd });
+            // loop through all children of the model
             model.traverse((child) => {
                 if (child.isMesh) {
+                    // add material
                     child.material = material;
+                    // add points to pointsGroupe
+                    const points = new THREE.Points(child.geometry, pointsMaterial);
+                    pointsGroupe.add(points);
                 }
             });
-
+            model.add(pointsGroupe);
+            model.position.y = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3()).y / -2;
             scene.add(model);
         },
         (xhr) => {
@@ -56,33 +75,24 @@ function main() {
     window.addEventListener('resize', onResize, false);
     onResize();
     
-    let previousTime = 0;
-    renderer.setAnimationLoop(render);
-
     function createCamera() {
         const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-        camera.position.x = 2;
-        camera.position.y = 2;
-        camera.position.z = 2;
+        camera.position.z = 1.3;
         return camera;
     }
 
-    function createCube() {
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0xecadff });
-        return new THREE.Mesh(geometry, material);
-    }
-
     // render loop
-    function render(time) {
-        // Calculate delta time (in seconds)
-        const deltaTime = (time - previousTime) * 0.001;
-        previousTime = time;
+    const clock = new THREE.Clock();
+    renderer.setAnimationLoop(render);
+    function render() {
+        // Get delta time (in seconds) from the clock
+        const deltaTime = clock.getDelta();
 
         // Update
         orbitControls.update();
         stats.update();
 
+        // Render the scene
         renderer.render(scene, camera);
     }
 
