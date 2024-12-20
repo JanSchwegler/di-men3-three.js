@@ -1,8 +1,9 @@
 import './style.scss';
 import * as THREE from "three";
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 function main() {
     // get canvas
@@ -11,13 +12,18 @@ function main() {
         console.error("Canvas element not found.");
         return;
     }
-
+    
     // create base elements
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
     const camera = createCamera();
     const cube = createCube();
     scene.add(cube);
+
+    // Add stats
+    let stats;
+    stats = new Stats();
+    document.body.appendChild( stats.dom );
 
     // Add orbit controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -128,8 +134,9 @@ function main() {
         const deltaTime = (time - previousTime) * 0.001;
         previousTime = time;
 
-        // Update controls
+        // Update
         controls.update();
+        stats.update();
 
         renderer.render(scene, camera);
     }

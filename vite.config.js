@@ -12,7 +12,9 @@ export default defineConfig({
         responsive: resolve(__dirname, 'src/03_responsive/index.html'),
         orbit: resolve(__dirname, 'src/04_orbit/index.html'),
         nesting: resolve(__dirname, 'src/05_nesting/index.html'),
-        lilgui: resolve(__dirname, 'src/06_lil-gui/index.html')
+        lilgui: resolve(__dirname, 'src/06_lil-gui/index.html'),
+        loadGLTF: resolve(__dirname, 'src/07_load_gltf/index.html'),
+        loadBunny: resolve(__dirname, 'src/08_load_bunny/index.html'),
       }
     }
   }
