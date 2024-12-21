@@ -15,6 +15,9 @@ export default defineConfig({
         lilgui: resolve(__dirname, 'src/06_lil-gui/index.html'),
         loadGLTF: resolve(__dirname, 'src/07_load_gltf/index.html'),
         loadBunny: resolve(__dirname, 'src/08_load_bunny/index.html'),
+        materials: resolve(__dirname, 'src/09_load_materials/index.html'),
+        textures: resolve(__dirname, 'src/10_load_textures/index.html'),
+        lighting: resolve(__dirname, 'src/11_load_lighting/index.html'),
       }
     }
   }
