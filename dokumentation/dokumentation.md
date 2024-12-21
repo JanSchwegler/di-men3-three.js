@@ -39,6 +39,8 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [10.2. Set Limits](#102-set-limits)
   - [10.3. Damping](#103-damping)
 - [11. Load GLB File](#11-load-glb-file)
+- [Materials](#materials)
+- [Textures](#textures)
 - [12. Todo Pages](#12-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
@@ -655,13 +657,32 @@ function render() {
 
 # 11. Load GLB File
 
+# Materials
+quick overview and comparison
+
+lights required
+refresh material
+
+# Textures
+a lot! 
+- texture loader (https://threejs.org/docs/index.html#api/en/loaders/TextureLoader)
+- uv and manual wrapping (default: uv)
+- Magnification / Minification Filters (dealing with up and downsacaling)
+- type -> bittiefe in three.js. does not have to be the same as the loaded texture. it gets convertet.
+- formats
+- compressed textures
+- what happens before loading -> whait for load -> load manager
+- render on a texture (FramebufferTexture / WebGLRenderTaget)
+- workflow with blender and mtl file
+
 # 12. Todo Pages
 - [x] responsive
-- [ ] orbit / zoom / pan
+- [x] orbit / zoom / pan
 - [x] nesting
 - [x] lil gui (add browser controls)
 - [ ] load my own object
-- [ ] materials / textures
+- [ ] materials
+- [ ] textures
 - [ ] lights
 - [ ] environment / background
 - [ ] user interaction -> scroll / click
