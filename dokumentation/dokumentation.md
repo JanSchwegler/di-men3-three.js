@@ -674,6 +674,9 @@ a lot!
 - what happens before loading -> whait for load -> load manager
 - render on a texture (FramebufferTexture / WebGLRenderTaget)
 - workflow with blender and mtl file
+  - glb with included textures. waht does work
+  - gltf with txternal maps (bin / mtl file?)
+- model.clone();
 
 # 12. Todo Pages
 - [x] responsive
@@ -683,6 +686,7 @@ a lot!
 - [ ] load my own object
 - [ ] materials
 - [ ] textures
+- [ ] animations
 - [ ] lights
 - [ ] environment / background
 - [ ] user interaction -> scroll / click
