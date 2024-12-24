@@ -98,7 +98,7 @@ function main() {
 
     // Handle window resize
     function onResize() {
-        const pixelRatio = Math.min(window.devicePixelRatio, 2); // Limit to 2x for performance
+        const pixelRatio = Math.min(window.devicePixelRatio, 4);
         const width = Math.round(canvas.clientWidth * pixelRatio);
         const height = Math.round(canvas.clientHeight * pixelRatio);
 
