@@ -38,10 +38,18 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [10.1. Disable functions](#101-disable-functions)
   - [10.2. Set Limits](#102-set-limits)
   - [10.3. Damping](#103-damping)
-- [11. Load GLB File](#11-load-glb-file)
-- [Materials](#materials)
-- [Textures](#textures)
-- [12. Todo Pages](#12-todo-pages)
+- [11. Load GLTF File](#11-load-gltf-file)
+  - [11.1. Copying models](#111-copying-models)
+- [12. Materials](#12-materials)
+  - [12.1. Requirements](#121-requirements)
+  - [12.2. Comparison](#122-comparison)
+  - [12.3. General Settings](#123-general-settings)
+    - [12.3.1. Shading:](#1231-shading)
+    - [12.3.2. Culling (Back-face culling):](#1232-culling-back-face-culling)
+  - [12.4. Update Material](#124-update-material)
+- [13. Load Textures](#13-load-textures)
+- [14. Load Animations](#14-load-animations)
+- [15. Todo Pages](#15-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -655,15 +663,137 @@ function render() {
 }
 ```
 
-# 11. Load GLB File
+# 11. Load GLTF File
+To load a custom 3D model, use a `.glb` or `.gltf` file. A `.glb` file contains all assets, like UV maps and textures, in one file. In contrast, a `.gltf` file stores the model separately, along with additional `.bin` and texture files. For simplicity, using a `.glb` file is recommended.
 
-# Materials
-quick overview and comparison
+Export your model from Blender via `Export > glTF 2.0`. In the export menu, you can choose between `.glb` or `.gltf`, and adjust other settings as needed.
+![GLTF Export](images/gltf_export.png)
 
-lights required
-refresh material
+Import the GLTF loader to load the 3D model:
+``` javascript
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+```
 
-# Textures
+Create a new loader and load the model. For both `.glb` and `.gltf` files, load only the main `.gltf` file. Any additional files, like `.bin` or textures, are loaded automatically.
+
+The `(gltf) => {}` function waits until the model is fully loaded, ensuring all resources are available on execution.
+
+The `(xhr) => {}` function runs during the loading process and can handle tasks for the loading duration. In this example, it logs the loading percentage.
+
+The `(error) => {}` function is triggered if an error occurs. In this example, it logs the error to the console.
+
+``` javascript
+const glbLoader = new GLTFLoader();
+glbLoader.load('yourPath/yourModel.glb',
+  (gltf) => {
+      model = gltf.scene;
+      scene.add(model);
+  },
+  (xhr) => {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+  },
+  (error) => {
+      console.error('An error happened', error);
+  }
+);
+```
+When loading textures manually, please refer to the section about textures to ensure they are displayed correctly.
+
+## 11.1. Copying models
+Linking or creating a new variable that points to another object does not create a copy - it links to the original. To create an actual copy, use `.clone()`. 
+
+Since a 3D model consists of multiple meshes and textures, all of them must be cloned. Without cloning them, changes to one material will affect both the original and the cloned object.
+
+The following code creates a clone, loops through all children, and clones all of its materials:
+``` javascript
+const model = gltf.scene;
+modelClone = model.clone();
+modelClone.traverse((child) => {
+  if (child.isMesh) {
+    child.material = child.material.clone();
+  }
+});
+```
+
+# 12. Materials
+In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section will not explain line and point materials).
+
+- [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)
+- [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial)
+- [MeshPhongMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhongMaterial)
+- [MeshToonMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshToonMaterial)
+- [MeshStandartMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshStandardMaterial)
+- [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhysicalMaterial)
+
+
+Specialized Materials:
+- [MeshDistanceMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshDistanceMaterial)
+- [MeshDepthMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshDepthMaterial)
+- [MeshMatcapMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshMatcapMaterial)
+- [MeshNormalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshNormalMaterial)
+- [ShadowMaterial](https://threejs.org/docs/index.html#api/en/materials/ShadowMaterial)
+- [ShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/ShaderMaterial)
+- [RawShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/RawShaderMaterial)
+
+## 12.1. Requirements
+"Normal color materials" **require a light source** in the scene because they rely on light calculations. The exception is `MeshBasicMaterial`, which displays a uniform color and does not perform any light calculations, so no light source is necessary. Naturally, these materials must also be linked to a displayed mesh.
+
+Example with lights and `MeshLambertMaterial`:
+``` javascript
+// Add light
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(1, 1, 1);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
+scene.add(light);
+scene.add(ambientLight);
+// Add cube
+const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+const material = new THREE.MeshLambertMaterial( { color: 0x999999 } );
+const cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+```
+
+## 12.2. Comparison
+Here is a list of materials arranged by their complexity and rendering requirements. Although they share similar settings and features, each material introduces unique properties for achieving more realistic rendering.
+
+| **Material** | **Supports Lighting** | **Advanced Features** |
+|------------------------------------|------------------------|--------------------------------------------------------------------------|
+| [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial) | ❌ |  |
+| [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial) | ✅ | `emissive` |
+| [MeshPhongMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhongMaterial) | ✅ | `emissive`, `specular`, `shininess` |
+| [MeshToonMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshToonMaterial) | ✅ | `emissive` |
+| [MeshStandardMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshStandardMaterial) | ✅ | `emissive`, `metalness`, `roughness` |
+| [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhysicalMaterial) | ✅ | `emissive`, `metalness`, `roughness`, `clearcoat`, `clearcoatRoughness`, `sheen`, `transmission` |
+
+## 12.3. General Settings
+Here are some general settings to consider, regardless of the material choice:
+
+### 12.3.1. Shading:
+Determines whether the object appears faceted or smooth. The default is `false`.
+
+```javascript
+object.material.flatShading = false;
+mesh.material.needsUpdate = true;
+```
+
+### 12.3.2. Culling (Back-face culling):
+There are three diffrend modes to show the faces. The default is `THREE.FrontSide`. Other options are `THREE.BackSide` and `THREE.DoubleSide`.
+```javascript
+object.material.side = THREE.FrontSide;
+mesh.material.needsUpdate = true;
+```
+
+## 12.4. Update Material
+Some material changes update automatically, but for more resource-intensive adjustments, the material must be refreshed manually:
+```javascript
+mesh.material.needsUpdate = true;
+```
+
+Manual refresh is required for:
+- Shading
+- Adding or removing a texture
+
+# 13. Load Textures
 a lot! 
 - texture loader (https://threejs.org/docs/index.html#api/en/loaders/TextureLoader)
 - uv and manual wrapping (default: uv)
@@ -678,7 +808,9 @@ a lot!
   - gltf with txternal maps (bin / mtl file?)
 - model.clone();
 
-# 12. Todo Pages
+# 14. Load Animations
+
+# 15. Todo Pages
 - [x] responsive
 - [x] orbit / zoom / pan
 - [x] nesting
