@@ -690,7 +690,3 @@ a lot!
 - [ ] lights
 - [ ] environment / background
 - [ ] user interaction -> scroll / click
-
-
-- update 11 to be a gltf
-- move models to public
