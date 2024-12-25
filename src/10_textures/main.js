@@ -32,7 +32,7 @@ function main() {
 
     // Add GLB model
     const glbLoader = new GLTFLoader();
-    glbLoader.load('bunny/v11_bunny.glb',
+    glbLoader.load('../../models/bunny/10_textures.glb',
         (gltf) => {
             const model = gltf.scene;
             model.position.y = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3()).y / -2;

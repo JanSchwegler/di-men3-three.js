@@ -40,7 +40,7 @@ function main() {
     const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
     const pointsMaterial = new THREE.PointsMaterial({ color: 0xff0000, size: 0.005, sizeAttenuation: true });
     const glbLoader = new GLTFLoader();
-    glbLoader.load('models/v07_bunny.glb',
+    glbLoader.load('../../models/bunny/08_load_bunny.glb',
         (gltf) => {
             const model = gltf.scene;
             // loop through all children of the model

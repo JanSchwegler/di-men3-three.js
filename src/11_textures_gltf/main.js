@@ -48,46 +48,45 @@ function main() {
 
     function updateMaterial() {
         if (settings.roughnessmap) {
-            modelClone.children[0].material.roughnessMap = roughnessTexture;
+            modelClone.children[0].children[0].material.roughnessMap = roughnessTexture;
         } else {
-            modelClone.children[0].material.roughnessMap = null;
+            modelClone.children[0].children[0].material.roughnessMap = null;
         }
         if (settings.metalnessmap) {
-            modelClone.children[0].material.metalness = 1;
-            modelClone.children[0].material.metalnessMap = metalnessTexture;
+            modelClone.children[0].children[0].material.metalness = 1;
+            modelClone.children[0].children[0].material.metalnessMap = metalnessTexture;
         } else {
-            modelClone.children[0].material.metalness = 0;
-            modelClone.children[0].material.metalnessMap = null;
+            modelClone.children[0].children[0].material.metalness = 0;
+            modelClone.children[0].children[0].material.metalnessMap = null;
         }
         if (settings.emissivemap) {
-            modelClone.children[0].material.emissive = new THREE.Color(0x888888);
-            modelClone.children[0].material.emissiveMap = emissionTexture;
+            modelClone.children[0].children[0].material.emissive = new THREE.Color(0x888888);
+            modelClone.children[0].children[0].material.emissiveMap = emissionTexture;
         } else {
-            modelClone.children[0].material.emissive = new THREE.Color(0x000000);
-            modelClone.children[0].material.emissiveMap = null;
+            modelClone.children[0].children[0].material.emissive = new THREE.Color(0x000000);
+            modelClone.children[0].children[0].material.emissiveMap = null;
         }
         if (settings.normalmap) {
-            modelClone.children[0].material.normalMap = normalTexture;
+            modelClone.children[0].children[0].material.normalMap = normalTexture;
         } else {
-            modelClone.children[0].material.normalMap = null;
+            modelClone.children[0].children[0].material.normalMap = null;
         }
         if (settings.displacementmap) {
-            modelClone.children[0].material.displacementScale = 0.2;
-            modelClone.children[0].material.displacementMap = displacementTexture;
+            modelClone.children[0].children[0].material.displacementScale = 0.2;
+            modelClone.children[0].children[0].material.displacementMap = displacementTexture;
         } else {
-            modelClone.children[0].material.displacementMap = null;
+            modelClone.children[0].children[0].material.displacementMap = null;
         }
-        modelClone.children[0].material.needsUpdate = true;
+        modelClone.children[0].children[0].material.needsUpdate = true;
     }
 
     // Add GLB model
     const glbLoader = new GLTFLoader();
     let modelClone;
-    glbLoader.load('bunny/v04_bunny.glb',
+    glbLoader.load('../../models/bunny/11_textures_gltf/v12_bunny.gltf',
         (gltf) => {
             const model = gltf.scene;
             // Reposition to center
-            model.rotateX(-Math.PI / 2);
             model.position.y = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3()).y / -2;
             // Clone model
             modelClone = model.clone();
@@ -100,10 +99,10 @@ function main() {
             model.position.x = -0.5;
             modelClone.position.x = 0.5;
             // Remove old textures
-            modelClone.children[0].material.roughnessMap.dispose();
-            modelClone.children[0].material.metalnessMap.dispose();
-            modelClone.children[0].material.roughnessMap = null;
-            modelClone.children[0].material.metalnessMap = null;
+            modelClone.children[0].children[0].material.roughnessMap.dispose();
+            modelClone.children[0].children[0].material.metalnessMap.dispose();
+            modelClone.children[0].children[0].material.roughnessMap = null;
+            modelClone.children[0].children[0].material.metalnessMap = null;
             updateMaterial();
             // Add to scene
             scene.add(model);
@@ -118,12 +117,12 @@ function main() {
     );
 
     // Load new textures
-    const colorTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Color.png');
-    const roughnessTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Roughness.png');
-    const metalnessTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Metallic.png');
-    const emissionTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Emission.png');
-    const normalTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Normal.png');
-    const displacementTexture = new THREE.TextureLoader().load('bunny/test_textures/body_Displacement.png');
+    const colorTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Color.png');
+    const roughnessTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Roughness.png');
+    const metalnessTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Metallic.png');
+    const emissionTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Emission.png');
+    const normalTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Normal.png');
+    const displacementTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Displacement.png');
     // Set texture properties
     // IMPORTANTE /////////////////////////////////////////////////////////////////////////////////////////////////
     colorTexture.flipY = false; ///////////////////////////////////////////////////////////////////////////////////

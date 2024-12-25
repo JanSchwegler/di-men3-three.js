@@ -17,7 +17,7 @@ export default defineConfig({
         loadBunny: resolve(__dirname, 'src/08_load_bunny/index.html'),
         materials: resolve(__dirname, 'src/09_materials/index.html'),
         textures: resolve(__dirname, 'src/10_textures/index.html'),
-        textures: resolve(__dirname, 'src/11_textures_gltf/index.html'),
+        texturesGLTF: resolve(__dirname, 'src/11_textures_gltf/index.html'),
         animations: resolve(__dirname, 'src/12_animations/index.html'),
         lighting: resolve(__dirname, 'src/13_lighting/index.html'),
       }

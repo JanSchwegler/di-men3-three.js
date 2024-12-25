@@ -57,7 +57,7 @@ function main() {
     const edgesMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff });
     const glbLoader = new GLTFLoader();
 
-    glbLoader.load('models/cube.glb', 
+    glbLoader.load('../../models/cube.glb',
         (gltf) => {
             model = gltf.scene;
 

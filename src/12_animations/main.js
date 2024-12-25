@@ -73,7 +73,7 @@ function main() {
     // Add GLB model
     const glbLoader = new GLTFLoader();
     let model, animations, animationMixer, actionIdle, actionWalk;
-    glbLoader.load('bunny/v01_bunny.glb',
+    glbLoader.load('../../models/bunny/12_animations.glb',
         (gltf) => {
             model = gltf.scene;
             animations = gltf.animations;
@@ -101,7 +101,6 @@ function main() {
             actionIdle.setLoop(value ? THREE.LoopRepeat : THREE.LoopOnce);
         }
     }
-    
 
     // Add orbit controls
     const orbitControls = new OrbitControls(camera, renderer.domElement);
