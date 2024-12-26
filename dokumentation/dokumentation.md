@@ -44,8 +44,8 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [12.1. Requirements](#121-requirements)
   - [12.2. Comparison](#122-comparison)
   - [12.3. General Settings](#123-general-settings)
-    - [12.3.1. Shading:](#1231-shading)
-    - [12.3.2. Culling (Back-face culling):](#1232-culling-back-face-culling)
+    - [12.3.1. Shading](#1231-shading)
+    - [12.3.2. Culling (Back-face culling)](#1232-culling-back-face-culling)
   - [12.4. Update Material](#124-update-material)
 - [13. Load Textures](#13-load-textures)
 - [14. Load Animations](#14-load-animations)
@@ -667,6 +667,7 @@ function render() {
 To load a custom 3D model, use a `.glb` or `.gltf` file. A `.glb` file contains all assets, like UV maps and textures, in one file. In contrast, a `.gltf` file stores the model separately, along with additional `.bin` and texture files. For simplicity, using a `.glb` file is recommended.
 
 Export your model from Blender via `Export > glTF 2.0`. In the export menu, you can choose between `.glb` or `.gltf`, and adjust other settings as needed.
+
 ![GLTF Export](images/gltf_export.png)
 
 Import the GLTF loader to load the 3D model:
@@ -756,7 +757,7 @@ scene.add( cube );
 ## 12.2. Comparison
 Here is a list of materials arranged by their complexity and rendering requirements. Although they share similar settings and features, each material introduces unique properties for achieving more realistic rendering.
 
-| **Material** | **Supports Lighting** | **Advanced Features** |
+| **Material** | **Supports Lighting** | **Unique Properties** |
 |------------------------------------|------------------------|--------------------------------------------------------------------------|
 | [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial) | ❌ |  |
 | [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial) | ✅ | `emissive` |
@@ -768,7 +769,7 @@ Here is a list of materials arranged by their complexity and rendering requireme
 ## 12.3. General Settings
 Here are some general settings to consider, regardless of the material choice:
 
-### 12.3.1. Shading:
+### 12.3.1. Shading
 Determines whether the object appears faceted or smooth. The default is `false`.
 
 ```javascript
@@ -776,7 +777,7 @@ object.material.flatShading = false;
 mesh.material.needsUpdate = true;
 ```
 
-### 12.3.2. Culling (Back-face culling):
+### 12.3.2. Culling (Back-face culling)
 There are three diffrend modes to show the faces. The default is `THREE.FrontSide`. Other options are `THREE.BackSide` and `THREE.DoubleSide`.
 ```javascript
 object.material.side = THREE.FrontSide;
@@ -815,8 +816,8 @@ a lot!
 - [x] orbit / zoom / pan
 - [x] nesting
 - [x] lil gui (add browser controls)
-- [ ] load my own object
-- [ ] materials
+- [x] load my own object
+- [x] materials
 - [ ] textures
 - [ ] animations
 - [ ] lights
