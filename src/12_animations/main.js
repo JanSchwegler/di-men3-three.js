@@ -130,7 +130,7 @@ function main() {
     window.addEventListener('resize', onResize, false);
     onResize();
     function onResize() {
-        const pixelRatio = Math.min(window.devicePixelRatio, 4);
+        const pixelRatio = Math.min(window.devicePixelRatio, 4); // Limit to 4x for performance
         const width = Math.round(canvas.clientWidth * pixelRatio);
         const height = Math.round(canvas.clientHeight * pixelRatio);
 
