@@ -39,12 +39,14 @@ function main() {
         emissivemap: true,
         normalmap: true,
         displacementmap: true,
+        alphamap: true,
     };
     gui.add(settings, 'roughnessmap').name('Roughness Map').onChange(updateMaterial);
     gui.add(settings, 'metalnessmap').name('Metalness Map').onChange(updateMaterial);
     gui.add(settings, 'emissivemap').name('Emissive Map').onChange(updateMaterial);
     gui.add(settings, 'normalmap').name('Normal Map').onChange(updateMaterial);
     gui.add(settings, 'displacementmap').name('Displacement Map').onChange(updateMaterial);
+    gui.add(settings, 'alphamap').name('Alpha Map').onChange(updateMaterial);
 
     function updateMaterial() {
         if (settings.roughnessmap) {
@@ -77,6 +79,11 @@ function main() {
         } else {
             modelClone.children[0].children[0].material.displacementMap = null;
         }
+        if (settings.alphamap) {
+            modelClone.children[0].children[0].material.alphaMap = alphaTexture;
+        } else {
+            modelClone.children[0].children[0].material.alphaMap = null;
+        }
         modelClone.children[0].children[0].material.needsUpdate = true;
     }
 
@@ -103,6 +110,8 @@ function main() {
             modelClone.children[0].children[0].material.metalnessMap.dispose();
             modelClone.children[0].children[0].material.roughnessMap = null;
             modelClone.children[0].children[0].material.metalnessMap = null;
+            // Set transparent
+            modelClone.children[0].children[0].material.transparent = true;
             updateMaterial();
             // Add to scene
             scene.add(model);
@@ -123,22 +132,18 @@ function main() {
     const emissionTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Emission.png');
     const normalTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Normal.png');
     const displacementTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Displacement.png');
+    const alphaTexture = new THREE.TextureLoader().load('../../models/bunny/11_textures_gltf/test_textures/body_Alpha.png');
     // Set texture properties
-    // IMPORTANTE /////////////////////////////////////////////////////////////////////////////////////////////////
-    colorTexture.flipY = false; ///////////////////////////////////////////////////////////////////////////////////
-    roughnessTexture.flipY = false; ///////////////////////////////////////////////////////////////////////////////
-    metalnessTexture.flipY = false; ///////////////////////////////////////////////////////////////////////////////
-    emissionTexture.flipY = false; ////////////////////////////////////////////////////////////////////////////////
-    normalTexture.flipY = false; //////////////////////////////////////////////////////////////////////////////////
-    displacementTexture.flipY = false; ////////////////////////////////////////////////////////////////////////////
-
-    colorTexture.colorSpace = THREE.SRGBColorSpace; ///////////////////////////////////////////////////////////////
-    roughnessTexture.colorSpace = THREE.SRGBColorSpace; ///////////////////////////////////////////////////////////
-    metalnessTexture.colorSpace = THREE.SRGBColorSpace; ///////////////////////////////////////////////////////////
-    emissionTexture.colorSpace = THREE.SRGBColorSpace; ////////////////////////////////////////////////////////////
-    normalTexture.colorSpace = THREE.SRGBColorSpace; //////////////////////////////////////////////////////////////
-    displacementTexture.colorSpace = THREE.SRGBColorSpace; ////////////////////////////////////////////////////////
-    // IMPORTANTE /////////////////////////////////////////////////////////////////////////////////////////////////
+    colorTexture.flipY = false;
+    roughnessTexture.flipY = false;
+    metalnessTexture.flipY = false;
+    emissionTexture.flipY = false;
+    normalTexture.flipY = false;
+    displacementTexture.flipY = false;
+    alphaTexture.flipY = false;
+    // Set Color Space
+    colorTexture.colorSpace = THREE.SRGBColorSpace;
+    emissionTexture.colorSpace = THREE.SRGBColorSpace;
 
     // Add orbit controls
     const orbitControls = new OrbitControls(camera, renderer.domElement);
