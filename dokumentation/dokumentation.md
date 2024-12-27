@@ -48,6 +48,15 @@ This documentation provides a comprehensive guide to getting started with Three.
     - [12.3.2. Culling (Back-face culling)](#1232-culling-back-face-culling)
   - [12.4. Update Material](#124-update-material)
 - [13. Load Textures](#13-load-textures)
+  - [13.1. Load Texturemaps (jpg, png, etc.)](#131-load-texturemaps-jpg-png-etc)
+  - [13.2. Texture Settings](#132-texture-settings)
+    - [13.2.1. UV Maps](#1321-uv-maps)
+    - [13.2.2. Magnification \& Minification](#1322-magnification--minification)
+    - [13.2.3. Types](#1323-types)
+    - [13.2.4. Formats](#1324-formats)
+    - [13.2.5. Color Space](#1325-color-space)
+    - [13.2.6. Compression](#1326-compression)
+    - [13.2.7. LoadingManager](#1327-loadingmanager)
 - [14. Load Animations](#14-load-animations)
 - [15. Todo Pages](#15-todo-pages)
 
@@ -708,8 +717,8 @@ Since a 3D model consists of multiple meshes and textures, all of them must be c
 The following code creates a clone, loops through all children, and clones all of its materials:
 ``` javascript
 const model = gltf.scene;
-modelClone = model.clone();
-modelClone.traverse((child) => {
+model = model.clone();
+model.traverse((child) => {
   if (child.isMesh) {
     child.material = child.material.clone();
   }
@@ -717,7 +726,7 @@ modelClone.traverse((child) => {
 ```
 
 # 12. Materials
-In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section will not explain line and point materials).
+In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section focuses on the first six "normal color materials" and does **not** cover the specialized materials in the second list).
 
 - [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)
 - [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial)
@@ -728,6 +737,10 @@ In Three.js, there are different types of materials, most of which are also foun
 
 
 Specialized Materials:
+- [PointsMaterial](https://threejs.org/docs/#api/en/materials/PointsMaterial)
+- [LineBasicMaterial](https://threejs.org/docs/#api/en/materials/LineBasicMaterial)
+- [LineDashedMaterial](https://threejs.org/docs/#api/en/materials/LineDashedMaterial)
+- [SpriteMaterial](https://threejs.org/docs/#api/en/materials/SpriteMaterial)
 - [MeshDistanceMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshDistanceMaterial)
 - [MeshDepthMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshDepthMaterial)
 - [MeshMatcapMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshMatcapMaterial)
@@ -795,19 +808,222 @@ Manual refresh is required for:
 - Adding or removing a texture
 
 # 13. Load Textures
-a lot! 
-- texture loader (https://threejs.org/docs/index.html#api/en/loaders/TextureLoader)
-- uv and manual wrapping (default: uv)
-- Magnification / Minification Filters (dealing with up and downsacaling)
-- type -> bittiefe in three.js. does not have to be the same as the loaded texture. it gets convertet.
-- formats
-- compressed textures
-- what happens before loading -> whait for load -> load manager
-- render on a texture (FramebufferTexture / WebGLRenderTaget)
-- workflow with blender and mtl file
-  - glb with included textures. waht does work
-  - gltf with txternal maps (bin / mtl file?)
-- model.clone();
+
+Loading image textures is a complex topic with many details to consider. It's highly recommended to load models with all assets, including UV maps, textures, etc., as GLTF files handle these automatically when stored in the file (see the section on loading GLTF models). This approach simplifies the workflow and ensures that necessary settings are saved within the GLTF file.
+
+However, when replacing or manually adding new assets to the model, these settings **do not** apply to the new textures. Even if manual changes in Three.js are not involved, it's important to understand the settings and apply them as needed.
+
+For more information, refer to the [Overview](https://threejs.org/manual/#en/textures) & [Settings](https://threejs.org/docs/index.html#api/en/constants/Textures)
+
+## 13.1. Load Texturemaps (jpg, png, etc.)
+The `TextureLoader` does not require any additional addons and is included with base Three.js. It is recommended to first load textures into variables (for compressed textures, an extra decompression `Loader` is needed). For Three.js to read the textures correctly, the following settings are required:
+
+- **Flip Texture**: Three.js automatically flips textures vertically. To prevent the texture from being mirrored (which would misalign it with the UV map), set this to `false`.
+- **Color Space**: Set the color space to `sRGB` for colored textures (default is `""`). Without this setting, Three.js may misinterpret color values, resulting in incorrect lighting calculations or overly bright/dark textures.
+
+  Textures that should **NOT** use `sRGB`:
+
+  - Normal maps
+  - Height maps
+  - Roughness maps
+  - Metalness maps
+  - Any texture storing non-color data
+
+  For these, use `THREE.NoColorSpace` or leave it undefined.
+
+Example of loading and configuring textures:
+``` javascript
+// Load new textures
+const colorTexture = new THREE.TextureLoader().load('path/textureColor.png');
+const roughnessTexture = new THREE.TextureLoader().load('path/textureRoughness.png');
+const metalnessTexture = new THREE.TextureLoader().load('path/textureMetallic.png');
+const emissionTexture = new THREE.TextureLoader().load('path/textureEmission.png');
+const normalTexture = new THREE.TextureLoader().load('path/textureNormal.png');
+const displacementTexture = new THREE.TextureLoader().load('path/textureDisplacement.png');
+const alphaTexture = new THREE.TextureLoader().load('path/textureAlpha.png');
+// Set flipY
+colorTexture.flipY = false;
+roughnessTexture.flipY = false;
+metalnessTexture.flipY = false;
+emissionTexture.flipY = false;
+normalTexture.flipY = false;
+displacementTexture.flipY = false;
+alphaTexture.flipY = false;
+// Set Color Space (for the two colored textures)
+colorTexture.colorSpace = THREE.SRGBColorSpace;
+emissionTexture.colorSpace = THREE.SRGBColorSpace;
+// Apply textures (some textures require an other value for the texture to work)
+model.children[0].material.map = colorTexture;
+model.children[0].material.roughnessMap = roughnessTexture;
+model.children[0].material.metalness = 1;
+model.children[0].material.metalnessMap = metalnessTexture;
+model.children[0].material.emissive = new THREE.Color(0xffffff);
+model.children[0].material.emissiveMap = emissionTexture;
+model.children[0].material.normalMap = normalTexture;
+model.children[0].material.displacementMap = displacementTexture;
+model.children[0].material.transparent = true;
+model.children[0].material.alphaMap = alphaTexture;
+```
+
+## 13.2. Texture Settings
+
+### 13.2.1. UV Maps
+There is nothing special about UV maps in Three.js. When using textures, it is important to ensure that UV maps are properly set up beforehand. 
+- Imported models will typically include their UV maps, 
+- while Three.js preset geometries also come with default UV maps.
+
+### 13.2.2. Magnification & Minification
+It's almost impossible for a camera to see and render a texture at its original pixel size. Magnification and minification refer to how textures are rendered when viewed at different scales. Magnification occurs when a texture is displayed larger than its original resolution, while minification happens when it is displayed smaller. In Three.js, these processes are controlled by texture filtering methods, which determine how pixel information is interpolated or averaged. [Three.js provides a useful visual comparison.](https://threejs.org/manual/#en/textures)
+
+Magnification:
+
+| **Filter** | **Filter Code** | **Description** |
+|-----------------------|---|------------------------------------------------|
+| `THREE.NearestFilter` | 1003 | Displays textures with sharp, pixelated edges. Creates flickering when moving. |
+| `THREE.LinearFilter` | 1006 | Smoothly interpolates between texture pixels. |
+
+**For most cases `THREE.LinearFilter` is recommended.**
+
+``` javascript
+model.children[0].material.map.magFilter = THREE.LinearFilter;
+model.children[0].material.map.needsUpdate = true;
+```
+
+Minification:
+
+Before looking at the filters, we look at Mips. Mips are copies of the texture, each half the width and height of the previous mip, where the pixels have been blended to create the smaller mip. Mips are generated until a 1x1 pixel mip is reached. The resulting mips might look something like this:
+
+![Mipmap](images/mipmap.png)
+
+[Image: © Three.js](https://threejs.org/manual/#en/textures)
+
+The minification filters are ordered by quality and performance. At the top is the simplest filter, while the bottom offers the best visual quality. `THREE.NearestFilter` produces the most visible flickering at a distance, while `THREE.LinearMipMapLinearFilter` provides the smoothest result.
+
+| **Filter** | **Filter Code** | **Description** |
+|-------------------------------------|----|------------------------------------------------------------------------------|
+| `THREE.NearestFilter` | 1003 | Choose the closest pixel in the texture, no mipmapping. |
+| `THREE.LinearFilter` | 1006 | Choose 4 pixels from the texture and blend them, no mipmapping. |
+| `THREE.NearestMipMapNearestFilter` | 1004 | Choose the appropriate mip then choose one pixel. |
+| `THREE.NearestMipMapLinearFilter` | 1005 | Choose 2 mips, choose one pixel from each, blend the 2 pixels. |
+| `THREE.LinearMipMapNearestFilter` | 1007 | Chose the appropriate mip then choose 4 pixels and blend them. |
+| `THREE.LinearMipMapLinearFilter` | 1008 | Choose 2 mips, choose 4 pixels from each and blend all 8 into 1 pixel. |
+
+**For simpler scenes, the bottom filter, `THREE.LinearMipMapLinearFilter`, is recommended.** For faster minification, use `THREE.LinearMipMapNearestFilter` or even `THREE.NearestMipMapLinearFilter`.
+
+``` javascript
+model.children[0].material.map.minFilter = THREE.LinearMipMapLinearFilter;
+model.children[0].material.map.needsUpdate = true;
+```
+
+### 13.2.3. Types
+The texture type primarily affects how the data is stored and processed in WebGL after loading. When loading standard image formats (PNG, JPEG, etc.), you don't need to specify a type - `UnsignedByteType` will work fine by default.
+
+However, there are a few special cases where you need to set the correct type upfront:
+
+1. **HDR/EXR images**: These need `FloatType` or `HalfFloatType` to load and display correctly.
+2. **Data textures**: When creating textures from raw data (e.g., heightmaps or special effects). Specify the correct type that matches the data format.
+3. **Render targets**: Require the appropriate type based on what is stored (e.g., `FloatType` for HDR rendering).
+
+So for regular image textures, no type is needed (default: `UnsignedByteType`).
+```javascript
+const texture = new THREE.TextureLoader().load('myimage.png');  // Type not needed
+```
+
+### 13.2.4. Formats
+The `format` tells Three.js about the structure of the image data, mainly related to the channels and colors used. Here are some examples of texture formats:
+
+| Format                  | Format Code | Channels               |
+|-------------------------|-------------|------------------------|
+| THREE.RGBAFormat        | 1023        | 4 channels: Red, Green, Blue, Alpha |
+| THREE.RGBFormat         | 1022        | 3 channels: Red, Green, Blue |
+| THREE.LuminanceFormat   | 1024        | 1 channel: Brightness only |
+| THREE.RedFormat         | 1028        | 1 channel: Only red component |
+| THREE.RGFormat          | 1029        | 2 channels: Red and Green |
+
+### 13.2.5. Color Space
+`ColorSpace` defines how Three.js interprets the texture and its different values. Generally, you differentiate between textures that will display colors (`THREE.SRGBColorSpace`) and textures that won't (`THREE.LinearSRGBColorSpace`). By default, `ColorSpace` is set to `""`, which is equivalent to `THREE.LinearSRGBColorSpace` because WebGL performs calculations in linear space by default. Ultimately, this comes down to internal gamma correction. Textures with `THREE.SRGBColorSpace` will be gamma-corrected to ensure accurate colors, while "technical" textures, such as roughness, should not undergo gamma correction.
+
+``` javascript
+colorTexture.colorSpace = THREE.SRGBColorSpace;
+```
+
+Use `THREE.SRGBColorSpace` for:
+- Color Texture
+- Emission Texture
+
+Use `THREE.LinearSRGBColorSpace`, `""` , `undefined` for:
+- Normal maps
+- Height maps
+- Roughness maps
+- Metalness maps
+- Any texture storing non-color data
+
+### 13.2.6. Compression
+The `THREE.TextureLoader` only supports a limited set of defult coded 2D image formats:
+- JPEG
+- PNG
+- GIF (static frames only)
+- BMP
+- WEBP
+
+For other formats with specialized compression, specific `loaders` are available to handle decompression. Use the corresponding `loader` to decompress the data on load. Some of the supported decompression methods include:
+- Basis Universal (KTX2)
+- S3TC / DXT
+- ETC1/ETC2
+- ASTC
+- PVRTC
+
+With a .ktx2 file, it could look like this:
+``` javascript
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
+
+const ktx2Loader = new THREE.KTX2Loader();
+ktx2Loader
+  .setTranscoderPath('/path/to/basis/')
+  .detectSupport(renderer);
+
+ktx2Loader.load('textures/compressedTexture.ktx2', (texture) => {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.MeshStandardMaterial({ map: texture });
+  scene.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material));
+});
+```
+
+### 13.2.7. LoadingManager
+The `LoadingManager` in Three.js is a utility that helps manage and monitor the loading of assets, including textures, models, and other resources. It provides a way to track the progress of asset loading and handle events like when all assets are loaded or if an error occurs.
+
+- **Centralized Control**: Allows managing multiple loaders (e.g., `TextureLoader`, `GLTFLoader`) from a single point.
+- **Progress Tracking**: Tracks the number of assets being loaded and notifies when all assets are ready.
+- **Error Handling**: Provides hooks to handle errors during the loading process.
+- **Custom Behavior**: Defines custom functions to be executed at different stages of loading (start, progress, completion).
+
+``` javascript
+// Create a LoadingManager
+const manager = new THREE.LoadingManager();
+
+// Define callbacks
+manager.onStart = (url, itemsLoaded, itemsTotal) => {
+    console.log(`Started loading: ${url}`);
+    console.log(`Loaded ${itemsLoaded} of ${itemsTotal} items.`);
+};
+manager.onLoad = () => {
+    console.log('All assets loaded!');
+};
+manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+    console.log(`Loading: ${url}`);
+    console.log(`Loaded ${itemsLoaded} of ${itemsTotal} items.`);
+};
+manager.onError = (url) => {
+    console.error(`There was an error loading ${url}`);
+};
+
+// Create a TextureLoader with the LoadingManager
+const textureLoader = new THREE.TextureLoader(manager);
+
+// Load textures
+const texture1 = textureLoader.load('path/texture1.jpg');
+const texture2 = textureLoader.load('path/texture2.jpg');
+```
 
 # 14. Load Animations
 
@@ -818,8 +1034,10 @@ a lot!
 - [x] lil gui (add browser controls)
 - [x] load my own object
 - [x] materials
-- [ ] textures
+- [x] textures
 - [ ] animations
 - [ ] lights
 - [ ] environment / background
 - [ ] user interaction -> scroll / click
+- [ ] create usecases?
+- [ ] create overview and menü
