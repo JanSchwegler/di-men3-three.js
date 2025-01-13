@@ -36,7 +36,7 @@ function main() {
     let settings = {
         animation: 'Walk',
         animationOptions: ['Walk', 'Idle'],
-        loop: false,
+        loop: true,
         restart: function() {
             if (animationMixer) {
                 animationMixer.stopAllAction();
