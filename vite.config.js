@@ -20,6 +20,7 @@ export default defineConfig({
         texturesGLTF: resolve(__dirname, 'src/11_textures_gltf/index.html'),
         animations: resolve(__dirname, 'src/12_animations/index.html'),
         lighting: resolve(__dirname, 'src/13_lighting/index.html'),
+        background: resolve(__dirname, 'src/14_background/index.html'),
       }
     }
   }
