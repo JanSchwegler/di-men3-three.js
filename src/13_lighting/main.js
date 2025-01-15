@@ -7,12 +7,18 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/Addons.js';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
-import { rotate } from 'three/tsl';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 
 let scene, camera, renderer, light, lightHelper, plane, cube, sphere, bunny;
 let clock, orbitControls, transformControls, gizmo, stats;
 let gui, envMap;
 const canvas = document.querySelector('#canvas');
+
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    const progress = (itemsLoaded / itemsTotal) * 100;
+    console.log(`Progress: ${progress.toFixed(2)}% (${itemsLoaded} of ${itemsTotal})`);
+};
 
 function init() {
     // check canvas
@@ -72,14 +78,14 @@ function init() {
     scene.add(cube);
 
     const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000, metalness: 1, roughness: 0.1 });
     sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.set(2, 0.8, 0);
     sphere.receiveShadow = true;
     sphere.castShadow = true;
     scene.add(sphere);
 
-    const glbLoader = new GLTFLoader();
+    const glbLoader = new GLTFLoader(loadingManager);
     glbLoader.load('../../models/bunny/12_animations.glb',
         (gltf) => {
             bunny = gltf.scene;
@@ -91,12 +97,6 @@ function init() {
                 }
             });
             scene.add(bunny);
-        },
-        (xhr) => {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        (error) => {
-            console.error('An error happened', error);
         }
     );
 
@@ -165,10 +165,43 @@ function setupGUI() {
   
     const envFolder = gui.addFolder('Environment');
     const envSettings = {
-        useEnvMap: false
+        useEnvMap: false,
+        HDRI: 'Studio',
+        hdris: ['Studio','City','Sky'],
+        envMaps: []
     };
-  
-    envFolder.add(envSettings, 'useEnvMap').onChange(toggleEnvMap);
+
+    const exrLoader = new EXRLoader(loadingManager);
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+
+    const loadHDRIs = (hdris) => {
+        const loadPromises = hdris.map((file) => {
+            return new Promise((resolve, reject) => {
+                const fullPath = `../../hdri/${file}.exr`;
+                exrLoader.load(fullPath, (texture) => {
+                    envSettings.envMaps.push(pmremGenerator.fromEquirectangular(texture).texture);
+                    texture.dispose();
+                    resolve(); // Resolve the promise when done
+                }, undefined, (error) => {
+                    console.error(`Error loading: ${fullPath}`, error);
+                    reject(error); // Reject the promise on error
+                });
+            });
+        });
+
+        return Promise.all(loadPromises)
+            .then(() => {
+                console.log('All HDRIs loaded');
+            })
+            .catch((error) => {
+                console.error('Error loading HDRIs:', error);
+            });
+    };
+    loadHDRIs(envSettings.hdris);
+
+
+    envFolder.add(envSettings, 'useEnvMap').listen().onChange(toggleEnvMap);
+    envFolder.add(envSettings, 'HDRI', envSettings.hdris).onChange(changeEnvMap);
   
     function updateLight() {
         scene.remove(light);
@@ -275,9 +308,7 @@ function setupGUI() {
     function toggleEnvMap(useEnvMap) {
         if (useEnvMap) {
             if (!envMap) {
-            const loader = new THREE.CubeTextureLoader();
-            loader.setPath('path/to/cubemap/');
-            envMap = loader.load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+                changeEnvMap(envSettings.hdris[0]);
             }
             scene.background = envMap;
             scene.environment = envMap;
@@ -285,6 +316,13 @@ function setupGUI() {
             scene.background = null;
             scene.environment = null;
         }
+    }
+
+    function changeEnvMap(envMapName) {
+        envMap = envSettings.envMaps[envSettings.hdris.indexOf(envMapName)];
+        envSettings.useEnvMap = true;
+        scene.background = envMap;
+        scene.environment = envMap;
     }
 }
 
