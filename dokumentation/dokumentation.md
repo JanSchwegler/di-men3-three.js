@@ -57,7 +57,21 @@ This documentation provides a comprehensive guide to getting started with Three.
     - [13.2.5. Color Space](#1325-color-space)
     - [13.2.6. Compression](#1326-compression)
     - [13.2.7. LoadingManager](#1327-loadingmanager)
-- [14. Load Animations](#14-load-animations)
+- [14. Animations](#14-animations)
+  - [Quick overview](#quick-overview)
+  - [Loaders](#loaders)
+  - [Animation Clips](#animation-clips)
+  - [Keyframe Tracks](#keyframe-tracks)
+  - [Animation Mixer](#animation-mixer)
+  - [Animation Action](#animation-action)
+  - [Animation Object Groups](#animation-object-groups)
+- [Lighting](#lighting)
+  - [Shadows](#shadows)
+    - [Renderer](#renderer)
+    - [Light Sources](#light-sources)
+    - [Objects](#objects)
+  - [Lights](#lights)
+  - [environment map](#environment-map)
 - [15. Todo Pages](#15-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
@@ -1025,7 +1039,189 @@ const texture1 = textureLoader.load('path/texture1.jpg');
 const texture2 = textureLoader.load('path/texture2.jpg');
 ```
 
-# 14. Load Animations
+# 14. Animations
+The Three.js animation system has completely changed in 2015. Beware of outdated information! It now works similar to Unity and Unreal Engine 4.
+
+Different properties of a 3D object can be changed, such as bones and material color. The animated properties can be faded in, faded out, crossfaded, and warped. The weight and time scales of animations can be changed independently. [Animation system overview](https://threejs.org/docs/index.html#manual/en/introduction/Animation-system)
+
+## Quick overview
+- Keyframes for an animation are stored in an `AnimationClip`, which is loaded along with a GLTF file.  
+- The `AnimationMixer` is responsible for running animations and must be updated in each frame.  
+- An `AnimationClip` is linked to the `AnimationMixer` to create an `AnimationAction`, which controls the animation.  
+- To apply the same animation to multiple objects, use an `AnimationObjectGroup`.
+
+This provides a visual representation of a possible animation object structure, illustrating both an individually animated object and an `AnimationObjectGroup`:
+```
+Scene
+│
+└── AnimationMixer
+    │
+    ├── AnimationAction 1 (Individual Object)
+    │   ├── AnimationClip
+    │   │   └── KeyframeTrack
+    │   │
+    │   └── Target: Object3D (Individual)
+    │
+    └── AnimationAction 2 (AnimationObjectGroup)
+        ├── AnimationClip
+        │   └── KeyframeTrack
+        │
+        └── Target: AnimationObjectGroup
+            ├── Object3D (Tree 1)
+            ├── Object3D (Tree 2)
+            └── Object3D (Tree 3)
+```
+
+## Loaders
+Different loaders can directly load the animations included in the assets. Using the GLTF workflow is recommended.
+
+- THREE.ObjectLoader
+- THREE.BVHLoader
+- THREE.ColladaLoader
+- THREE.FBXLoader
+- THREE.GLTFLoader
+
+## Animation Clips
+When loading a 3D file containing animations, the different [AnimationClips](https://threejs.org/docs/index.html#api/en/animation/AnimationClip) are stored in the child named `animations` (e.g., `mesh.animations`). These clips are required to play animations.
+
+The `AnimationClip` is managed using the `AnimationAction`.
+
+## Keyframe Tracks
+An `AnimationClip` contains the data for the animation, which is stored in a [KeyframeTrack](https://threejs.org/docs/index.html#api/en/animation/KeyframeTrack). This data is typically not modified directly.
+
+## Animation Mixer
+An [AnimationMixer](https://threejs.org/docs/index.html#api/en/animation/AnimationMixer) is required to play an animation. It bundles multiple animations and manages the updates.
+
+Update the `AnimationMixer` each frame using `deltatime`:
+
+``` jacascript
+function update () {
+	mixer.update( deltaSeconds );
+}
+```
+
+| Setting/Method | Description | Default Value |
+|----------------|-------------|---------------|
+| time | The global mixer time in seconds | 0 |
+| timeScale | Scaling factor for the global mixer time | 1 |
+| update(deltaTime) | Updates the mixer and its controlled actions | N/A |
+| clipAction(clip, root) | Returns an AnimationAction for the passed clip | N/A |
+| existingAction(clip, root) | Returns an existing AnimationAction for the passed clip | N/A |
+| stopAllAction() | Deactivates all previously scheduled actions | N/A |
+| uncacheClip(clip) | Releases resources associated with a clip | N/A |
+| uncacheRoot(root) | Releases resources associated with a root object | N/A |
+| uncacheAction(clip, root) | Releases resources associated with an action | N/A |
+
+## Animation Action
+While attaching the `AnimationClip` to the `AnimationMixer`, an [AnimationAction](https://threejs.org/docs/index.html#api/en/animation/AnimationAction) named `action` is created. The `AnimationClip` is controlled through the `AnimationAction`, enabling operations such as `play`, `pause`, `loop`, `blend`, adjusting `timeScale`, and more.
+
+Attach the `AnimationClip` to the `AnimationMixer` and `play` it:
+
+``` jacascript
+const action = mixer.clipAction(clip);
+action.play();
+```
+
+| Setting | Description | Default Value |
+|---------|-------------|---------------|
+| enabled | Enables or disables the action | true |
+| weight | Controls the influence of this action relative to other active actions | 1 |
+| timeScale | Scales the speed of the animation playback | 1 |
+| loop | Sets the looping mode (LoopOnce, LoopRepeat, LoopPingPong) | LoopRepeat |
+| repetitions | Number of times the animation should repeat | Infinity |
+| clampWhenFinished | If true, the last frame of the animation will be clamped when finished | false |
+| zeroSlopeAtStart | Ensures smooth interpolation when the clip is played after another | true |
+| zeroSlopeAtEnd | Ensures smooth interpolation when another clip is played after this one | true |
+| paused | Pauses or resumes the action | false |
+| time | Sets the local time of the action (in seconds) | 0 |
+| effectiveTimeScale | Read-only property that returns the effective time scale | N/A |
+| effectiveWeight | Read-only property that returns the effective weight | N/A |
+
+## Animation Object Groups
+The `AnimationAction` can only manage a single `AnimationClip`. To play and manage the same `AnimationClip` across multiple objects simultaneously, group the objects using an [AnimationObjectGroup](https://threejs.org/docs/index.html#api/en/animation/AnimationObjectGroup). Link the `AnimationObjectGroup` to the `AnimationMixer`. Using a group can be more efficient than creating individual `AnimationActions` for each object.
+
+# Lighting
+When thinking about lighting, it's not just about light. There are a few things to consider, such as the environment map, shadows, and lights.
+
+## Shadows
+**By default, there are no shadows being calculated.**
+
+[Extended overview on threejs.org](https://threejs.org/manual/#en/shadows)
+
+### Renderer
+First, shadows have to be activated in the renderer. This is called a [shadowMap](). There are multiple `shadowMap.types`:
+
+| Shadow Map Type | Quality |
+|-----------------|---------|
+| BasicShadowMap | Low |
+| PCFShadowMap | Medium |
+| PCFSoftShadowMap | High |
+| VSMShadowMap | Medium-High |
+
+```javascript
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.BasicShadowMap;
+```
+
+### Light Sources
+For each light, the `castShadows` property must be activated when needed. This creates a `light.shadow.camera`, which is bound to the light's position. This camera is used to render the shadows. There are some important quality settings to consider:
+
+- `mapSize` / resolution (default: 512 x 512)
+- Near and far planes for the shadow (default: 0.5 / 500)
+
+The `mapSize` values must be powers of 2, up to the [WebGLRenderer.capabilities.maxTextureSize](https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer.capabilities) of the device.
+
+The near and far planes are set on the `light.shadow.camera` and define the range in which shadows are rendered. Depending on the light, the `light.shadow.camera` is either an orthographic or perspective camera. Like a regular camera, the `light.shadow.camera` has properties such as `zoom`, `fov`, `height`, and `width` to ensure no shadows are out of bounds.
+
+```javascript
+// Create light
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 5);
+
+// Set cast shadows
+light.castShadow = true;
+
+// Set shadow map resolution
+light.shadow.mapSize.width = 1024;
+light.shadow.mapSize.height = 1024;
+
+// Set near and far plane
+light.shadow.camera.near = 1;
+light.shadow.camera.far = 20;
+
+scene.add(directionalLight);
+```
+
+Use the `cameraHelper` to visualize the `light.shadow.camera`:
+
+```javascript
+const helper = new THREE.CameraHelper(light.shadow.camera);
+scene.add(helper);
+```
+
+### Objects
+Define for every object if it receives or / and cast shadows.
+
+```javascript
+cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+cube.receiveShadow = true;
+cube.castShadow = true;
+scene.add(cube);
+```
+
+## Lights
+Most light sources work with a light position and a target position (not with rotation!). The target position can be either a point or an object.
+
+| Light Type | Purpose | Efficiency Rating | Supports Shadows |
+|------------|---------|-------------------|------------------|
+| [AmbientLight](https://threejs.org/docs/#api/en/lights/AmbientLight) | Provides uniform illumination to all objects in the scene | Efficient | No |
+| [HemisphereLight](https://threejs.org/docs/#api/en/lights/HemisphereLight) | Simulates sky and ground reflection, good for outdoor scenes | Medium | No |
+| [PointLight](https://threejs.org/docs/#api/en/lights/PointLight) | Emits light in all directions from a single point | Intensive | Yes |
+| [DirectionalLight](https://threejs.org/docs/#api/en/lights/DirectionalLight) | Simulates distant light source (e.g., sunlight) with parallel rays | Medium | Yes |
+| [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight) | Creates a cone of light emanating from a single point | Intensive | Yes |
+| [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight) | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive | No |
+
+## environment map
 
 # 15. Todo Pages
 - [x] responsive
@@ -1035,9 +1231,10 @@ const texture2 = textureLoader.load('path/texture2.jpg');
 - [x] load my own object
 - [x] materials
 - [x] textures
-- [ ] animations
+- [x] animations
 - [ ] lights
 - [ ] environment / background
 - [ ] user interaction -> scroll / click
+- [ ] tween between meshes -> visualize data
 - [ ] create usecases?
 - [ ] create overview and menü
