@@ -1100,17 +1100,17 @@ function update () {
 }
 ```
 
-| Setting/Method | Description | Default Value |
-|----------------|-------------|---------------|
-| time | The global mixer time in seconds | 0 |
-| timeScale | Scaling factor for the global mixer time | 1 |
-| update(deltaTime) | Updates the mixer and its controlled actions | N/A |
-| clipAction(clip, root) | Returns an AnimationAction for the passed clip | N/A |
-| existingAction(clip, root) | Returns an existing AnimationAction for the passed clip | N/A |
-| stopAllAction() | Deactivates all previously scheduled actions | N/A |
-| uncacheClip(clip) | Releases resources associated with a clip | N/A |
-| uncacheRoot(root) | Releases resources associated with a root object | N/A |
-| uncacheAction(clip, root) | Releases resources associated with an action | N/A |
+| Setting/Method | Description |
+|----------------|-------------|
+| time | The global mixer time in seconds |
+| timeScale | Scaling factor for the global mixer time |
+| update(deltaTime) | Updates the mixer and its controlled actions |
+| clipAction(clip, root) | Returns an AnimationAction for the passed clip |
+| existingAction(clip, root) | Returns an existing AnimationAction for the passed clip |
+| stopAllAction() | Deactivates all previously scheduled actions |
+| uncacheClip(clip) | Releases resources associated with a clip |
+| uncacheRoot(root) | Releases resources associated with a root object |
+| uncacheAction(clip, root) | Releases resources associated with an action |
 
 ## Animation Action
 While attaching the `AnimationClip` to the `AnimationMixer`, an [AnimationAction](https://threejs.org/docs/index.html#api/en/animation/AnimationAction) named `action` is created. The `AnimationClip` is controlled through the `AnimationAction`, enabling operations such as `play`, `pause`, `loop`, `blend`, adjusting `timeScale`, and more.
