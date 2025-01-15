@@ -125,8 +125,8 @@ function setupGUI() {
         'Hemisphere': THREE.HemisphereLight,
         'Point': THREE.PointLight,
         'Directional': THREE.DirectionalLight,
+        'Spot': THREE.SpotLight,
         'Rect Area': THREE.RectAreaLight,
-        'Spot': THREE.SpotLight
     };
   
     const lightSettings = {
