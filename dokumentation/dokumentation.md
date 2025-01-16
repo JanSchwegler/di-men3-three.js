@@ -58,21 +58,21 @@ This documentation provides a comprehensive guide to getting started with Three.
     - [13.2.6. Compression](#1326-compression)
     - [13.2.7. LoadingManager](#1327-loadingmanager)
 - [14. Animations](#14-animations)
-  - [Quick overview](#quick-overview)
-  - [Loaders](#loaders)
-  - [Animation Clips](#animation-clips)
-  - [Keyframe Tracks](#keyframe-tracks)
-  - [Animation Mixer](#animation-mixer)
-  - [Animation Action](#animation-action)
-  - [Animation Object Groups](#animation-object-groups)
-- [Lighting](#lighting)
-  - [Shadows](#shadows)
-    - [Renderer](#renderer)
-    - [Light Sources](#light-sources)
-    - [Objects](#objects)
-  - [Lights](#lights)
-  - [environment map](#environment-map)
-- [15. Todo Pages](#15-todo-pages)
+  - [14.1. Quick overview](#141-quick-overview)
+  - [14.2. Loaders](#142-loaders)
+  - [14.3. Animation Clips](#143-animation-clips)
+  - [14.4. Keyframe Tracks](#144-keyframe-tracks)
+  - [14.5. Animation Mixer](#145-animation-mixer)
+  - [14.6. Animation Action](#146-animation-action)
+  - [14.7. Animation Object Groups](#147-animation-object-groups)
+- [15. Lighting](#15-lighting)
+  - [15.1. Shadows](#151-shadows)
+    - [15.1.1. Renderer](#1511-renderer)
+    - [15.1.2. Light Sources](#1512-light-sources)
+    - [15.1.3. Objects](#1513-objects)
+  - [15.2. Lights](#152-lights)
+  - [15.3. environment map](#153-environment-map)
+- [16. Todo Pages](#16-todo-pages)
 
 # 3. Setting Up the Development Environment for Three.js
 
@@ -1044,7 +1044,7 @@ The Three.js animation system has completely changed in 2015. Beware of outdated
 
 Different properties of a 3D object can be changed, such as bones and material color. The animated properties can be faded in, faded out, crossfaded, and warped. The weight and time scales of animations can be changed independently. [Animation system overview](https://threejs.org/docs/index.html#manual/en/introduction/Animation-system)
 
-## Quick overview
+## 14.1. Quick overview
 - Keyframes for an animation are stored in an `AnimationClip`, which is loaded along with a GLTF file.  
 - The `AnimationMixer` is responsible for running animations and must be updated in each frame.  
 - An `AnimationClip` is linked to the `AnimationMixer` to create an `AnimationAction`, which controls the animation.  
@@ -1072,7 +1072,7 @@ Scene
             └── Object3D (Tree 3)
 ```
 
-## Loaders
+## 14.2. Loaders
 Different loaders can directly load the animations included in the assets. Using the GLTF workflow is recommended.
 
 - THREE.ObjectLoader
@@ -1081,15 +1081,15 @@ Different loaders can directly load the animations included in the assets. Using
 - THREE.FBXLoader
 - THREE.GLTFLoader
 
-## Animation Clips
+## 14.3. Animation Clips
 When loading a 3D file containing animations, the different [AnimationClips](https://threejs.org/docs/index.html#api/en/animation/AnimationClip) are stored in the child named `animations` (e.g., `mesh.animations`). These clips are required to play animations.
 
 The `AnimationClip` is managed using the `AnimationAction`.
 
-## Keyframe Tracks
+## 14.4. Keyframe Tracks
 An `AnimationClip` contains the data for the animation, which is stored in a [KeyframeTrack](https://threejs.org/docs/index.html#api/en/animation/KeyframeTrack). This data is typically not modified directly.
 
-## Animation Mixer
+## 14.5. Animation Mixer
 An [AnimationMixer](https://threejs.org/docs/index.html#api/en/animation/AnimationMixer) is required to play an animation. It bundles multiple animations and manages the updates.
 
 Update the `AnimationMixer` each frame using `deltatime`:
@@ -1112,7 +1112,7 @@ function update () {
 | uncacheRoot(root) | Releases resources associated with a root object |
 | uncacheAction(clip, root) | Releases resources associated with an action |
 
-## Animation Action
+## 14.6. Animation Action
 While attaching the `AnimationClip` to the `AnimationMixer`, an [AnimationAction](https://threejs.org/docs/index.html#api/en/animation/AnimationAction) named `action` is created. The `AnimationClip` is controlled through the `AnimationAction`, enabling operations such as `play`, `pause`, `loop`, `blend`, adjusting `timeScale`, and more.
 
 Attach the `AnimationClip` to the `AnimationMixer` and `play` it:
@@ -1137,18 +1137,18 @@ action.play();
 | effectiveTimeScale | Read-only property that returns the effective time scale | N/A |
 | effectiveWeight | Read-only property that returns the effective weight | N/A |
 
-## Animation Object Groups
+## 14.7. Animation Object Groups
 The `AnimationAction` can only manage a single `AnimationClip`. To play and manage the same `AnimationClip` across multiple objects simultaneously, group the objects using an [AnimationObjectGroup](https://threejs.org/docs/index.html#api/en/animation/AnimationObjectGroup). Link the `AnimationObjectGroup` to the `AnimationMixer`. Using a group can be more efficient than creating individual `AnimationActions` for each object.
 
-# Lighting
+# 15. Lighting
 When thinking about lighting, it's not just about light. There are a few things to consider, such as the environment map, shadows, and lights.
 
-## Shadows
+## 15.1. Shadows
 **By default, there are no shadows being calculated.**
 
 [Extended overview on threejs.org](https://threejs.org/manual/#en/shadows)
 
-### Renderer
+### 15.1.1. Renderer
 First, shadows have to be activated in the renderer. This is called a [shadowMap](). There are multiple `shadowMap.types`:
 
 | Shadow Map Type | Quality |
@@ -1163,7 +1163,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.BasicShadowMap;
 ```
 
-### Light Sources
+### 15.1.2. Light Sources
 For each light, the `castShadows` property must be activated when needed. This creates a `light.shadow.camera`, which is bound to the light's position. This camera is used to render the shadows. There are some important quality settings to consider:
 
 - `mapSize` / resolution (default: 512 x 512)
@@ -1199,7 +1199,7 @@ const helper = new THREE.CameraHelper(light.shadow.camera);
 scene.add(helper);
 ```
 
-### Objects
+### 15.1.3. Objects
 Define for every object if it receives or / and cast shadows.
 
 ```javascript
@@ -1209,7 +1209,7 @@ cube.castShadow = true;
 scene.add(cube);
 ```
 
-## Lights
+## 15.2. Lights
 Most light sources work with a light position and a target position (not with rotation!). The target position can be either a point or an object.
 
 | Light Type | Purpose | Efficiency Rating | Supports Shadows |
@@ -1221,9 +1221,9 @@ Most light sources work with a light position and a target position (not with ro
 | [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight) | Creates a cone of light emanating from a single point | Intensive | Yes |
 | [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight) | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive | No |
 
-## environment map
+## 15.3. environment map
 
-# 15. Todo Pages
+# 16. Todo Pages
 - [x] responsive
 - [x] orbit / zoom / pan
 - [x] nesting
