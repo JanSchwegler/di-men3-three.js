@@ -1,86 +1,90 @@
-# 1. Introduction
+# Introduction <!-- omit from toc -->
 
 This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques.
 
-# 2. Table of Content
+# Table of Content <!-- omit from toc -->
 
-- [1. Introduction](#1-introduction)
-- [2. Table of Content](#2-table-of-content)
-- [3. Setting Up the Development Environment for Three.js](#3-setting-up-the-development-environment-for-threejs)
-  - [3.1. Step-by-Step Installation](#31-step-by-step-installation)
-  - [3.2. Important Commands](#32-important-commands)
-- [4. Linking Project Files](#4-linking-project-files)
-  - [4.1. HTML](#41-html)
-  - [4.2. Javascript](#42-javascript)
-  - [4.3. SASS](#43-sass)
-- [5. Create Code Exclusively for Development Hidden in the Final Build](#5-create-code-exclusively-for-development-hidden-in-the-final-build)
-- [6. Basic Structure of a Minimal Three.js File](#6-basic-structure-of-a-minimal-threejs-file)
-  - [6.1. Import](#61-import)
-  - [6.2. Fallback / WebGL compatibility check](#62-fallback--webgl-compatibility-check)
-  - [6.3. Scene](#63-scene)
-  - [6.4. Camera](#64-camera)
-  - [6.5. Objects](#65-objects)
-  - [6.6. Renderer](#66-renderer)
-  - [6.7. Base Code](#67-base-code)
-- [7. Nesting](#7-nesting)
-  - [7.1. Supported Nestable Objects](#71-supported-nestable-objects)
-  - [7.2. Passed Properties](#72-passed-properties)
-  - [7.3. Example of Adding a Base Object and a Nested Object](#73-example-of-adding-a-base-object-and-a-nested-object)
-  - [7.4. Bypassing Inheritance](#74-bypassing-inheritance)
-- [8. lil-gui (brwoser controls)](#8-lil-gui-brwoser-controls)
-  - [8.1. Create fields](#81-create-fields)
-  - [8.2. Include logic](#82-include-logic)
-  - [8.3. Nested controllers](#83-nested-controllers)
-- [9. Responsive Canvas](#9-responsive-canvas)
-  - [9.1. Canvas Handling](#91-canvas-handling)
-  - [9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#92-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
-- [10. Orbit, Pan \& Zoom](#10-orbit-pan--zoom)
-  - [10.1. Disable functions](#101-disable-functions)
-  - [10.2. Set Limits](#102-set-limits)
-  - [10.3. Damping](#103-damping)
-- [11. Load GLTF File](#11-load-gltf-file)
-  - [11.1. Copying models](#111-copying-models)
-- [12. Materials](#12-materials)
-  - [12.1. Requirements](#121-requirements)
-  - [12.2. Comparison](#122-comparison)
-  - [12.3. General Settings](#123-general-settings)
-    - [12.3.1. Shading](#1231-shading)
-    - [12.3.2. Culling (Back-face culling)](#1232-culling-back-face-culling)
-  - [12.4. Update Material](#124-update-material)
-- [13. Load Textures](#13-load-textures)
-  - [13.1. Load Texturemaps (jpg, png, etc.)](#131-load-texturemaps-jpg-png-etc)
-  - [13.2. Texture Settings](#132-texture-settings)
-    - [13.2.1. UV Maps](#1321-uv-maps)
-    - [13.2.2. Magnification \& Minification](#1322-magnification--minification)
-    - [13.2.3. Types](#1323-types)
-    - [13.2.4. Formats](#1324-formats)
-    - [13.2.5. Color Space](#1325-color-space)
-    - [13.2.6. Compression](#1326-compression)
-    - [13.2.7. LoadingManager](#1327-loadingmanager)
-- [14. Animations](#14-animations)
-  - [14.1. Quick overview](#141-quick-overview)
-  - [14.2. Loaders](#142-loaders)
-  - [14.3. Animation Clips](#143-animation-clips)
-  - [14.4. Keyframe Tracks](#144-keyframe-tracks)
-  - [14.5. Animation Mixer](#145-animation-mixer)
-  - [14.6. Animation Action](#146-animation-action)
-  - [14.7. Animation Object Groups](#147-animation-object-groups)
-- [15. Lighting](#15-lighting)
-  - [15.1. Shadows](#151-shadows)
-    - [15.1.1. Renderer](#1511-renderer)
-    - [15.1.2. Light Sources](#1512-light-sources)
-    - [15.1.3. Objects](#1513-objects)
-  - [15.2. Lights](#152-lights)
-  - [15.3. environment map](#153-environment-map)
+- [1. Setting Up the Development Environment for Three.js](#1-setting-up-the-development-environment-for-threejs)
+  - [1.1. Step-by-Step Installation](#11-step-by-step-installation)
+  - [1.2. Important Commands](#12-important-commands)
+- [2. Linking Project Files](#2-linking-project-files)
+  - [2.1. HTML](#21-html)
+  - [2.2. Javascript](#22-javascript)
+  - [2.3. SASS](#23-sass)
+- [3. Create Code Exclusively for Development Hidden in the Final Build](#3-create-code-exclusively-for-development-hidden-in-the-final-build)
+- [4. Basic Structure of a Minimal Three.js File](#4-basic-structure-of-a-minimal-threejs-file)
+  - [4.1. Import](#41-import)
+  - [4.2. Fallback / WebGL compatibility check](#42-fallback--webgl-compatibility-check)
+  - [4.3. Scene](#43-scene)
+  - [4.4. Camera](#44-camera)
+  - [4.5. Objects](#45-objects)
+  - [4.6. Renderer](#46-renderer)
+- [5. Base Code](#5-base-code)
+  - [5.1. index.html](#51-indexhtml)
+  - [5.2. style.scss](#52-stylescss)
+  - [5.3. main.js](#53-mainjs)
+- [6. lil-gui (brwoser controls)](#6-lil-gui-brwoser-controls)
+  - [6.1. Create fields](#61-create-fields)
+  - [6.2. Include logic](#62-include-logic)
+  - [6.3. Nested controllers](#63-nested-controllers)
+- [7. Responsive Canvas](#7-responsive-canvas)
+  - [7.1. Canvas Handling](#71-canvas-handling)
+  - [7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding](#72-positioning-the-camera-to-keep-the-object-fully-visible-with-fixed-padding)
+- [8. Nesting](#8-nesting)
+  - [8.1. Supported Nestable Objects](#81-supported-nestable-objects)
+  - [8.2. Passed Properties](#82-passed-properties)
+  - [8.3. Example of Adding a Base Object and a Nested Object](#83-example-of-adding-a-base-object-and-a-nested-object)
+  - [8.4. Bypassing Inheritance](#84-bypassing-inheritance)
+- [9. Orbit, Pan \& Zoom](#9-orbit-pan--zoom)
+  - [9.1. Disable functions](#91-disable-functions)
+  - [9.2. Set Limits](#92-set-limits)
+  - [9.3. Damping](#93-damping)
+- [10. Load GLTF File](#10-load-gltf-file)
+  - [10.1. Copying models](#101-copying-models)
+- [11. Materials](#11-materials)
+  - [11.1. Requirements](#111-requirements)
+  - [11.2. Comparison](#112-comparison)
+  - [11.3. General Settings](#113-general-settings)
+    - [11.3.1. Shading](#1131-shading)
+    - [11.3.2. Culling (Back-face culling)](#1132-culling-back-face-culling)
+  - [11.4. Update Material](#114-update-material)
+- [12. Load Textures](#12-load-textures)
+  - [12.1. Load Texturemaps (jpg, png, etc.)](#121-load-texturemaps-jpg-png-etc)
+  - [12.2. Texture Settings](#122-texture-settings)
+    - [12.2.1. UV Maps](#1221-uv-maps)
+    - [12.2.2. Magnification \& Minification](#1222-magnification--minification)
+    - [12.2.3. Types](#1223-types)
+    - [12.2.4. Formats](#1224-formats)
+    - [12.2.5. Color Space](#1225-color-space)
+    - [12.2.6. Compression](#1226-compression)
+    - [12.2.7. LoadingManager](#1227-loadingmanager)
+- [13. Animations](#13-animations)
+  - [13.1. Quick overview](#131-quick-overview)
+  - [13.2. Loaders](#132-loaders)
+  - [13.3. Animation Clips](#133-animation-clips)
+  - [13.4. Keyframe Tracks](#134-keyframe-tracks)
+  - [13.5. Animation Mixer](#135-animation-mixer)
+  - [13.6. Animation Action](#136-animation-action)
+  - [13.7. Animation Object Groups](#137-animation-object-groups)
+- [14. Lighting](#14-lighting)
+  - [14.1. Shadows](#141-shadows)
+    - [14.1.1. Renderer](#1411-renderer)
+    - [14.1.2. Light Sources](#1412-light-sources)
+    - [14.1.3. Objects](#1413-objects)
+  - [14.2. Lights](#142-lights)
+  - [14.3. environment map](#143-environment-map)
+- [15. User Klicks](#15-user-klicks)
+  - [15.1. mousemovement](#151-mousemovement)
+  - [15.2. touchmovement](#152-touchmovement)
 - [16. Todo Pages](#16-todo-pages)
 
-# 3. Setting Up the Development Environment for Three.js
+# 1. Setting Up the Development Environment for Three.js
 
 Before warking with three.js, I set up my developing environment. I used the recommended enviroment with the installation trough NPM and vite as the build tool, roughly described in the [three.js manual](https://threejs.org/docs/index.html#manual/en/introduction/Installation).
 
 Before working with Three.js, it’s essential to set up a development environment that ensures a smooth workflow. The recommended approach is to use [NPM](https://www.npmjs.com/) for package management and [Vite](https://vitejs.dev/) as the build tool. This setup is outlined in the [Three.js manual](https://threejs.org/docs/index.html#manual/en/introduction/Installation). Follow the steps below to get started:
 
-## 3.1. Step-by-Step Installation
+## 1.1. Step-by-Step Installation
 
 1. **Install Node.js**
 
@@ -154,7 +158,7 @@ Before working with Three.js, it’s essential to set up a development environme
 
     To see the index.html Page, you need to run the Vite Server. You also need to Build the Files to run idependent of the Server. The necessary commands are listed in the following capter.
 
-## 3.2. Important Commands
+## 1.2. Important Commands
 
 - Move in the directory:
 
@@ -183,10 +187,10 @@ Before working with Three.js, it’s essential to set up a development environme
   npx vite build
   ```
 
-# 4. Linking Project Files  
+# 2. Linking Project Files  
 For a basic website, you need an `index.html`, `main.js`, and `style.css`.
 
-## 4.1. HTML  
+## 2.1. HTML  
 The HTML is structured normally with a link to the `main.js` file. If you link a CSS file directly, it should also be included. When using SASS, there’s no need to link the SASS file in the HTML, as you link it in the main.js.
 
 ```html
@@ -209,16 +213,16 @@ The HTML is structured normally with a link to the `main.js` file. If you link a
 </html>
 ```
 
-## 4.2. Javascript
+## 2.2. Javascript
 At the top of the JavaScript file, you import the SASS file:
 ```javascript
 import '/style.scss';
 ```
 
-## 4.3. SASS  
+## 2.3. SASS  
 With Vite (if SASS is installed), no additional configuration is needed for SASS to work. However, the SASS file must be imported in the `main.js` file, as shown in the JavaScript section.
 
-# 5. Create Code Exclusively for Development Hidden in the Final Build
+# 3. Create Code Exclusively for Development Hidden in the Final Build
 To include code in the development environment that is excluded from the final build, you can use the following `if` statement:
 
 ```javascript
@@ -238,13 +242,13 @@ In HTML, it can look like this:
 </script>
 ```
 
-# 6. Basic Structure of a Minimal Three.js File
+# 4. Basic Structure of a Minimal Three.js File
 
 This chapter outlines the fundamental components of a Three.js file. Using this code, you can display 3D objects on a website.
 
-At the end of this chapter, you’ll find the complete base code for quick reference and copy-paste use.
+[In the next chapter](#5-base-code), you’ll find the complete base code for quick reference and copy-paste use.
 
-## 6.1. Import
+## 4.1. Import
 
 To use Three.js, import the necessary modules at the top of your file.
 
@@ -255,7 +259,7 @@ import * as THREE from "three";
 // Additional modules can be imported here
 ```
 
-## 6.2. Fallback / WebGL compatibility check
+## 4.2. Fallback / WebGL compatibility check
 
 Although rare, some devices or browsers may not support WebGL 2. Implementing a fallback ensures a better user experience.
 
@@ -270,7 +274,7 @@ if (!WebGL.isWebGL2Available()) {
 }
 ```
 
-## 6.3. Scene
+## 4.3. Scene
 
 The scene acts as a container for all the objects, lights, and cameras.
 
@@ -281,7 +285,7 @@ The scene acts as a container for all the objects, lights, and cameras.
 const scene = new THREE.Scene();
 ```
 
-## 6.4. Camera
+## 4.4. Camera
 
 The `PerspectiveCamera` is commonly used for 3D scenes.
 There are two types:
@@ -299,7 +303,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 5; // Move the camera away from the origin
 ```
 
-## 6.5. Objects
+## 4.5. Objects
 
 To display something in the scene, you need to add a 3D object. You can add your own or load a [primitive](https://threejs.org/manual/#en/primitives).
 
@@ -316,7 +320,7 @@ const cube = new THREE.Mesh(geometry, material); // Combine shape and material
 scene.add(cube); // Add the cube to the scene
 ```
 
-## 6.6. Renderer
+## 4.6. Renderer
 
 And finally, the renderer is responsible for rendering the scene and camera onto the screen. The `WebGLRenderer` is the default and most widely used renderer in Three.js.
 
@@ -329,107 +333,151 @@ document.body.appendChild(renderer.domElement); // Attach the canvas to the docu
 renderer.render(scene, camera); // Render the scene from the camera's perspective
 ```
 
-## 6.7. Base Code
+# 5. Base Code
+This base code features HTML, SASS and JavaScript files for copy-paste use.
 
-Below is the complete base code, combining all the steps above into a functional Three.js setup.
+## 5.1. index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
+```
 
+## 5.2. style.scss
+```scss
+/* reset */
+* {
+    box-sizing: border-box;
+}
+
+html, body, div, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, form, input, button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-decoration: none;
+}
+
+/* colors */
+$background-color: #d1d1d1;
+
+/* Fonts */
+
+
+/* style */
+body {
+    background-color: $background-color;
+    min-height: 100vh;
+    width: 100%;
+
+    #canvas {
+        height: 100vh;
+        width: 100%;
+        display: block;
+    }
+}
+```
+## 5.3. main.js
 ```javascript
+import './style.scss';
 import * as THREE from "three";
-import WebGL from "three/addons/capabilities/WebGL.js";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+// additional imports:
+// import Stats from 'three/examples/jsm/libs/stats.module.js';
+// import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-if (!WebGL.isWebGL2Available()) {
-  const warning = WebGL.getWebGL2ErrorMessage();
-  document.body.appendChild(warning);
-} else {
-  createScene();
+// Variables
+let scene, camera, renderer, clock, bunny;
+const canvas = document.querySelector('#canvas');
+
+// Setup LoadingManager
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    const progress = (itemsLoaded / itemsTotal) * 100;
+    console.log(`Progress: ${progress.toFixed(2)}% (${itemsLoaded} of ${itemsTotal})`);
+};
+
+function init() {
+    // check canvas
+    if (!canvas) {
+        console.error("Canvas element not found.");
+        return;
+    }
+    
+    // create base elements
+    scene = new THREE.Scene();
+    renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+    camera = new THREE.PerspectiveCamera(55, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 2);
+
+    // Load GLTF model
+    const glbLoader = new GLTFLoader(loadingManager);
+    glbLoader.load('../../models/bunny/12_animations.glb',
+        (gltf) => {
+            bunny = gltf.scene;
+            bunny.position.y -= new THREE.Box3().setFromObject(bunny).getSize(new THREE.Vector3()).y * 0.5;
+            scene.add(bunny);
+        },
+        undefined,
+        (error) => {
+            console.error('Error loading bunny:', error);
+        }
+    );
+
+    // Add light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+    scene.add(ambientLight);
+
+    // render loop
+    clock = new THREE.Clock();
+    renderer.setAnimationLoop(render);
+
+    // Handle window resize
+    window.addEventListener('resize', onResize, false);
+    onResize();
 }
 
-function createScene() {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+function render() {
+    // Get delta time (in seconds) from the clock
+    const deltaTime = clock.getDelta();
 
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setAnimationLoop(animate);
-  document.body.appendChild(renderer.domElement);
+    // Update
+    // animationMixer.update(deltaTime) // update animation mixer
+    // stats.update(); // update stats
+    // orbitControls.update() // update orbit controls
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  camera.position.z = 5;
-
-  function animate() {
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
+    // Render the scene
     renderer.render(scene, camera);
-  }
 }
+
+function onResize() {
+    const pixelRatio = Math.min(window.devicePixelRatio, 4); // Limit to 4x for performance
+    const width = Math.round(canvas.clientWidth * pixelRatio);
+    const height = Math.round(canvas.clientHeight * pixelRatio);
+
+    // Set renderer size and adjust canvas attributes
+    renderer.setSize(width, height, false);
+    canvas.width = width;
+    canvas.height = height;
+
+    // Update camera aspect ratio and projection matrix
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+}
+
+init();
 ```
 
-# 7. Nesting
-Nesting in Three.js allows you to group objects under a parent, simplifying the management of complex structures. When a parent object is transformed (position, rotation, scale), its child objects inherit those transformations.
-
-## 7.1. Supported Nestable Objects
-You can nest any Three.js object, including:
-- Meshes
-- Groups
-- Cameras
-- Lights
-- Helpers
-- Custom Objects
-
-## 7.2. Passed Properties
-- **Position**: Child positions are relative to the parent.
-- **Rotation**: Child rotations are combined with the parent's.
-- **Scale**: Parent scale applies proportionally to children.
-
-This means changes to the parent automatically propagate to the children.
-
-## 7.3. Example of Adding a Base Object and a Nested Object
-```javascript
-const parent = new THREE.Mesh(
-  new THREE.BoxGeometry(2, 2, 2),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-const child = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-);
-
-scene.add(parent); // Add parent at root
-parent.add(child); // Nest child under parent
-child.position.set(1, 1, 0); // Position relative to parent
-```
-
-## 7.4. Bypassing Inheritance
-If you need to bypass these transformations and set a child’s position in world space, you can detach it temporarily or transform the world position to the parent’s local space:
-
-```javascript
-// Set child position based on world coordinates
-const targetWorldPosition = new THREE.Vector3(3, 2, 5);
-const localPosition = parent.worldToLocal(targetWorldPosition.clone());
-child.position.copy(localPosition);
-```
-
-Or, temporarily detach to set world position directly:
-
-```javascript
-scene.attach(child); // Temporarily remove from parent
-child.position.set(3, 2, 5); // Set world position
-parent.attach(child); // Reattach to parent
-```
-
-After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
-
-# 8. lil-gui (brwoser controls)
+# 6. lil-gui (brwoser controls)
 [lil-gui](https://lil-gui.georgealways.com/) is a lightweight library for adding interactive controls to your project. It’s perfect for quickly tweaking parameters in real-time, making it ideal for debugging, prototyping, and creative coding. 
 
 You can simply load it as an addon:
@@ -445,7 +493,7 @@ const gui = new GUI();
 gui.title('GUI-Title')
 ```
 
-## 8.1. Create fields
+## 6.1. Create fields
 Either define the varibales before adding them, often stored in an object:
 ```javascript
 const settings = {
@@ -469,7 +517,7 @@ Or modify directly in the gui:
 gui.add(camera.position, 'z', 1, 10).name('Camera Distance');
 ```
 
-## 8.2. Include logic
+## 6.2. Include logic
 Since changing the variables doesn't directly modify your 3D objects, you can incorporate additional logic:
 ```javascript
 // insert code
@@ -490,7 +538,7 @@ gui.onChange( event => {
 });
 ```
 
-## 8.3. Nested controllers
+## 6.3. Nested controllers
 Organize controllers with nested structures for better clarity. This is done using folders:
 ```javascript
 // add folder to gui
@@ -499,10 +547,10 @@ const folder = gui.addFolder( 'Nested Settings' );
 folder.add(nestedSettings, 'setting');
 ```
 
-# 9. Responsive Canvas
+# 7. Responsive Canvas
 A canvas has two sizes: its visible display size on the page and its internal pixel resolution. To maintain responsiveness, both sizes must be set and updated accordingly. Additionally, you can adjust the camera distance for fixed elements.
 
-## 9.1. Canvas Handling
+## 7.1. Canvas Handling
 Ideally, you should create and style the canvas using HTML and CSS.
 ```html
 <canvas id="canvas"></canvas>
@@ -541,14 +589,14 @@ function onResize() {
 }
 ``` 
 
-**Enhanced resolution based on the device's actual pixel ratio, limited to 2x for performance reasons.**
+**Enhanced resolution based on the device's actual pixel ratio, limited to 4x for performance reasons.**
 ```javascript
 // Handle resizing of the window
 window.addEventListener('resize', onResize, false);
 onResize();
 
 function onResize() {
-  const pixelRatio = Math.min(window.devicePixelRatio, 2); // Limit to 2x for performance
+  const pixelRatio = Math.min(window.devicePixelRatio, 4); // Limit to 4x for performance
   const width = Math.round(canvas.clientWidth * pixelRatio);
   const height = Math.round(canvas.clientHeight * pixelRatio);
 
@@ -562,7 +610,7 @@ function onResize() {
 }
 ``` 
 
-## 9.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding
+## 7.2. Positioning the Camera to Keep the Object Fully Visible with Fixed Padding
 Due to the manual definition of object size and padding, this solution is not recommended for pages with zoomable websites.
 
 During window resizing, the camera’s Z position is also adjusted to ensure the object remains visible with the correct padding. This adjustment is based on the camera’s FOV and the aspect ratio of the viewport. Before performing the calculation, you need to define the object's `width`, `height`, and `padding` to ensure accurate results.
@@ -629,7 +677,62 @@ function adjustCameraToObject() {
 }
 ```
 
-# 10. Orbit, Pan & Zoom
+# 8. Nesting
+Nesting in Three.js allows you to group objects under a parent, simplifying the management of complex structures. When a parent object is transformed (position, rotation, scale), its child objects inherit those transformations.
+
+## 8.1. Supported Nestable Objects
+You can nest any Three.js object, including:
+- Meshes
+- Groups
+- Cameras
+- Lights
+- Helpers
+- Custom Objects
+
+## 8.2. Passed Properties
+- **Position**: Child positions are relative to the parent.
+- **Rotation**: Child rotations are combined with the parent's.
+- **Scale**: Parent scale applies proportionally to children.
+
+This means changes to the parent automatically propagate to the children.
+
+## 8.3. Example of Adding a Base Object and a Nested Object
+```javascript
+const parent = new THREE.Mesh(
+  new THREE.BoxGeometry(2, 2, 2),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+const child = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+);
+
+scene.add(parent); // Add parent at root
+parent.add(child); // Nest child under parent
+child.position.set(1, 1, 0); // Position relative to parent
+```
+
+## 8.4. Bypassing Inheritance
+If you need to bypass these transformations and set a child’s position in world space, you can detach it temporarily or transform the world position to the parent’s local space:
+
+```javascript
+// Set child position based on world coordinates
+const targetWorldPosition = new THREE.Vector3(3, 2, 5);
+const localPosition = parent.worldToLocal(targetWorldPosition.clone());
+child.position.copy(localPosition);
+```
+
+Or, temporarily detach to set world position directly:
+
+```javascript
+scene.attach(child); // Temporarily remove from parent
+child.position.set(3, 2, 5); // Set world position
+parent.attach(child); // Reattach to parent
+```
+
+After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
+
+# 9. Orbit, Pan & Zoom
 The [OrbitControls library](https://threejs.org/docs/index.html#examples/en/controls/OrbitControls) provides an easy way to orbit, pan, and zoom the camera using mouse or touch input.
 
 ``` javascript
@@ -653,7 +756,7 @@ function render() {
 }
 ```
 
-## 10.1. Disable functions
+## 9.1. Disable functions
 Out of the box, orbit, pan, and zoom are enabled. You can easily disable them by:
 
 ``` javascript
@@ -662,7 +765,7 @@ controls.enableZoom = false;   // Disable zooming
 controls.enablePan = false;    // Disable panning
 ```
 
-## 10.2. Set Limits
+## 9.2. Set Limits
 For all the settings, you can set limits such as:
 
 ``` javascript
@@ -671,7 +774,7 @@ controls.minDistance = 1;             // Limit the zoom in distance
 controls.maxPolarAngle = Math.PI / 2; // Limit the vertical rotation (no flipping)
 ```
 
-## 10.3. Damping
+## 9.3. Damping
 For a smoother orbit and pan, it is recommended to set this setting to `true`. Additionally, it's important to update the camera controls every frame to account for the post-touch smoothing.
 
 ``` javascript
@@ -686,7 +789,7 @@ function render() {
 }
 ```
 
-# 11. Load GLTF File
+# 10. Load GLTF File
 To load a custom 3D model, use a `.glb` or `.gltf` file. A `.glb` file contains all assets, like UV maps and textures, in one file. In contrast, a `.gltf` file stores the model separately, along with additional `.bin` and texture files. For simplicity, using a `.glb` file is recommended.
 
 Export your model from Blender via `Export > glTF 2.0`. In the export menu, you can choose between `.glb` or `.gltf`, and adjust other settings as needed.
@@ -723,7 +826,7 @@ glbLoader.load('yourPath/yourModel.glb',
 ```
 When loading textures manually, please refer to the section about textures to ensure they are displayed correctly.
 
-## 11.1. Copying models
+## 10.1. Copying models
 Linking or creating a new variable that points to another object does not create a copy - it links to the original. To create an actual copy, use `.clone()`. 
 
 Since a 3D model consists of multiple meshes and textures, all of them must be cloned. Without cloning them, changes to one material will affect both the original and the cloned object.
@@ -739,7 +842,7 @@ model.traverse((child) => {
 });
 ```
 
-# 12. Materials
+# 11. Materials
 In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section focuses on the first six "normal color materials" and does **not** cover the specialized materials in the second list).
 
 - [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)
@@ -763,7 +866,7 @@ Specialized Materials:
 - [ShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/ShaderMaterial)
 - [RawShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/RawShaderMaterial)
 
-## 12.1. Requirements
+## 11.1. Requirements
 "Normal color materials" **require a light source** in the scene because they rely on light calculations. The exception is `MeshBasicMaterial`, which displays a uniform color and does not perform any light calculations, so no light source is necessary. Naturally, these materials must also be linked to a displayed mesh.
 
 Example with lights and `MeshLambertMaterial`:
@@ -781,22 +884,22 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 ```
 
-## 12.2. Comparison
+## 11.2. Comparison
 Here is a list of materials arranged by their complexity and rendering requirements. Although they share similar settings and features, each material introduces unique properties for achieving more realistic rendering.
 
-| **Material** | **Supports Lighting** | **Unique Properties** |
-|------------------------------------|------------------------|--------------------------------------------------------------------------|
-| [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial) | ❌ |  |
-| [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial) | ✅ | `emissive` |
-| [MeshPhongMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhongMaterial) | ✅ | `emissive`, `specular`, `shininess` |
-| [MeshToonMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshToonMaterial) | ✅ | `emissive` |
-| [MeshStandardMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshStandardMaterial) | ✅ | `emissive`, `metalness`, `roughness` |
-| [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhysicalMaterial) | ✅ | `emissive`, `metalness`, `roughness`, `clearcoat`, `clearcoatRoughness`, `sheen`, `transmission` |
+| **Material**                                                                                      | **Supports Lighting** | **Unique Properties**                                                                            |
+| ------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------ |
+| [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)       | ❌                     |                                                                                                  |
+| [MeshLambertMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshLambertMaterial)   | ✅                     | `emissive`                                                                                       |
+| [MeshPhongMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhongMaterial)       | ✅                     | `emissive`, `specular`, `shininess`                                                              |
+| [MeshToonMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshToonMaterial)         | ✅                     | `emissive`                                                                                       |
+| [MeshStandardMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshStandardMaterial) | ✅                     | `emissive`, `metalness`, `roughness`                                                             |
+| [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhysicalMaterial) | ✅                     | `emissive`, `metalness`, `roughness`, `clearcoat`, `clearcoatRoughness`, `sheen`, `transmission` |
 
-## 12.3. General Settings
+## 11.3. General Settings
 Here are some general settings to consider, regardless of the material choice:
 
-### 12.3.1. Shading
+### 11.3.1. Shading
 Determines whether the object appears faceted or smooth. The default is `false`.
 
 ```javascript
@@ -804,14 +907,14 @@ object.material.flatShading = false;
 mesh.material.needsUpdate = true;
 ```
 
-### 12.3.2. Culling (Back-face culling)
+### 11.3.2. Culling (Back-face culling)
 There are three diffrend modes to show the faces. The default is `THREE.FrontSide`. Other options are `THREE.BackSide` and `THREE.DoubleSide`.
 ```javascript
 object.material.side = THREE.FrontSide;
 mesh.material.needsUpdate = true;
 ```
 
-## 12.4. Update Material
+## 11.4. Update Material
 Some material changes update automatically, but for more resource-intensive adjustments, the material must be refreshed manually:
 ```javascript
 mesh.material.needsUpdate = true;
@@ -821,7 +924,7 @@ Manual refresh is required for:
 - Shading
 - Adding or removing a texture
 
-# 13. Load Textures
+# 12. Load Textures
 
 Loading image textures is a complex topic with many details to consider. It's highly recommended to load models with all assets, including UV maps, textures, etc., as GLTF files handle these automatically when stored in the file (see the section on loading GLTF models). This approach simplifies the workflow and ensures that necessary settings are saved within the GLTF file.
 
@@ -829,7 +932,7 @@ However, when replacing or manually adding new assets to the model, these settin
 
 For more information, refer to the [Overview](https://threejs.org/manual/#en/textures) & [Settings](https://threejs.org/docs/index.html#api/en/constants/Textures)
 
-## 13.1. Load Texturemaps (jpg, png, etc.)
+## 12.1. Load Texturemaps (jpg, png, etc.)
 The `TextureLoader` does not require any additional addons and is included with base Three.js. It is recommended to first load textures into variables (for compressed textures, an extra decompression `Loader` is needed). For Three.js to read the textures correctly, the following settings are required:
 
 - **Flip Texture**: Three.js automatically flips textures vertically. To prevent the texture from being mirrored (which would misalign it with the UV map), set this to `false`.
@@ -879,22 +982,22 @@ model.children[0].material.transparent = true;
 model.children[0].material.alphaMap = alphaTexture;
 ```
 
-## 13.2. Texture Settings
+## 12.2. Texture Settings
 
-### 13.2.1. UV Maps
+### 12.2.1. UV Maps
 There is nothing special about UV maps in Three.js. When using textures, it is important to ensure that UV maps are properly set up beforehand. 
 - Imported models will typically include their UV maps, 
 - while Three.js preset geometries also come with default UV maps.
 
-### 13.2.2. Magnification & Minification
+### 12.2.2. Magnification & Minification
 It's almost impossible for a camera to see and render a texture at its original pixel size. Magnification and minification refer to how textures are rendered when viewed at different scales. Magnification occurs when a texture is displayed larger than its original resolution, while minification happens when it is displayed smaller. In Three.js, these processes are controlled by texture filtering methods, which determine how pixel information is interpolated or averaged. [Three.js provides a useful visual comparison.](https://threejs.org/manual/#en/textures)
 
 Magnification:
 
-| **Filter** | **Filter Code** | **Description** |
-|-----------------------|---|------------------------------------------------|
-| `THREE.NearestFilter` | 1003 | Displays textures with sharp, pixelated edges. Creates flickering when moving. |
-| `THREE.LinearFilter` | 1006 | Smoothly interpolates between texture pixels. |
+| **Filter**            | **Filter Code** | **Description**                                                                |
+| --------------------- | --------------- | ------------------------------------------------------------------------------ |
+| `THREE.NearestFilter` | 1003            | Displays textures with sharp, pixelated edges. Creates flickering when moving. |
+| `THREE.LinearFilter`  | 1006            | Smoothly interpolates between texture pixels.                                  |
 
 **For most cases `THREE.LinearFilter` is recommended.**
 
@@ -913,14 +1016,14 @@ Before looking at the filters, we look at Mips. Mips are copies of the texture, 
 
 The minification filters are ordered by quality and performance. At the top is the simplest filter, while the bottom offers the best visual quality. `THREE.NearestFilter` produces the most visible flickering at a distance, while `THREE.LinearMipMapLinearFilter` provides the smoothest result.
 
-| **Filter** | **Filter Code** | **Description** |
-|-------------------------------------|----|------------------------------------------------------------------------------|
-| `THREE.NearestFilter` | 1003 | Choose the closest pixel in the texture, no mipmapping. |
-| `THREE.LinearFilter` | 1006 | Choose 4 pixels from the texture and blend them, no mipmapping. |
-| `THREE.NearestMipMapNearestFilter` | 1004 | Choose the appropriate mip then choose one pixel. |
-| `THREE.NearestMipMapLinearFilter` | 1005 | Choose 2 mips, choose one pixel from each, blend the 2 pixels. |
-| `THREE.LinearMipMapNearestFilter` | 1007 | Chose the appropriate mip then choose 4 pixels and blend them. |
-| `THREE.LinearMipMapLinearFilter` | 1008 | Choose 2 mips, choose 4 pixels from each and blend all 8 into 1 pixel. |
+| **Filter**                         | **Filter Code** | **Description**                                                        |
+| ---------------------------------- | --------------- | ---------------------------------------------------------------------- |
+| `THREE.NearestFilter`              | 1003            | Choose the closest pixel in the texture, no mipmapping.                |
+| `THREE.LinearFilter`               | 1006            | Choose 4 pixels from the texture and blend them, no mipmapping.        |
+| `THREE.NearestMipMapNearestFilter` | 1004            | Choose the appropriate mip then choose one pixel.                      |
+| `THREE.NearestMipMapLinearFilter`  | 1005            | Choose 2 mips, choose one pixel from each, blend the 2 pixels.         |
+| `THREE.LinearMipMapNearestFilter`  | 1007            | Chose the appropriate mip then choose 4 pixels and blend them.         |
+| `THREE.LinearMipMapLinearFilter`   | 1008            | Choose 2 mips, choose 4 pixels from each and blend all 8 into 1 pixel. |
 
 **For simpler scenes, the bottom filter, `THREE.LinearMipMapLinearFilter`, is recommended.** For faster minification, use `THREE.LinearMipMapNearestFilter` or even `THREE.NearestMipMapLinearFilter`.
 
@@ -929,7 +1032,7 @@ model.children[0].material.map.minFilter = THREE.LinearMipMapLinearFilter;
 model.children[0].material.map.needsUpdate = true;
 ```
 
-### 13.2.3. Types
+### 12.2.3. Types
 The texture type primarily affects how the data is stored and processed in WebGL after loading. When loading standard image formats (PNG, JPEG, etc.), you don't need to specify a type - `UnsignedByteType` will work fine by default.
 
 However, there are a few special cases where you need to set the correct type upfront:
@@ -943,18 +1046,18 @@ So for regular image textures, no type is needed (default: `UnsignedByteType`).
 const texture = new THREE.TextureLoader().load('myimage.png');  // Type not needed
 ```
 
-### 13.2.4. Formats
+### 12.2.4. Formats
 The `format` tells Three.js about the structure of the image data, mainly related to the channels and colors used. Here are some examples of texture formats:
 
-| Format                  | Format Code | Channels               |
-|-------------------------|-------------|------------------------|
-| THREE.RGBAFormat        | 1023        | 4 channels: Red, Green, Blue, Alpha |
-| THREE.RGBFormat         | 1022        | 3 channels: Red, Green, Blue |
-| THREE.LuminanceFormat   | 1024        | 1 channel: Brightness only |
-| THREE.RedFormat         | 1028        | 1 channel: Only red component |
-| THREE.RGFormat          | 1029        | 2 channels: Red and Green |
+| Format                | Format Code | Channels                            |
+| --------------------- | ----------- | ----------------------------------- |
+| THREE.RGBAFormat      | 1023        | 4 channels: Red, Green, Blue, Alpha |
+| THREE.RGBFormat       | 1022        | 3 channels: Red, Green, Blue        |
+| THREE.LuminanceFormat | 1024        | 1 channel: Brightness only          |
+| THREE.RedFormat       | 1028        | 1 channel: Only red component       |
+| THREE.RGFormat        | 1029        | 2 channels: Red and Green           |
 
-### 13.2.5. Color Space
+### 12.2.5. Color Space
 `ColorSpace` defines how Three.js interprets the texture and its different values. Generally, you differentiate between textures that will display colors (`THREE.SRGBColorSpace`) and textures that won't (`THREE.LinearSRGBColorSpace`). By default, `ColorSpace` is set to `""`, which is equivalent to `THREE.LinearSRGBColorSpace` because WebGL performs calculations in linear space by default. Ultimately, this comes down to internal gamma correction. Textures with `THREE.SRGBColorSpace` will be gamma-corrected to ensure accurate colors, while "technical" textures, such as roughness, should not undergo gamma correction.
 
 ``` javascript
@@ -972,7 +1075,7 @@ Use `THREE.LinearSRGBColorSpace`, `""` , `undefined` for:
 - Metalness maps
 - Any texture storing non-color data
 
-### 13.2.6. Compression
+### 12.2.6. Compression
 The `THREE.TextureLoader` only supports a limited set of defult coded 2D image formats:
 - JPEG
 - PNG
@@ -1003,7 +1106,7 @@ ktx2Loader.load('textures/compressedTexture.ktx2', (texture) => {
 });
 ```
 
-### 13.2.7. LoadingManager
+### 12.2.7. LoadingManager
 The `LoadingManager` in Three.js is a utility that helps manage and monitor the loading of assets, including textures, models, and other resources. It provides a way to track the progress of asset loading and handle events like when all assets are loaded or if an error occurs.
 
 - **Centralized Control**: Allows managing multiple loaders (e.g., `TextureLoader`, `GLTFLoader`) from a single point.
@@ -1039,12 +1142,12 @@ const texture1 = textureLoader.load('path/texture1.jpg');
 const texture2 = textureLoader.load('path/texture2.jpg');
 ```
 
-# 14. Animations
+# 13. Animations
 The Three.js animation system has completely changed in 2015. Beware of outdated information! It now works similar to Unity and Unreal Engine 4.
 
 Different properties of a 3D object can be changed, such as bones and material color. The animated properties can be faded in, faded out, crossfaded, and warped. The weight and time scales of animations can be changed independently. [Animation system overview](https://threejs.org/docs/index.html#manual/en/introduction/Animation-system)
 
-## 14.1. Quick overview
+## 13.1. Quick overview
 - Keyframes for an animation are stored in an `AnimationClip`, which is loaded along with a GLTF file.  
 - The `AnimationMixer` is responsible for running animations and must be updated in each frame.  
 - An `AnimationClip` is linked to the `AnimationMixer` to create an `AnimationAction`, which controls the animation.  
@@ -1101,7 +1204,7 @@ function render() {
 }
 ```
 
-## 14.2. Loaders
+## 13.2. Loaders
 Different loaders can directly load the animations included in the assets. Using the GLTF workflow is recommended.
 
 - THREE.ObjectLoader
@@ -1110,15 +1213,15 @@ Different loaders can directly load the animations included in the assets. Using
 - THREE.FBXLoader
 - THREE.GLTFLoader
 
-## 14.3. Animation Clips
+## 13.3. Animation Clips
 When loading a 3D file containing animations, the different [AnimationClips](https://threejs.org/docs/index.html#api/en/animation/AnimationClip) are stored in the child named `animations` (e.g., `mesh.animations`). These clips are required to play animations.
 
 The `AnimationClip` is managed using the `AnimationAction`.
 
-## 14.4. Keyframe Tracks
+## 13.4. Keyframe Tracks
 An `AnimationClip` contains the data for the animation, which is stored in a [KeyframeTrack](https://threejs.org/docs/index.html#api/en/animation/KeyframeTrack). This data is typically not modified directly.
 
-## 14.5. Animation Mixer
+## 13.5. Animation Mixer
 An [AnimationMixer](https://threejs.org/docs/index.html#api/en/animation/AnimationMixer) is required to play an animation. It bundles multiple animations and manages the updates.
 
 Update the `AnimationMixer` each frame using `deltatime`:
@@ -1129,19 +1232,19 @@ function update () {
 }
 ```
 
-| Setting/Method | Description |
-|----------------|-------------|
-| time | The global mixer time in seconds |
-| timeScale | Scaling factor for the global mixer time |
-| update(deltaTime) | Updates the mixer and its controlled actions |
-| clipAction(clip, root) | Returns an AnimationAction for the passed clip |
+| Setting/Method             | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| time                       | The global mixer time in seconds                        |
+| timeScale                  | Scaling factor for the global mixer time                |
+| update(deltaTime)          | Updates the mixer and its controlled actions            |
+| clipAction(clip, root)     | Returns an AnimationAction for the passed clip          |
 | existingAction(clip, root) | Returns an existing AnimationAction for the passed clip |
-| stopAllAction() | Deactivates all previously scheduled actions |
-| uncacheClip(clip) | Releases resources associated with a clip |
-| uncacheRoot(root) | Releases resources associated with a root object |
-| uncacheAction(clip, root) | Releases resources associated with an action |
+| stopAllAction()            | Deactivates all previously scheduled actions            |
+| uncacheClip(clip)          | Releases resources associated with a clip               |
+| uncacheRoot(root)          | Releases resources associated with a root object        |
+| uncacheAction(clip, root)  | Releases resources associated with an action            |
 
-## 14.6. Animation Action
+## 13.6. Animation Action
 While attaching the `AnimationClip` to the `AnimationMixer`, an [AnimationAction](https://threejs.org/docs/index.html#api/en/animation/AnimationAction) named `action` is created. The `AnimationClip` is controlled through the `AnimationAction`, enabling operations such as `play`, `pause`, `loop`, `blend`, adjusting `timeScale`, and more.
 
 Attach the `AnimationClip` to the `AnimationMixer` and `play` it:
@@ -1151,48 +1254,48 @@ const action = mixer.clipAction(clip);
 action.play();
 ```
 
-| Setting | Description | Default Value |
-|---------|-------------|---------------|
-| enabled | Enables or disables the action | true |
-| weight | Controls the influence of this action relative to other active actions | 1 |
-| timeScale | Scales the speed of the animation playback | 1 |
-| loop | Sets the looping mode (LoopOnce, LoopRepeat, LoopPingPong) | LoopRepeat |
-| repetitions | Number of times the animation should repeat | Infinity |
-| clampWhenFinished | If true, the last frame of the animation will be clamped when finished | false |
-| zeroSlopeAtStart | Ensures smooth interpolation when the clip is played after another | true |
-| zeroSlopeAtEnd | Ensures smooth interpolation when another clip is played after this one | true |
-| paused | Pauses or resumes the action | false |
-| time | Sets the local time of the action (in seconds) | 0 |
-| effectiveTimeScale | Read-only property that returns the effective time scale | N/A |
-| effectiveWeight | Read-only property that returns the effective weight | N/A |
+| Setting            | Description                                                             | Default Value |
+| ------------------ | ----------------------------------------------------------------------- | ------------- |
+| enabled            | Enables or disables the action                                          | true          |
+| weight             | Controls the influence of this action relative to other active actions  | 1             |
+| timeScale          | Scales the speed of the animation playback                              | 1             |
+| loop               | Sets the looping mode (LoopOnce, LoopRepeat, LoopPingPong)              | LoopRepeat    |
+| repetitions        | Number of times the animation should repeat                             | Infinity      |
+| clampWhenFinished  | If true, the last frame of the animation will be clamped when finished  | false         |
+| zeroSlopeAtStart   | Ensures smooth interpolation when the clip is played after another      | true          |
+| zeroSlopeAtEnd     | Ensures smooth interpolation when another clip is played after this one | true          |
+| paused             | Pauses or resumes the action                                            | false         |
+| time               | Sets the local time of the action (in seconds)                          | 0             |
+| effectiveTimeScale | Read-only property that returns the effective time scale                | N/A           |
+| effectiveWeight    | Read-only property that returns the effective weight                    | N/A           |
 
-## 14.7. Animation Object Groups
+## 13.7. Animation Object Groups
 The `AnimationAction` can only manage a single `AnimationClip`. To play and manage the same `AnimationClip` across multiple objects simultaneously, group the objects using an [AnimationObjectGroup](https://threejs.org/docs/index.html#api/en/animation/AnimationObjectGroup). Link the `AnimationObjectGroup` to the `AnimationMixer`. Using a group can be more efficient than creating individual `AnimationActions` for each object.
 
-# 15. Lighting
+# 14. Lighting
 When thinking about lighting, it's not just about light. There are a few things to consider, such as the environment map, shadows, and lights.
 
-## 15.1. Shadows
+## 14.1. Shadows
 **By default, there are no shadows being calculated.**
 
 [Extended overview on threejs.org](https://threejs.org/manual/#en/shadows)
 
-### 15.1.1. Renderer
+### 14.1.1. Renderer
 First, shadows have to be activated in the renderer. This is called a [shadowMap](). There are multiple `shadowMap.types`:
 
-| Shadow Map Type | Quality |
-|-----------------|---------|
-| BasicShadowMap | Low |
-| PCFShadowMap | Medium |
-| PCFSoftShadowMap | High |
-| VSMShadowMap | Medium-High |
+| Shadow Map Type  | Quality     |
+| ---------------- | ----------- |
+| BasicShadowMap   | Low         |
+| PCFShadowMap     | Medium      |
+| PCFSoftShadowMap | High        |
+| VSMShadowMap     | Medium-High |
 
 ```javascript
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.BasicShadowMap;
 ```
 
-### 15.1.2. Light Sources
+### 14.1.2. Light Sources
 For each light, the `castShadows` property must be activated when needed. This creates a `light.shadow.camera`, which is bound to the light's position. This camera is used to render the shadows. There are some important quality settings to consider:
 
 - `mapSize` / resolution (default: 512 x 512)
@@ -1228,7 +1331,7 @@ const helper = new THREE.CameraHelper(light.shadow.camera);
 scene.add(helper);
 ```
 
-### 15.1.3. Objects
+### 14.1.3. Objects
 Define for every object if it receives or / and cast shadows.
 
 ```javascript
@@ -1238,19 +1341,110 @@ cube.castShadow = true;
 scene.add(cube);
 ```
 
-## 15.2. Lights
+## 14.2. Lights
 Most light sources work with a light position and a target position (not with rotation!). The target position can be either a point or an object.
 
-| Light Type | Purpose | Efficiency Rating | Supports Shadows |
-|------------|---------|-------------------|------------------|
-| [AmbientLight](https://threejs.org/docs/#api/en/lights/AmbientLight) | Provides uniform illumination to all objects in the scene | Efficient | No |
-| [HemisphereLight](https://threejs.org/docs/#api/en/lights/HemisphereLight) | Simulates sky and ground reflection, good for outdoor scenes | Medium | No |
-| [PointLight](https://threejs.org/docs/#api/en/lights/PointLight) | Emits light in all directions from a single point | Intensive | Yes |
-| [DirectionalLight](https://threejs.org/docs/#api/en/lights/DirectionalLight) | Simulates distant light source (e.g., sunlight) with parallel rays | Medium | Yes |
-| [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight) | Creates a cone of light emanating from a single point | Intensive | Yes |
-| [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight) | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive | No |
+| Light Type                                                                   | Purpose                                                                                                           | Efficiency Rating | Supports Shadows |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------- | ---------------- |
+| [AmbientLight](https://threejs.org/docs/#api/en/lights/AmbientLight)         | Provides uniform illumination to all objects in the scene                                                         | Efficient         | No               |
+| [HemisphereLight](https://threejs.org/docs/#api/en/lights/HemisphereLight)   | Simulates sky and ground reflection, good for outdoor scenes                                                      | Medium            | No               |
+| [PointLight](https://threejs.org/docs/#api/en/lights/PointLight)             | Emits light in all directions from a single point                                                                 | Intensive         | Yes              |
+| [DirectionalLight](https://threejs.org/docs/#api/en/lights/DirectionalLight) | Simulates distant light source (e.g., sunlight) with parallel rays                                                | Medium            | Yes              |
+| [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight)               | Creates a cone of light emanating from a single point                                                             | Intensive         | Yes              |
+| [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight)       | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive         | No               |
 
-## 15.3. environment map
+## 14.3. environment map
+
+# 15. User Klicks
+There are multiple ways to detect and process click interactions. [Threejs.org features two approaches:](https://threejs.org/manual/#en/picking)  
+
+- **The CPU approach**: This uses a raycast to check the entire scene for intersections with the bounding boxes of objects. Afterward, it checks every triangle (face) of the intersected objects.
+- **The GPU approach**: This renders each object in a unique color in a separate offscreen scene. Then, it looks up the color of the pixel at the mouse position. This color identifies the hovered object.
+
+Below is an example of a CPU-based method to detect hover interactions.  
+
+## 15.1. mousemovement
+Set variables:
+```javascript
+let intersectedObject = null;
+let touchPosition = {x: -100000, y: -100000}; // the initial touchPostion value is set so its unlikely to touch something.
+```
+
+Set functions to update the `touchPosition` based on the canvas position to eliminate shifts. When the pointer leaves, reset the `touchPosition` to its initial value:
+```javascript
+function getCanvasRelativePosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * canvas.width  / rect.width,
+    y: (event.clientY - rect.top ) * canvas.height / rect.height,
+  };
+}
+
+function setTouchPosition(event) {
+  const pos = getCanvasRelativePosition(event);
+  touchPosition.x = (pos.x / canvas.width ) *  2 - 1;
+  touchPosition.y = (pos.y / canvas.height) * -2 + 1;
+}
+
+function clearTouchPosition() {
+  touchPosition.x = -100000;
+  touchPosition.y = -100000;
+}
+
+window.addEventListener('mousemove', setTouchPosition);
+window.addEventListener('mouseout', clearTouchPosition);
+window.addEventListener('mouseleave', clearTouchPosition);
+```
+
+In the render function, intersections are checked on every frame. In this example, only the sub-children of the bunny are checked using `intersectObjects`, so it first verifies if the bunny exists. Often, the children of the entire scene are passed to the raycaster: `raycaster.intersectObjects(scene.children, true);`
+```javascript
+function touchSelector() {
+  raycaster.setFromCamera(touchPosition, camera);
+  if (bunny) {
+    const intersects = raycaster.intersectObjects(bunny.children[0].children[0].children, true);
+    if (intersects.length > 0) {
+      if (intersectedObject !== intersects[0].object) {
+        intersectedObject = intersects[0].object;
+        document.body.style.cursor = 'pointer';
+      }
+  } else {
+      if (intersectedObject !== null) {
+        intersectedObject = null;
+        document.body.style.cursor = 'default';
+      }
+    }
+  }
+}
+
+// functioncall in the render function
+function render() {
+  // Update hover
+  touchSelector();
+  // Render the scene
+  renderer.render(scene, camera);
+}
+```
+
+## 15.2. touchmovement
+The touch inputs are passed to the previously set functions:
+```javascript
+function handleTouchStart(event) {
+  // optionally add: event.preventDefault();
+  setTouchPosition(event.touches[0]);
+}
+
+function handleTouchMove(event) {
+  setTouchPosition(event.touches[0]);
+}
+
+function handleTouchEnd() {
+  clearTouchPosition();
+}
+
+window.addEventListener('touchstart', handleTouchStart);
+window.addEventListener('touchmove', handleTouchMove);
+window.addEventListener('touchend', handleTouchEnd);
+```
 
 # 16. Todo Pages
 - [x] responsive
@@ -1266,4 +1460,5 @@ Most light sources work with a light position and a target position (not with ro
 - [ ] user interaction -> scroll / click
 - [ ] tween between meshes -> visualize data
 - [ ] create usecases?
-- [ ] create overview and menü
+- [ ] create overview and menu
+- [ ] for setup: gitignore / install packages on new machine
