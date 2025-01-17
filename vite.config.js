@@ -21,6 +21,7 @@ export default defineConfig({
         animations: resolve(__dirname, 'src/12_animations/index.html'),
         lighting: resolve(__dirname, 'src/13_lighting/index.html'),
         background: resolve(__dirname, 'src/14_background/index.html'),
+        userinteraction: resolve(__dirname, 'src/15_userinteraction/index.html'),
       }
     }
   }
