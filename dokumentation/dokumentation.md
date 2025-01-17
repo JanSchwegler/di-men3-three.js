@@ -1072,6 +1072,35 @@ Scene
             └── Object3D (Tree 3)
 ```
 
+Code example:
+```javascript
+(gltf) => {
+  bunny = gltf.scene;
+  bunnyAnimationClips = gltf.animations; // save animations from gltf
+  scene.add(bunny);
+},
+
+...
+
+const animationMixer = new THREE.AnimationMixer(bunny); // create animationMixer for bunny
+const animationAction = animationMixer.clipAction(bunnyAnimationClips[0]); // create animationAction
+animationAction.play(); // play animationAction
+
+// You can find a specific Clip:
+const bunnyAnimationClipIdle = bunnyAnimationClips.find(clip => clip.name.toLowerCase() === "idle");
+
+...
+
+function render() {
+  const deltaTime = clock.getDelta();
+  animationMixer ? animationMixer.update(deltaTime) : null; // update animationMixer
+
+  ...
+
+  renderer.render(scene, camera);
+}
+```
+
 ## 14.2. Loaders
 Different loaders can directly load the animations included in the assets. Using the GLTF workflow is recommended.
 
