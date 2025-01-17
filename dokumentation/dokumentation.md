@@ -72,10 +72,15 @@ This documentation provides a comprehensive guide to getting started with Three.
     - [14.1.2. Light Sources](#1412-light-sources)
     - [14.1.3. Objects](#1413-objects)
   - [14.2. Lights](#142-lights)
-  - [14.3. environment map](#143-environment-map)
-- [15. User Klicks](#15-user-klicks)
-  - [15.1. mousemovement](#151-mousemovement)
-  - [15.2. touchmovement](#152-touchmovement)
+  - [14.3. Environment Map](#143-environment-map)
+    - [Mapping Types](#mapping-types)
+    - [Loading](#loading)
+- [User Interaction](#user-interaction)
+  - [Orbit Controls](#orbit-controls)
+  - [Scroll](#scroll)
+  - [Mouse \& Touch (Hover \& Click)](#mouse--touch-hover--click)
+    - [15.1. mousemovement](#151-mousemovement)
+    - [15.2. touchmovement](#152-touchmovement)
 - [16. Todo Pages](#16-todo-pages)
 
 # 1. Setting Up the Development Environment for Three.js
@@ -1353,9 +1358,52 @@ Most light sources work with a light position and a target position (not with ro
 | [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight)               | Creates a cone of light emanating from a single point                                                             | Intensive         | Yes              |
 | [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight)       | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive         | No               |
 
-## 14.3. environment map
+## 14.3. Environment Map
+The `environmentMap` is a texture used to simulate an environment for realistic lighting and reflections. The texture can be set as:  
 
-# 15. User Klicks
+- `scene.environment`: for lighting and reflections  
+- `scene.background`: for displaying the texture visually  
+
+### Mapping Types
+There are two mapping types:
+
+| Equirectangular | Cube |
+| --------------- | ---- |
+| ![Equirectangular](images/environment_equirectangular.jpeg) | ![Cube](images/environment_cubemap.jpeg) |
+
+[Images: © trekview.org](https://www.trekview.org/blog/projection-type-360-photography/)
+
+Both mapping types support `reflection` and `refraction`:  
+- `THREE.CubeReflectionMapping`  
+- `THREE.CubeRefractionMapping`  
+- `THREE.EquirectangularReflectionMapping`  
+- `THREE.EquirectangularRefractionMapping`
+
+[Example demonstrating the `reflection` and `refraction` effects](https://threejs.org/examples/#webgl_materials_envmaps)  
+
+### Loading
+Depending on the file type, a different loader is used. When loading, it's recommended to preprocess the texture using the `pmremGenerator`. This generates mipmaps, which improve quality and performance.
+
+Example with an EXR file:
+
+```javascript
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+exrLoader.load('../../hdri/Sky.exr', (texture) => {
+  envmap = pmremGenerator.fromEquirectangular(texture).texture;
+  texture.dispose();
+});
+
+scene.background = envmap;
+scene.environment = envmap;
+```
+
+# User Interaction
+
+## Orbit Controls
+
+## Scroll
+
+## Mouse & Touch (Hover & Click)
 There are multiple ways to detect and process click interactions. [Threejs.org features two approaches:](https://threejs.org/manual/#en/picking)  
 
 - **The CPU approach**: This uses a raycast to check the entire scene for intersections with the bounding boxes of objects. Afterward, it checks every triangle (face) of the intersected objects.
@@ -1363,7 +1411,7 @@ There are multiple ways to detect and process click interactions. [Threejs.org f
 
 Below is an example of a CPU-based method to detect hover interactions.  
 
-## 15.1. mousemovement
+### 15.1. mousemovement
 Set variables:
 ```javascript
 let intersectedObject = null;
@@ -1425,7 +1473,7 @@ function render() {
 }
 ```
 
-## 15.2. touchmovement
+### 15.2. touchmovement
 The touch inputs are passed to the previously set functions:
 ```javascript
 function handleTouchStart(event) {
