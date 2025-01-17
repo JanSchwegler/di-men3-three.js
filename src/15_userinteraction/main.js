@@ -68,7 +68,7 @@ function init() {
     window.addEventListener('mouseout', clearTouchPosition);
     window.addEventListener('mouseleave', clearTouchPosition);
     // Click event
-    window.addEventListener('click', handleClick);
+    window.addEventListener('click', () => handleClick(intersectedObject));
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchend', handleTouchEnd);
 }
@@ -128,14 +128,14 @@ function handleTouchStart(event) {
 function handleTouchEnd() {
     const touchEndTime = Date.now();
     if (touchEndTime - touchStartTime < 200 && Math.abs(touchStartPosition.x - touchPosition.x) < 0.01 && Math.abs(touchStartPosition.y - touchPosition.y) < 0.01) {
-        handleClick();
+        handleClick(intersectedObject);
     }
     clearTouchPosition();
 }
 
-function handleClick() {
-    if (intersectedObject) {
-        switch (intersectedObject.name) {
+function handleClick(object) {
+    if (object) {
+        switch (object.name) {
             case 'bunny002_1':
                 changeHTMLContent('Bunny Body');
                 break;
