@@ -35,53 +35,52 @@ This documentation provides a comprehensive guide to getting started with Three.
   - [8.2. Passed Properties](#82-passed-properties)
   - [8.3. Example of Adding a Base Object and a Nested Object](#83-example-of-adding-a-base-object-and-a-nested-object)
   - [8.4. Bypassing Inheritance](#84-bypassing-inheritance)
-- [9. Orbit, Pan \& Zoom](#9-orbit-pan--zoom)
-  - [9.1. Disable functions](#91-disable-functions)
-  - [9.2. Set Limits](#92-set-limits)
-  - [9.3. Damping](#93-damping)
-- [10. Load GLTF File](#10-load-gltf-file)
-  - [10.1. Copying models](#101-copying-models)
-- [11. Materials](#11-materials)
-  - [11.1. Requirements](#111-requirements)
-  - [11.2. Comparison](#112-comparison)
-  - [11.3. General Settings](#113-general-settings)
-    - [11.3.1. Shading](#1131-shading)
-    - [11.3.2. Culling (Back-face culling)](#1132-culling-back-face-culling)
-  - [11.4. Update Material](#114-update-material)
-- [12. Load Textures](#12-load-textures)
-  - [12.1. Load Texturemaps (jpg, png, etc.)](#121-load-texturemaps-jpg-png-etc)
-  - [12.2. Texture Settings](#122-texture-settings)
-    - [12.2.1. UV Maps](#1221-uv-maps)
-    - [12.2.2. Magnification \& Minification](#1222-magnification--minification)
-    - [12.2.3. Types](#1223-types)
-    - [12.2.4. Formats](#1224-formats)
-    - [12.2.5. Color Space](#1225-color-space)
-    - [12.2.6. Compression](#1226-compression)
-    - [12.2.7. LoadingManager](#1227-loadingmanager)
-- [13. Animations](#13-animations)
-  - [13.1. Quick overview](#131-quick-overview)
-  - [13.2. Loaders](#132-loaders)
-  - [13.3. Animation Clips](#133-animation-clips)
-  - [13.4. Keyframe Tracks](#134-keyframe-tracks)
-  - [13.5. Animation Mixer](#135-animation-mixer)
-  - [13.6. Animation Action](#136-animation-action)
-  - [13.7. Animation Object Groups](#137-animation-object-groups)
-- [14. Lighting](#14-lighting)
-  - [14.1. Shadows](#141-shadows)
-    - [14.1.1. Renderer](#1411-renderer)
-    - [14.1.2. Light Sources](#1412-light-sources)
-    - [14.1.3. Objects](#1413-objects)
-  - [14.2. Lights](#142-lights)
-  - [14.3. Environment Map](#143-environment-map)
-    - [Mapping Types](#mapping-types)
-    - [Loading](#loading)
-- [User Interaction](#user-interaction)
-  - [Orbit Controls](#orbit-controls)
-  - [Scroll](#scroll)
-  - [Mouse \& Touch (Hover \& Click)](#mouse--touch-hover--click)
-    - [15.1. mousemovement](#151-mousemovement)
-    - [15.2. touchmovement](#152-touchmovement)
-- [16. Todo Pages](#16-todo-pages)
+- [9. Load GLTF File](#9-load-gltf-file)
+  - [9.1. Copying models](#91-copying-models)
+- [10. Materials](#10-materials)
+  - [10.1. Requirements](#101-requirements)
+  - [10.2. Comparison](#102-comparison)
+  - [10.3. General Settings](#103-general-settings)
+    - [10.3.1. Shading](#1031-shading)
+    - [10.3.2. Culling (Back-face culling)](#1032-culling-back-face-culling)
+  - [10.4. Update Material](#104-update-material)
+- [11. Load Textures](#11-load-textures)
+  - [11.1. Load Texturemaps (jpg, png, etc.)](#111-load-texturemaps-jpg-png-etc)
+  - [11.2. Texture Settings](#112-texture-settings)
+    - [11.2.1. UV Maps](#1121-uv-maps)
+    - [11.2.2. Magnification \& Minification](#1122-magnification--minification)
+    - [11.2.3. Types](#1123-types)
+    - [11.2.4. Formats](#1124-formats)
+    - [11.2.5. Color Space](#1125-color-space)
+    - [11.2.6. Compression](#1126-compression)
+    - [11.2.7. LoadingManager](#1127-loadingmanager)
+- [12. Animations](#12-animations)
+  - [12.1. Quick overview](#121-quick-overview)
+  - [12.2. Loaders](#122-loaders)
+  - [12.3. Animation Clips](#123-animation-clips)
+  - [12.4. Keyframe Tracks](#124-keyframe-tracks)
+  - [12.5. Animation Mixer](#125-animation-mixer)
+  - [12.6. Animation Action](#126-animation-action)
+  - [12.7. Animation Object Groups](#127-animation-object-groups)
+- [13. Lighting](#13-lighting)
+  - [13.1. Shadows](#131-shadows)
+    - [13.1.1. Renderer](#1311-renderer)
+    - [13.1.2. Light Sources](#1312-light-sources)
+    - [13.1.3. Objects](#1313-objects)
+  - [13.2. Lights](#132-lights)
+  - [13.3. Environment Map](#133-environment-map)
+    - [13.3.1. Mapping Types](#1331-mapping-types)
+    - [13.3.2. Loading](#1332-loading)
+- [14. User Interaction](#14-user-interaction)
+  - [14.1. Orbit Controls (Orbit, Pan \& Zoom)](#141-orbit-controls-orbit-pan--zoom)
+    - [14.1.1. Disable functions](#1411-disable-functions)
+    - [14.1.2. Set Limits](#1412-set-limits)
+    - [14.1.3. Damping](#1413-damping)
+  - [14.2. Scroll](#142-scroll)
+  - [14.3. Mouse \& Touch (Hover \& Click)](#143-mouse--touch-hover--click)
+    - [14.3.1. mousemovement](#1431-mousemovement)
+    - [14.3.2. touchmovement](#1432-touchmovement)
+- [15. Todo Pages](#15-todo-pages)
 
 # 1. Setting Up the Development Environment for Three.js
 
@@ -737,64 +736,7 @@ parent.attach(child); // Reattach to parent
 
 After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
 
-# 9. Orbit, Pan & Zoom
-The [OrbitControls library](https://threejs.org/docs/index.html#examples/en/controls/OrbitControls) provides an easy way to orbit, pan, and zoom the camera using mouse or touch input.
-
-``` javascript
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-```
-
-Since these controls manipulate the camera, when created, the controller is automatically bound to the camera. For the listeners to work properly, it's necessary to link the canvas to the controls. Additionally, you can optionally listen for window-level inputs, such as resizing or key presses, to ensure the camera and controls behave correctly across various events.
-
-``` javascript
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.listenToKeyEvents( window );
-```
-
-When the user interacts with the camera through touch, the camera updates automatically. However, if you are animating or updating the camera (for example, with damping, smooth zoom, or auto-rotation) without direct user input, you must explicitly call the `controls.update()` function within the animation loop to ensure the camera's position and orientation are properly updated.
-
-``` javascript
-renderer.setAnimationLoop(render);
-function render() {
-    controls.update(); // controls update function
-    renderer.render(scene, camera);
-}
-```
-
-## 9.1. Disable functions
-Out of the box, orbit, pan, and zoom are enabled. You can easily disable them by:
-
-``` javascript
-controls.enableRotate = false; // Disable rotation
-controls.enableZoom = false;   // Disable zooming
-controls.enablePan = false;    // Disable panning
-```
-
-## 9.2. Set Limits
-For all the settings, you can set limits such as:
-
-``` javascript
-controls.maxDistance = 100;           // Limit the zoom out distance
-controls.minDistance = 1;             // Limit the zoom in distance
-controls.maxPolarAngle = Math.PI / 2; // Limit the vertical rotation (no flipping)
-```
-
-## 9.3. Damping
-For a smoother orbit and pan, it is recommended to set this setting to `true`. Additionally, it's important to update the camera controls every frame to account for the post-touch smoothing.
-
-``` javascript
-controls.enableDamping = true; // Smooths the movement
-controls.dampingFactor = 0.05; // The damping speed (default: 0.05)
-
-// controls.update();
-renderer.setAnimationLoop(render);
-function render() {
-    controls.update();
-    renderer.render(scene, camera);
-}
-```
-
-# 10. Load GLTF File
+# 9. Load GLTF File
 To load a custom 3D model, use a `.glb` or `.gltf` file. A `.glb` file contains all assets, like UV maps and textures, in one file. In contrast, a `.gltf` file stores the model separately, along with additional `.bin` and texture files. For simplicity, using a `.glb` file is recommended.
 
 Export your model from Blender via `Export > glTF 2.0`. In the export menu, you can choose between `.glb` or `.gltf`, and adjust other settings as needed.
@@ -831,7 +773,7 @@ glbLoader.load('yourPath/yourModel.glb',
 ```
 When loading textures manually, please refer to the section about textures to ensure they are displayed correctly.
 
-## 10.1. Copying models
+## 9.1. Copying models
 Linking or creating a new variable that points to another object does not create a copy - it links to the original. To create an actual copy, use `.clone()`. 
 
 Since a 3D model consists of multiple meshes and textures, all of them must be cloned. Without cloning them, changes to one material will affect both the original and the cloned object.
@@ -847,7 +789,7 @@ model.traverse((child) => {
 });
 ```
 
-# 11. Materials
+# 10. Materials
 In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section focuses on the first six "normal color materials" and does **not** cover the specialized materials in the second list).
 
 - [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)
@@ -871,7 +813,7 @@ Specialized Materials:
 - [ShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/ShaderMaterial)
 - [RawShaderMaterial](https://threejs.org/docs/index.html#api/en/materials/RawShaderMaterial)
 
-## 11.1. Requirements
+## 10.1. Requirements
 "Normal color materials" **require a light source** in the scene because they rely on light calculations. The exception is `MeshBasicMaterial`, which displays a uniform color and does not perform any light calculations, so no light source is necessary. Naturally, these materials must also be linked to a displayed mesh.
 
 Example with lights and `MeshLambertMaterial`:
@@ -889,7 +831,7 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 ```
 
-## 11.2. Comparison
+## 10.2. Comparison
 Here is a list of materials arranged by their complexity and rendering requirements. Although they share similar settings and features, each material introduces unique properties for achieving more realistic rendering.
 
 | **Material**                                                                                      | **Supports Lighting** | **Unique Properties**                                                                            |
@@ -901,10 +843,10 @@ Here is a list of materials arranged by their complexity and rendering requireme
 | [MeshStandardMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshStandardMaterial) | ✅                     | `emissive`, `metalness`, `roughness`                                                             |
 | [MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshPhysicalMaterial) | ✅                     | `emissive`, `metalness`, `roughness`, `clearcoat`, `clearcoatRoughness`, `sheen`, `transmission` |
 
-## 11.3. General Settings
+## 10.3. General Settings
 Here are some general settings to consider, regardless of the material choice:
 
-### 11.3.1. Shading
+### 10.3.1. Shading
 Determines whether the object appears faceted or smooth. The default is `false`.
 
 ```javascript
@@ -912,14 +854,14 @@ object.material.flatShading = false;
 mesh.material.needsUpdate = true;
 ```
 
-### 11.3.2. Culling (Back-face culling)
+### 10.3.2. Culling (Back-face culling)
 There are three diffrend modes to show the faces. The default is `THREE.FrontSide`. Other options are `THREE.BackSide` and `THREE.DoubleSide`.
 ```javascript
 object.material.side = THREE.FrontSide;
 mesh.material.needsUpdate = true;
 ```
 
-## 11.4. Update Material
+## 10.4. Update Material
 Some material changes update automatically, but for more resource-intensive adjustments, the material must be refreshed manually:
 ```javascript
 mesh.material.needsUpdate = true;
@@ -929,7 +871,7 @@ Manual refresh is required for:
 - Shading
 - Adding or removing a texture
 
-# 12. Load Textures
+# 11. Load Textures
 
 Loading image textures is a complex topic with many details to consider. It's highly recommended to load models with all assets, including UV maps, textures, etc., as GLTF files handle these automatically when stored in the file (see the section on loading GLTF models). This approach simplifies the workflow and ensures that necessary settings are saved within the GLTF file.
 
@@ -937,7 +879,7 @@ However, when replacing or manually adding new assets to the model, these settin
 
 For more information, refer to the [Overview](https://threejs.org/manual/#en/textures) & [Settings](https://threejs.org/docs/index.html#api/en/constants/Textures)
 
-## 12.1. Load Texturemaps (jpg, png, etc.)
+## 11.1. Load Texturemaps (jpg, png, etc.)
 The `TextureLoader` does not require any additional addons and is included with base Three.js. It is recommended to first load textures into variables (for compressed textures, an extra decompression `Loader` is needed). For Three.js to read the textures correctly, the following settings are required:
 
 - **Flip Texture**: Three.js automatically flips textures vertically. To prevent the texture from being mirrored (which would misalign it with the UV map), set this to `false`.
@@ -987,14 +929,14 @@ model.children[0].material.transparent = true;
 model.children[0].material.alphaMap = alphaTexture;
 ```
 
-## 12.2. Texture Settings
+## 11.2. Texture Settings
 
-### 12.2.1. UV Maps
+### 11.2.1. UV Maps
 There is nothing special about UV maps in Three.js. When using textures, it is important to ensure that UV maps are properly set up beforehand. 
 - Imported models will typically include their UV maps, 
 - while Three.js preset geometries also come with default UV maps.
 
-### 12.2.2. Magnification & Minification
+### 11.2.2. Magnification & Minification
 It's almost impossible for a camera to see and render a texture at its original pixel size. Magnification and minification refer to how textures are rendered when viewed at different scales. Magnification occurs when a texture is displayed larger than its original resolution, while minification happens when it is displayed smaller. In Three.js, these processes are controlled by texture filtering methods, which determine how pixel information is interpolated or averaged. [Three.js provides a useful visual comparison.](https://threejs.org/manual/#en/textures)
 
 Magnification:
@@ -1037,7 +979,7 @@ model.children[0].material.map.minFilter = THREE.LinearMipMapLinearFilter;
 model.children[0].material.map.needsUpdate = true;
 ```
 
-### 12.2.3. Types
+### 11.2.3. Types
 The texture type primarily affects how the data is stored and processed in WebGL after loading. When loading standard image formats (PNG, JPEG, etc.), you don't need to specify a type - `UnsignedByteType` will work fine by default.
 
 However, there are a few special cases where you need to set the correct type upfront:
@@ -1051,7 +993,7 @@ So for regular image textures, no type is needed (default: `UnsignedByteType`).
 const texture = new THREE.TextureLoader().load('myimage.png');  // Type not needed
 ```
 
-### 12.2.4. Formats
+### 11.2.4. Formats
 The `format` tells Three.js about the structure of the image data, mainly related to the channels and colors used. Here are some examples of texture formats:
 
 | Format                | Format Code | Channels                            |
@@ -1062,7 +1004,7 @@ The `format` tells Three.js about the structure of the image data, mainly relate
 | THREE.RedFormat       | 1028        | 1 channel: Only red component       |
 | THREE.RGFormat        | 1029        | 2 channels: Red and Green           |
 
-### 12.2.5. Color Space
+### 11.2.5. Color Space
 `ColorSpace` defines how Three.js interprets the texture and its different values. Generally, you differentiate between textures that will display colors (`THREE.SRGBColorSpace`) and textures that won't (`THREE.LinearSRGBColorSpace`). By default, `ColorSpace` is set to `""`, which is equivalent to `THREE.LinearSRGBColorSpace` because WebGL performs calculations in linear space by default. Ultimately, this comes down to internal gamma correction. Textures with `THREE.SRGBColorSpace` will be gamma-corrected to ensure accurate colors, while "technical" textures, such as roughness, should not undergo gamma correction.
 
 ``` javascript
@@ -1080,7 +1022,7 @@ Use `THREE.LinearSRGBColorSpace`, `""` , `undefined` for:
 - Metalness maps
 - Any texture storing non-color data
 
-### 12.2.6. Compression
+### 11.2.6. Compression
 The `THREE.TextureLoader` only supports a limited set of defult coded 2D image formats:
 - JPEG
 - PNG
@@ -1111,7 +1053,7 @@ ktx2Loader.load('textures/compressedTexture.ktx2', (texture) => {
 });
 ```
 
-### 12.2.7. LoadingManager
+### 11.2.7. LoadingManager
 The `LoadingManager` in Three.js is a utility that helps manage and monitor the loading of assets, including textures, models, and other resources. It provides a way to track the progress of asset loading and handle events like when all assets are loaded or if an error occurs.
 
 - **Centralized Control**: Allows managing multiple loaders (e.g., `TextureLoader`, `GLTFLoader`) from a single point.
@@ -1147,12 +1089,12 @@ const texture1 = textureLoader.load('path/texture1.jpg');
 const texture2 = textureLoader.load('path/texture2.jpg');
 ```
 
-# 13. Animations
+# 12. Animations
 The Three.js animation system has completely changed in 2015. Beware of outdated information! It now works similar to Unity and Unreal Engine 4.
 
 Different properties of a 3D object can be changed, such as bones and material color. The animated properties can be faded in, faded out, crossfaded, and warped. The weight and time scales of animations can be changed independently. [Animation system overview](https://threejs.org/docs/index.html#manual/en/introduction/Animation-system)
 
-## 13.1. Quick overview
+## 12.1. Quick overview
 - Keyframes for an animation are stored in an `AnimationClip`, which is loaded along with a GLTF file.  
 - The `AnimationMixer` is responsible for running animations and must be updated in each frame.  
 - An `AnimationClip` is linked to the `AnimationMixer` to create an `AnimationAction`, which controls the animation.  
@@ -1209,7 +1151,7 @@ function render() {
 }
 ```
 
-## 13.2. Loaders
+## 12.2. Loaders
 Different loaders can directly load the animations included in the assets. Using the GLTF workflow is recommended.
 
 - THREE.ObjectLoader
@@ -1218,15 +1160,15 @@ Different loaders can directly load the animations included in the assets. Using
 - THREE.FBXLoader
 - THREE.GLTFLoader
 
-## 13.3. Animation Clips
+## 12.3. Animation Clips
 When loading a 3D file containing animations, the different [AnimationClips](https://threejs.org/docs/index.html#api/en/animation/AnimationClip) are stored in the child named `animations` (e.g., `mesh.animations`). These clips are required to play animations.
 
 The `AnimationClip` is managed using the `AnimationAction`.
 
-## 13.4. Keyframe Tracks
+## 12.4. Keyframe Tracks
 An `AnimationClip` contains the data for the animation, which is stored in a [KeyframeTrack](https://threejs.org/docs/index.html#api/en/animation/KeyframeTrack). This data is typically not modified directly.
 
-## 13.5. Animation Mixer
+## 12.5. Animation Mixer
 An [AnimationMixer](https://threejs.org/docs/index.html#api/en/animation/AnimationMixer) is required to play an animation. It bundles multiple animations and manages the updates.
 
 Update the `AnimationMixer` each frame using `deltatime`:
@@ -1249,7 +1191,7 @@ function update () {
 | uncacheRoot(root)          | Releases resources associated with a root object        |
 | uncacheAction(clip, root)  | Releases resources associated with an action            |
 
-## 13.6. Animation Action
+## 12.6. Animation Action
 While attaching the `AnimationClip` to the `AnimationMixer`, an [AnimationAction](https://threejs.org/docs/index.html#api/en/animation/AnimationAction) named `action` is created. The `AnimationClip` is controlled through the `AnimationAction`, enabling operations such as `play`, `pause`, `loop`, `blend`, adjusting `timeScale`, and more.
 
 Attach the `AnimationClip` to the `AnimationMixer` and `play` it:
@@ -1274,18 +1216,18 @@ action.play();
 | effectiveTimeScale | Read-only property that returns the effective time scale                | N/A           |
 | effectiveWeight    | Read-only property that returns the effective weight                    | N/A           |
 
-## 13.7. Animation Object Groups
+## 12.7. Animation Object Groups
 The `AnimationAction` can only manage a single `AnimationClip`. To play and manage the same `AnimationClip` across multiple objects simultaneously, group the objects using an [AnimationObjectGroup](https://threejs.org/docs/index.html#api/en/animation/AnimationObjectGroup). Link the `AnimationObjectGroup` to the `AnimationMixer`. Using a group can be more efficient than creating individual `AnimationActions` for each object.
 
-# 14. Lighting
+# 13. Lighting
 When thinking about lighting, it's not just about light. There are a few things to consider, such as the environment map, shadows, and lights.
 
-## 14.1. Shadows
+## 13.1. Shadows
 **By default, there are no shadows being calculated.**
 
 [Extended overview on threejs.org](https://threejs.org/manual/#en/shadows)
 
-### 14.1.1. Renderer
+### 13.1.1. Renderer
 First, shadows have to be activated in the renderer. This is called a [shadowMap](). There are multiple `shadowMap.types`:
 
 | Shadow Map Type  | Quality     |
@@ -1300,7 +1242,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.BasicShadowMap;
 ```
 
-### 14.1.2. Light Sources
+### 13.1.2. Light Sources
 For each light, the `castShadows` property must be activated when needed. This creates a `light.shadow.camera`, which is bound to the light's position. This camera is used to render the shadows. There are some important quality settings to consider:
 
 - `mapSize` / resolution (default: 512 x 512)
@@ -1336,7 +1278,7 @@ const helper = new THREE.CameraHelper(light.shadow.camera);
 scene.add(helper);
 ```
 
-### 14.1.3. Objects
+### 13.1.3. Objects
 Define for every object if it receives or / and cast shadows.
 
 ```javascript
@@ -1346,7 +1288,7 @@ cube.castShadow = true;
 scene.add(cube);
 ```
 
-## 14.2. Lights
+## 13.2. Lights
 Most light sources work with a light position and a target position (not with rotation!). The target position can be either a point or an object.
 
 | Light Type                                                                   | Purpose                                                                                                           | Efficiency Rating | Supports Shadows |
@@ -1358,13 +1300,13 @@ Most light sources work with a light position and a target position (not with ro
 | [SpotLight](https://threejs.org/docs/#api/en/lights/SpotLight)               | Creates a cone of light emanating from a single point                                                             | Intensive         | Yes              |
 | [RectAreaLight](https://threejs.org/docs/#api/en/lights/RectAreaLight)       | Emits light uniformly across a rectangular plane (It's an Addon and has limited support and does work diffrently) | Intensive         | No               |
 
-## 14.3. Environment Map
+## 13.3. Environment Map
 The `environmentMap` is a texture used to simulate an environment for realistic lighting and reflections. The texture can be set as:  
 
 - `scene.environment`: for lighting and reflections  
 - `scene.background`: for displaying the texture visually  
 
-### Mapping Types
+### 13.3.1. Mapping Types
 There are two mapping types:
 
 | Equirectangular | Cube |
@@ -1381,7 +1323,7 @@ Both mapping types support `reflection` and `refraction`:
 
 [Example demonstrating the `reflection` and `refraction` effects](https://threejs.org/examples/#webgl_materials_envmaps)  
 
-### Loading
+### 13.3.2. Loading
 Depending on the file type, a different loader is used. When loading, it's recommended to preprocess the texture using the `pmremGenerator`. This generates mipmaps, which improve quality and performance.
 
 Example with an EXR file:
@@ -1397,13 +1339,68 @@ scene.background = envmap;
 scene.environment = envmap;
 ```
 
-# User Interaction
+# 14. User Interaction
 
-## Orbit Controls
+## 14.1. Orbit Controls (Orbit, Pan & Zoom)
+The [OrbitControls library](https://threejs.org/docs/index.html#examples/en/controls/OrbitControls) provides an easy way to orbit, pan, and zoom the camera using mouse or touch input.
 
-## Scroll
+``` javascript
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+```
 
-## Mouse & Touch (Hover & Click)
+Since these controls manipulate the camera, when created, the controller is automatically bound to the camera. For the listeners to work properly, it's necessary to link the canvas to the controls. Additionally, you can optionally listen for window-level inputs, such as resizing or key presses, to ensure the camera and controls behave correctly across various events.
+
+``` javascript
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.listenToKeyEvents( window );
+```
+
+When the user interacts with the camera through touch, the camera updates automatically. However, if you are animating or updating the camera (for example, with damping, smooth zoom, or auto-rotation) without direct user input, you must explicitly call the `controls.update()` function within the animation loop to ensure the camera's position and orientation are properly updated.
+
+``` javascript
+renderer.setAnimationLoop(render);
+function render() {
+    controls.update(); // controls update function
+    renderer.render(scene, camera);
+}
+```
+
+### 14.1.1. Disable functions
+Out of the box, orbit, pan, and zoom are enabled. You can easily disable them by:
+
+``` javascript
+controls.enableRotate = false; // Disable rotation
+controls.enableZoom = false;   // Disable zooming
+controls.enablePan = false;    // Disable panning
+```
+
+### 14.1.2. Set Limits
+For all the settings, you can set limits such as:
+
+``` javascript
+controls.maxDistance = 100;           // Limit the zoom out distance
+controls.minDistance = 1;             // Limit the zoom in distance
+controls.maxPolarAngle = Math.PI / 2; // Limit the vertical rotation (no flipping)
+```
+
+### 14.1.3. Damping
+For a smoother orbit and pan, it is recommended to set this setting to `true`. Additionally, it's important to update the camera controls every frame to account for the post-touch smoothing.
+
+``` javascript
+controls.enableDamping = true; // Smooths the movement
+controls.dampingFactor = 0.05; // The damping speed (default: 0.05)
+
+// controls.update();
+renderer.setAnimationLoop(render);
+function render() {
+    controls.update();
+    renderer.render(scene, camera);
+}
+```
+
+## 14.2. Scroll
+
+## 14.3. Mouse & Touch (Hover & Click)
 There are multiple ways to detect and process click interactions. [Threejs.org features two approaches:](https://threejs.org/manual/#en/picking)  
 
 - **The CPU approach**: This uses a raycast to check the entire scene for intersections with the bounding boxes of objects. Afterward, it checks every triangle (face) of the intersected objects.
@@ -1411,7 +1408,7 @@ There are multiple ways to detect and process click interactions. [Threejs.org f
 
 Below is an example of a CPU-based method to detect hover interactions.  
 
-### 15.1. mousemovement
+### 14.3.1. mousemovement
 Set variables:
 ```javascript
 let intersectedObject = null;
@@ -1473,7 +1470,7 @@ function render() {
 }
 ```
 
-### 15.2. touchmovement
+### 14.3.2. touchmovement
 The touch inputs are passed to the previously set functions:
 ```javascript
 function handleTouchStart(event) {
@@ -1494,7 +1491,7 @@ window.addEventListener('touchmove', handleTouchMove);
 window.addEventListener('touchend', handleTouchEnd);
 ```
 
-# 16. Todo Pages
+# 15. Todo Pages
 - [x] responsive
 - [x] orbit / zoom / pan
 - [x] nesting
@@ -1510,3 +1507,4 @@ window.addEventListener('touchend', handleTouchEnd);
 - [ ] create usecases?
 - [ ] create overview and menu
 - [ ] for setup: gitignore / install packages on new machine
+- [ ] userinteraction - scroll
