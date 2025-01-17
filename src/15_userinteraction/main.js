@@ -3,8 +3,9 @@ import * as THREE from "three";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-let scene, camera, renderer, clock, stats, bunny, scrollFraction = 0, intersectedObject = null;
+let scene, camera, renderer, clock, stats, bunny, animationMixer, animationAction, scrollFraction = 0, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000};
 const canvas = document.querySelector('#canvas');
+const htmlContent = document.querySelector('#htmlContent');
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -40,7 +41,8 @@ function init() {
             bunny = gltf.scene;
             bunny.position.y -= new THREE.Box3().setFromObject(bunny).getSize(new THREE.Vector3()).y * 0.5;
             scene.add(bunny);
-            console.log('Bunny loaded:', bunny);
+            const idleAnimation = gltf.animations.find(animation => animation.name.toLowerCase() === "idle");
+            if (idleAnimation) handleAnimation(idleAnimation);
         },
         undefined,
         (error) => {
@@ -59,9 +61,16 @@ function init() {
     // Handle window resize
     window.addEventListener('resize', onResize, false);
     onResize();
-    window.addEventListener('scroll', onScroll);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('click', onClick);
+    // Scroll rotation event
+    window.addEventListener('scroll', getScrollFraction);
+    // Move event
+    window.addEventListener('mousemove', setTouchPosition);
+    window.addEventListener('mouseout', clearTouchPosition);
+    window.addEventListener('mouseleave', clearTouchPosition);
+    // Click event
+    window.addEventListener('click', handleClick);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchend', handleTouchEnd);
 }
 
 function render() {
@@ -70,28 +79,13 @@ function render() {
 
     // Update
     stats.update();
+    animationMixer ? animationMixer.update(deltaTime) : null;
 
     // Rotate bunny
     if (bunny) bunny.rotation.y = scrollFraction * Math.PI * -2;
 
     // Update hover
-    raycaster.setFromCamera(mouse, camera);
-    if (bunny) {
-        //console.log(bunny.children[0].children[0].children);
-        const intersects = raycaster.intersectObjects(bunny.children[0].children[0].children, true);
-        if (intersects.length > 0) {
-            if (intersectedObject !== intersects[0].object) {
-                intersectedObject = intersects[0].object;
-                document.body.style.cursor = 'pointer';
-                console.log('Hovering:', intersectedObject.name);
-            }
-        } else {
-            if (intersectedObject !== null) {
-                intersectedObject = null;
-                document.body.style.cursor = 'default';
-            }
-        }
-    }
+    touchSelector();
 
     // Render the scene
     renderer.render(scene, camera);
@@ -112,23 +106,96 @@ function onResize() {
     camera.updateProjectionMatrix();
 }
 
-function onScroll() {
+function handleAnimation(animation) {
+    animationMixer = new THREE.AnimationMixer(bunny);
+    animationAction = animationMixer.clipAction(animation);
+    animationAction.play();
+}
+
+function getScrollFraction() {
     const scrollPosition = window.pageYOffset;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     scrollFraction = scrollPosition / maxScroll;
 }
 
-function onMouseMove(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+function handleTouchStart(event) {
+    setTouchPosition(event.touches[0]);
+    touchStartTime = Date.now();
+    touchStartPosition.x = touchPosition.x
+    touchStartPosition.y = touchPosition.y
 }
 
-function onClick(event) {
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(yourObject, true);
+function handleTouchEnd() {
+    const touchEndTime = Date.now();
+    if (touchEndTime - touchStartTime < 200 && Math.abs(touchStartPosition.x - touchPosition.x) < 0.01 && Math.abs(touchStartPosition.y - touchPosition.y) < 0.01) {
+        handleClick();
+    }
+    clearTouchPosition();
+}
 
-    if (intersects.length > 0) {
-        console.log('Clicked on:', intersects[0].object.name);
+function handleClick() {
+    if (intersectedObject) {
+        switch (intersectedObject.name) {
+            case 'bunny002_1':
+                changeHTMLContent('Bunny Body');
+                break;
+            case 'bunny002_2':
+                changeHTMLContent('Bunny Head');
+                break;
+            case 'bunny002_3':
+                changeHTMLContent('Bunny Eye');
+                break;
+            default:
+                changeHTMLContent('HTML Content');
+                break;
+        }
+    } else {
+        changeHTMLContent('HTML Content');
+    }
+}
+
+function changeHTMLContent(content) {
+    if (htmlContent) {
+        for(let i = htmlContent.children.length - 1; i >= 0; i--) {
+            htmlContent.children[i].innerHTML = content;
+        }
+    }
+}
+
+function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: (event.clientX - rect.left) * canvas.width  / rect.width,
+        y: (event.clientY - rect.top ) * canvas.height / rect.height,
+    };
+}
+
+function setTouchPosition(event) {
+    const pos = getCanvasRelativePosition(event);
+    touchPosition.x = (pos.x / canvas.width ) *  2 - 1;
+    touchPosition.y = (pos.y / canvas.height) * -2 + 1;
+}
+
+function clearTouchPosition() {
+    touchPosition.x = -100000;
+    touchPosition.y = -100000;
+}
+
+function touchSelector() {
+    raycaster.setFromCamera(touchPosition, camera);
+    if (bunny) {
+        const intersects = raycaster.intersectObjects(bunny.children[0].children[0].children, true);
+        if (intersects.length > 0) {
+            if (intersectedObject !== intersects[0].object) {
+                intersectedObject = intersects[0].object;
+                document.body.style.cursor = 'pointer';
+            }
+        } else {
+            if (intersectedObject !== null) {
+                intersectedObject = null;
+                document.body.style.cursor = 'default';
+            }
+        }
     }
 }
 
