@@ -25,7 +25,8 @@ function init() {
     
     // create base elements
     scene = new THREE.Scene();
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas });
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
+
     camera = new THREE.PerspectiveCamera(55, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
     camera.position.set(0, 0.3, 3);
 
@@ -92,7 +93,7 @@ function setupGUI() {
 
     const settings = {
         background: 'Color',
-        backgroundOptions: ['Color', 'Transparent', 'Texture', 'HDRI'],
+        backgroundOptions: ['Color', 'Transparent', 'Texture', 'Environment Map'],
         color: '#3a2c2e',
     };
     
@@ -117,7 +118,7 @@ function setupGUI() {
             case 'Texture':
                 scene.background = texture;
                 break;
-            case 'HDRI':
+            case 'Environment Map':
                 scene.background = hdri;
                 break;
         }
