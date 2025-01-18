@@ -2,18 +2,16 @@ import './style.scss';
 import * as THREE from "three";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 
-let scene, camera, renderer, clock, stats, bunny, animationMixer, animationAction, scrollFraction = 0, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000};
+let scene, camera, renderer, clock, stats, bunny, animationMixer, animationAction, scrollFraction = 0, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000}, raycaster, mouse, loadingManager, composter, renderPass, outlinePass, fxaaPass, gammaCorrectionPass;
 const canvas = document.querySelector('#canvas');
 const htmlContent = document.querySelector('#htmlContent');
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-const loadingManager = new THREE.LoadingManager();
-loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
-    const progress = (itemsLoaded / itemsTotal) * 100;
-    console.log(`Progress: ${progress.toFixed(2)}% (${itemsLoaded} of ${itemsTotal})`);
-};
 
 function init() {
     // check canvas
@@ -21,13 +19,46 @@ function init() {
         console.error("Canvas element not found.");
         return;
     }
+
+    // loading manager
+    loadingManager = new THREE.LoadingManager();
+    loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+        const progress = (itemsLoaded / itemsTotal) * 100;
+        console.log(`Progress: ${progress.toFixed(2)}% (${itemsLoaded} of ${itemsTotal})`);
+    };
     
     // create base elements
     scene = new THREE.Scene();
     scene.background = null;
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     camera = new THREE.PerspectiveCamera(55, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
     camera.position.set(0, 0, 2);
+
+    // Setup effect composer
+    composter = new EffectComposer(renderer);
+    renderPass = new RenderPass(scene, camera);
+    composter.addPass(renderPass);
+    outlinePass = new OutlinePass(new THREE.Vector2(canvas.clientWidth, canvas.clientHeight), scene, camera);
+    outlinePass.edgeStrength = 1;
+    outlinePass.edgeGlow = 3;
+    outlinePass.edgeThickness = 5;
+    outlinePass.pulsePeriod = 0;
+    outlinePass.visibleEdgeColor.set('#000000');
+    outlinePass.hiddenEdgeColor.set('#ff0000');
+    outlinePass.selectedObjects = scene.children;
+    composter.addPass(outlinePass);
+    fxaaPass = new ShaderPass(FXAAShader);
+    const pixelRatio = Math.min(window.devicePixelRatio, 4);
+    fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( canvas.clientWidth * pixelRatio );
+    fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( canvas.clientHeight * pixelRatio );
+    composter.addPass(fxaaPass);
+    gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
+    composter.addPass(gammaCorrectionPass);
+
+    // Setup reytracer
+    raycaster = new THREE.Raycaster();
+    mouse = new THREE.Vector2();
 
     // Add stats
     stats = new Stats();
@@ -88,7 +119,7 @@ function render() {
     touchSelector();
 
     // Render the scene
-    renderer.render(scene, camera);
+    composter.render(scene, camera);
 }
 
 function onResize() {
@@ -100,6 +131,11 @@ function onResize() {
     renderer.setSize(width, height, false);
     canvas.width = width;
     canvas.height = height;
+
+    // Update effect composer
+    composter.setSize(width, height);
+    fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( width * pixelRatio );
+    fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( height * pixelRatio );
 
     // Update camera aspect ratio and projection matrix
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
