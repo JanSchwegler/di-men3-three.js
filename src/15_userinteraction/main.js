@@ -45,7 +45,7 @@ function init() {
     outlinePass.edgeThickness = 5;
     outlinePass.pulsePeriod = 0;
     outlinePass.visibleEdgeColor.set('#000000');
-    outlinePass.hiddenEdgeColor.set('#ff0000');
+    outlinePass.hiddenEdgeColor.set('#000000');
     outlinePass.selectedObjects = scene.children;
     composter.addPass(outlinePass);
     fxaaPass = new ShaderPass(FXAAShader);
