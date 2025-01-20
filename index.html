@@ -6,12 +6,11 @@
     <title>Übersicht | Mentoart 3</title>
 </head>
 <body>
-    <script type="module" src="main.js"></script>
     <h1>Mentorat 3</h1>
     <a href="/di-men3-three.js/projektdefinition">Projektdefinition</a><br>
     <a href="/di-men3-three.js/dokumentation/dokumentation">Dokumentation</a>
     <hr>
-    <a href="/di-men3-three.js/dist/src/01_setup/setup.html">Setup</a><br>
+    <a href="/di-men3-three.js/dist/src/01_setup/index.html">Setup</a><br>
     <a href="/di-men3-three.js/dist/src/02_line/index.html">Line</a><br>
     <a href="/di-men3-three.js/dist/src/03_responsive/index.html">Responsive</a><br>
     <a href="/di-men3-three.js/dist/src/04_orbit/index.html">Orbit</a><br>
@@ -31,7 +30,7 @@
             document.body.insertAdjacentHTML(
                 'beforeend', // Options: 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
                 `<div id="dev-nav">
-                    <a href="/src/01_setup/setup.html">01 Setup</a><br>
+                    <a href="/src/01_setup/index.html">01 Setup</a><br>
                     <a href="/src/02_line/index.html">02 Line</a><br>
                     <a href="/src/03_responsive/index.html">03 Responsive</a><br>
                     <a href="/src/04_orbit/index.html">04 Orbit</a><br>
@@ -50,5 +49,7 @@
             );
         }
     </script>
+    <canvas id="canvas"></canvas>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        setup: resolve(__dirname, 'src/01_setup/setup.html'),
+        setup: resolve(__dirname, 'src/01_setup/index.html'),
         line: resolve(__dirname, 'src/02_line/index.html'),
         responsive: resolve(__dirname, 'src/03_responsive/index.html'),
         orbit: resolve(__dirname, 'src/04_orbit/index.html'),
