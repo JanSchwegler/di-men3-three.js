@@ -6,7 +6,6 @@ Visual examples and comparisons can be explored in detail on [the Github page](.
 
 Further information can be found in the in-depth overviews provided in the [Three.js manual](https://threejs.org/manual/){:target="_blank"} and detailed technical possibilities described in the [Three.js documentation](https://threejs.org/docs/){:target="_blank"}.  
 
-
 # Table of Content <!-- omit from toc -->
 
 - [1. Setting Up the Development Environment for Three.js](#1-setting-up-the-development-environment-for-threejs)
