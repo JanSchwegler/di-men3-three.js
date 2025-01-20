@@ -2,7 +2,7 @@
 
 This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques. visual 
 
-Visual examples and comparisons can be explored in detail on [the Github page](../), which showcases a variety of projects and experiments demonstrating Three.js in action.
+Visual examples and comparisons can be explored in detail on [the Github page](../dist/), which showcases a variety of projects and experiments demonstrating Three.js in action.
 
 Further information can be found in the in-depth overviews provided in the [Three.js manual](https://threejs.org/manual/){:target="_blank"} and detailed technical possibilities described in the [Three.js documentation](https://threejs.org/docs/){:target="_blank"}.  
 
