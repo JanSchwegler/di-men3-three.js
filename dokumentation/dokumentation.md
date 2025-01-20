@@ -1,6 +1,11 @@
 # Introduction <!-- omit from toc -->
 
-This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques.
+This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques. visual 
+
+Visual examples and comparisons can be explored in detail on [the Github page](../), which showcases a variety of projects and experiments demonstrating Three.js in action.
+
+Further information can be found in the in-depth overviews provided in the [Three.js manual](https://threejs.org/manual/) and detailed technical possibilities described in the [Three.js documentation](https://threejs.org/docs/).  
+
 
 # Table of Content <!-- omit from toc -->
 
@@ -1329,14 +1334,17 @@ Depending on the file type, a different loader is used. When loading, it's recom
 Example with an EXR file:
 
 ```javascript
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
+...
+const exrLoader = new EXRLoader(loadingManager);
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 exrLoader.load('../../hdri/Sky.exr', (texture) => {
   envmap = pmremGenerator.fromEquirectangular(texture).texture;
   texture.dispose();
+  pmremGenerator.dispose();
+  scene.background = envmap;
+  scene.environment = envmap;
 });
-
-scene.background = envmap;
-scene.environment = envmap;
 ```
 
 # 14. User Interaction
@@ -1508,3 +1516,4 @@ window.addEventListener('touchend', handleTouchEnd);
 - [ ] create overview and menu
 - [ ] for setup: gitignore / install packages on new machine
 - [ ] userinteraction - scroll
+- [ ] background -> transparent
