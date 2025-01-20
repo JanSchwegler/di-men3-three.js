@@ -34,6 +34,11 @@ const pageNames = [
     '15_userinteraction', // + projektdefinition / Github repo
 ]
 
+// Redirect to dist folder
+if (currentURL[0] == 'di-men3-three.js' && currentURL[1] != 'dist') {
+    //window.location.href = 'dist/';
+}
+
 function init() {
     // check canvas
     if (!canvas) {
@@ -140,7 +145,7 @@ function init() {
     // Add environment map
     exrLoader = new EXRLoader(loadingManager);
     pmremGenerator = new THREE.PMREMGenerator(renderer);
-    exrLoader.load('../../hdri/hdri_peppermint_powerplant_2k.exr', (texture) => {
+    exrLoader.load('./hdri/hdri_peppermint_powerplant_2k.exr', (texture) => {
         envmap = pmremGenerator.fromEquirectangular(texture).texture;
         texture.dispose();
         pmremGenerator.dispose();
