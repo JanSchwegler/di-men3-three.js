@@ -36,7 +36,7 @@ const pageNames = [
 
 // Redirect to dist folder
 if (currentURL[0] == 'di-men3-three.js' && currentURL[1] != 'dist') {
-    //window.location.href = 'dist/';
+    window.location.href = 'dist/';
 }
 
 function init() {
