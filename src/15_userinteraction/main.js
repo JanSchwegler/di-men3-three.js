@@ -41,7 +41,7 @@ function init() {
     composter.addPass(renderPass);
     outlinePass = new OutlinePass(new THREE.Vector2(canvas.clientWidth, canvas.clientHeight), scene, camera);
     outlinePass.edgeStrength = 1;
-    outlinePass.edgeGlow = 3;
+    outlinePass.edgeGlow = 2;
     outlinePass.edgeThickness = 5;
     outlinePass.pulsePeriod = 0;
     outlinePass.visibleEdgeColor.set('#000000');
