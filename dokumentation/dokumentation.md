@@ -86,7 +86,7 @@ Further information can be found in the in-depth overviews provided in the [Thre
   - [15.3. Mouse \& Touch (Hover \& Click)](#153-mouse--touch-hover--click)
     - [15.3.1. mousemovement](#1531-mousemovement)
     - [15.3.2. touchmovement](#1532-touchmovement)
-- [16. Todo Pages](#16-todo-pages)
+- [16. ToDo](#16-todo)
 
 # 1. Setting Up the Development Environment for Three.js
 
@@ -201,10 +201,10 @@ Before working with Three.js, it’s essential to set up a development environme
 Here are some quick notes about folders and files:  
 
 1. The `node_modules` directory contains all installed modules and should be ignored by GitHub. Add this directory to the `.gitignore` file:
-```bash
-# Ignore node_modules folder
-/node_modules/
-```
+    ```bash
+    # Ignore node_modules folder
+    /node_modules/
+    ```
 2. The `package.json` file lists all installed packages and is used on a different machine to quickly set up the same environment with the correct packages.
 3. The `dist` directory contains the website build.
 4. The `public` directory contains linked files like images that should not be processed by the build tool.
@@ -660,15 +660,15 @@ You halve the FOV to form a right triangle. With this, you can now calculate the
 
 - To calculate the FOV angle, first convert the FOV from degrees to radians and then halve it:
 
-![FOV Angle Formula](https://latex.codecogs.com/svg.image?\text{FOV&space;angle(radians)}=\frac{\frac{\text{FOV(degrees)}\times\pi}{180}}{2})
+  ![FOV Angle Formula](https://latex.codecogs.com/svg.image?\text{FOV&space;angle(radians)}=\frac{\frac{\text{FOV(degrees)}\times\pi}{180}}{2})
 
-[Image: © codecogs.com](https://editor.codecogs.com/)
+  [Image: © codecogs.com](https://editor.codecogs.com/)
 
 - For the opposite side, take half of the object's width or height and add the padding. To ensure the object fits in the viewport, use the width if the aspect ratio is portrait, and the height if the aspect ratio is landscape:
 
-![Opposite Side Formula](https://latex.codecogs.com/svg.image?\text{Opposite&space;side}=\frac{\text{Object&space;width&space;or&space;height}}{2}&plus;\text{Padding})
+  ![Opposite Side Formula](https://latex.codecogs.com/svg.image?\text{Opposite&space;side}=\frac{\text{Object&space;width&space;or&space;height}}{2}&plus;\text{Padding})
 
-[Image: © codecogs.com](https://editor.codecogs.com/)
+  [Image: © codecogs.com](https://editor.codecogs.com/)
 
 After the calculation, simply divide the result by the aspect ratio when the browser is in portrait mode to adjust for the aspect ratio.
 
@@ -1388,33 +1388,33 @@ exrLoader.load('../../hdri/Sky.exr', (texture) => {
 To integrate 3D models into websites, the background of the canvas is important. In Three.js, the background can be modified in four main ways, all set using `scene.background`:
 
 - Transparent: 
-```javascript
-// Configure the renderer:
-// - alpha: true
-// - premultipliedAlpha: false
-renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
-scene.background = null;
-```
+  ```javascript
+  // Configure the renderer:
+  // - alpha: true
+  // - premultipliedAlpha: false
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
+  scene.background = null;
+  ```
 - Color: 
-```javascript
-scene.background = new THREE.Color('#ffffff');
-```
+  ```javascript
+  scene.background = new THREE.Color('#ffffff');
+  ```
 - Texture: 
 
-A static image that does **not** move with the model or scene.
-```javascript
-const textureLoader = new THREE.TextureLoader();
-texture = textureLoader.load('path/img.png');
-scene.background = texture;
-```
+  A static image that does **not** move with the model or scene.
+  ```javascript
+  const textureLoader = new THREE.TextureLoader();
+  texture = textureLoader.load('path/img.png');
+  scene.background = texture;
+  ```
 - Environment Map:
 
-The `environmentMap` can also be used to simulate realistic lighting and reflections. Further information, including the loading code, is explained in [Environment Map](#133-environment-map).
-```javascript
-scene.background = envmap;
-// used to set the map as environment:
-scene.environment = envmap;
-```
+  The `environmentMap` can also be used to simulate realistic lighting and reflections. Further information, including the loading code, is explained in [Environment Map](#133-environment-map).
+  ```javascript
+  scene.background = envmap;
+  // used to set the map as environment:
+  scene.environment = envmap;
+  ```
 
 # 15. User Interaction
 [Example 1 Orbit Controlls](../dist/src/04_orbit/index.html)
@@ -1598,7 +1598,7 @@ window.addEventListener('touchmove', handleTouchMove);
 window.addEventListener('touchend', handleTouchEnd);
 ```
 
-# 16. Todo Pages
+# 16. ToDo
 - [x] responsive
 - [x] orbit / zoom / pan
 - [x] nesting
