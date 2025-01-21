@@ -40,9 +40,9 @@ function init() {
     renderPass = new RenderPass(scene, camera);
     composter.addPass(renderPass);
     outlinePass = new OutlinePass(new THREE.Vector2(canvas.clientWidth, canvas.clientHeight), scene, camera);
-    outlinePass.edgeStrength = 1;
-    outlinePass.edgeGlow = 2;
-    outlinePass.edgeThickness = 5;
+    outlinePass.edgeStrength = 2;
+    outlinePass.edgeGlow = 0;
+    outlinePass.edgeThickness = 4;
     outlinePass.pulsePeriod = 0;
     outlinePass.visibleEdgeColor.set('#000000');
     outlinePass.hiddenEdgeColor.set('#000000');
@@ -134,8 +134,8 @@ function onResize() {
 
     // Update effect composer
     composter.setSize(width, height);
-    fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( width * pixelRatio );
-    fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( height * pixelRatio );
+    fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( width );
+    fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( height );
 
     // Update camera aspect ratio and projection matrix
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
