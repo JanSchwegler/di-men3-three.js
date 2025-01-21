@@ -22,6 +22,8 @@ export default defineConfig({
         lighting: resolve(__dirname, 'src/13_lighting/index.html'),
         background: resolve(__dirname, 'src/14_background/index.html'),
         userinteraction: resolve(__dirname, 'src/15_userinteraction/index.html'),
+        resizeObserver: resolve(__dirname, 'src/16_resizeObserver/index.html'),
+        resizeObserver2: resolve(__dirname, 'src/17_resizeObserver2/index.html'),
       }
     }
   }
