@@ -3,7 +3,7 @@ Im dritten Semester mache ich mich im Rahmen eines Mentorats mit Three.js vertra
 
 - [Projektdefinition](https://janschwegler.github.io/di-men3-three.js/projektdefinition)
 - [Dokumentation](https://janschwegler.github.io/di-men3-three.js/dokumentation/dokumentation)
-- [Übersicht](https://janschwegler.github.io/di-men3-three.js/)
+- [Übersicht](https://janschwegler.github.io/di-men3-three.js/dist)
 
 # Persönliche Anmerkungen & Fazit
 Während des Mentorats hatte ich die Möglichkeit, viel Neues zu Lernen. Auch abseits von Three.js habe ich viel über Grundbausteine von 3D und Kompatibilitäten gelernt. Überraschend war, dass ich simple Darstellungen rasch ohne tieferes Wissen umsetzen konnte. Dennoch musste ich feststellen, dass jedes einzelne Kapitel meiner Anwendungen und Dokumentation viel tiefer und komplexer war. Um diese zu verstehen, habe ich viele technische Funktionsweisen und Feinheiten auf threejs.org nachgelesen und ausprobiert. Daraus habe ich versucht, die für mich und meine zukünftigen Anwendungen relevanten Elemente in der Dokumentation zusammenzufassen.
