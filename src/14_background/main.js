@@ -26,7 +26,6 @@ function init() {
     // create base elements
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
-
     camera = new THREE.PerspectiveCamera(55, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
     camera.position.set(0, 0.3, 3);
 
