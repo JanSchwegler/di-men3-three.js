@@ -1,4 +1,5 @@
 # ignore node_modules folder
 /node_modules/
+/_abgabe/
 *.blend
 *.blend1
