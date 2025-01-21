@@ -654,28 +654,21 @@ To start, ignore the aspect ratio and calculate the distance using only the FOV,
 
 You halve the FOV to form a right triangle. With this, you can now calculate the height:
 
-$$
-height = tan(\frac{length \, of \, the \, opposite \, side}{FOV \, angle})
-$$
+![Height Formula](https://latex.codecogs.com/svg.image?\text{height}=\tan\left(\frac{\text{length&space;of&space;the&space;opposite&space;side}}{\text{FOV&space;angle}}\right))
 
-$height = tan(\frac{length \, of \, the \, opposite \, side}{FOV \, angle})$
-
-$$height=tan(\frac{length\,of\,the\,opposite\,side}{FOV\,angle})$$
-
-\[height=tan(\frac{length\,of\,the\,opposite\,side}{FOV\,angle})\]
-
+[Image: © codecogs.com](https://editor.codecogs.com/)
 
 - To calculate the FOV angle, first convert the FOV from degrees to radians and then halve it:
 
-$$
-FOV\,angle\,(radians) = \frac{\frac{FOV\,(degrees) \times \pi}{180}}{2}
-$$
+![FOV Angle Formula](https://latex.codecogs.com/svg.image?\text{FOV&space;angle(radians)}=\frac{\frac{\text{FOV(degrees)}\times\pi}{180}}{2})
+
+[Image: © codecogs.com](https://editor.codecogs.com/)
 
 - For the opposite side, take half of the object's width or height and add the padding. To ensure the object fits in the viewport, use the width if the aspect ratio is portrait, and the height if the aspect ratio is landscape:
 
-$$
-Opposite\,side = \frac{Object\,width\,or\,height}{2} + Padding
-$$
+![Opposite Side Formula](https://latex.codecogs.com/svg.image?\text{Opposite&space;side}=\frac{\text{Object&space;width&space;or&space;height}}{2}&plus;\text{Padding})
+
+[Image: © codecogs.com](https://editor.codecogs.com/)
 
 After the calculation, simply divide the result by the aspect ratio when the browser is in portrait mode to adjust for the aspect ratio.
 
