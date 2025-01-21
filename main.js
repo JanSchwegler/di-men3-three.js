@@ -16,7 +16,7 @@ const currentURL = window.location.pathname.split('/');
 const canvas = document.querySelector('#canvas');
 
 const pageNames = [
-    'home', // Dokumentation
+    'dist', // Dokumentation
     '01_setup',
     '02_line',
     '03_responsive',
@@ -32,11 +32,13 @@ const pageNames = [
     '13_lighting',
     '14_background',
     '15_userinteraction', // + projektdefinition / Github repo
+    'dokumentation',
+    'https://github.com/JanSchwegler/di-men3-three.js'
 ]
 
 // Redirect to dist folder
-if (currentURL[1] == 'di-men3-three.js' && currentURL[2] != 'dist') {
-    window.location.href = 'dist/';
+if (currentURL[1] == 'di-men3-three.js' && currentURL[2] != 'dist' || currentURL[1] == '') {
+    //window.location.href = 'dist/';
 }
 
 function init() {
@@ -125,11 +127,12 @@ function init() {
             materialLightRedUnlit.name = 'light_red_lit';
             materialLightRedLit.emissive.set('#CC1C1C');
             // enable red light
-            if (currentURL[currentURL.length - 1] == 'index.html') { // sub page
+            if (currentURL[3] == 'src') { // sub page
                 const currentPage = Number((currentURL[currentURL.length - 2].match(/\d+/) || [0])[0]);
                 if (currentPage > 0 && currentPage < 16) model.children.find((child) => child.name == 'button_' + (currentPage + 1).toString().padStart(2, '0')).children[3].children[1].material = materialLightRedLit;
             } else { // home page
                 model.children[2].children[3].children[1].material = materialLightRedLit;
+                console.log('home page');
             }
         },
         undefined,
@@ -218,7 +221,7 @@ function getButtonNumber(buttonName) {
 function getTargetURL(buttonName) {
     const buttonNumber = getButtonNumber(buttonName);
     if (buttonNumber == null) return null;
-    if (currentURL[currentURL.length - 1] == 'index.html') { // check if subpage
+    if (currentURL[3] == 'src') { // check if subpage
         if (currentURL[currentURL.length - 2] == pageNames[buttonNumber - 1]) return null; // check if same page
         return '../' + pageNames[buttonNumber - 1] + '/index.html';
     } else {
