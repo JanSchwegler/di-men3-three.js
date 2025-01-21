@@ -2,15 +2,16 @@
 
 This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques. visual 
 
-Visual examples and comparisons can be explored in detail on [the Github page](../), which showcases a variety of projects and experiments demonstrating Three.js in action.
+Visual examples and comparisons can be explored in detail on [the Github page](../dist/), which showcases a variety of projects and experiments demonstrating Three.js in action.
 
-Further information can be found in the in-depth overviews provided in the [Three.js manual](https://threejs.org/manual/){:target="_blank"} and detailed technical possibilities described in the [Three.js documentation](https://threejs.org/docs/){:target="_blank"}.  
+Further information can be found in the in-depth overviews provided in the [Three.js manual](https://threejs.org/manual/){:target="_blank"} and detailed technical possibilities described in the [Three.js documentation](https://threejs.org/docs/){:target="_blank"}.
 
 # Table of Content <!-- omit from toc -->
 
 - [1. Setting Up the Development Environment for Three.js](#1-setting-up-the-development-environment-for-threejs)
   - [1.1. Step-by-Step Installation](#11-step-by-step-installation)
   - [1.2. Important Commands](#12-important-commands)
+  - [1.3. Gitignore \& Folders](#13-gitignore--folders)
 - [2. Linking Project Files](#2-linking-project-files)
   - [2.1. HTML](#21-html)
   - [2.2. Javascript](#22-javascript)
@@ -75,16 +76,17 @@ Further information can be found in the in-depth overviews provided in the [Thre
   - [13.3. Environment Map](#133-environment-map)
     - [13.3.1. Mapping Types](#1331-mapping-types)
     - [13.3.2. Loading](#1332-loading)
-- [14. User Interaction](#14-user-interaction)
-  - [14.1. Orbit Controls (Orbit, Pan \& Zoom)](#141-orbit-controls-orbit-pan--zoom)
-    - [14.1.1. Disable functions](#1411-disable-functions)
-    - [14.1.2. Set Limits](#1412-set-limits)
-    - [14.1.3. Damping](#1413-damping)
-  - [14.2. Scroll](#142-scroll)
-  - [14.3. Mouse \& Touch (Hover \& Click)](#143-mouse--touch-hover--click)
-    - [14.3.1. mousemovement](#1431-mousemovement)
-    - [14.3.2. touchmovement](#1432-touchmovement)
-- [15. Todo Pages](#15-todo-pages)
+- [14. Canvas Background](#14-canvas-background)
+- [15. User Interaction](#15-user-interaction)
+  - [15.1. Orbit Controls (Orbit, Pan \& Zoom)](#151-orbit-controls-orbit-pan--zoom)
+    - [15.1.1. Disable functions](#1511-disable-functions)
+    - [15.1.2. Set Limits](#1512-set-limits)
+    - [15.1.3. Damping](#1513-damping)
+  - [15.2. Scroll](#152-scroll)
+  - [15.3. Mouse \& Touch (Hover \& Click)](#153-mouse--touch-hover--click)
+    - [15.3.1. mousemovement](#1531-mousemovement)
+    - [15.3.2. touchmovement](#1532-touchmovement)
+- [16. Todo Pages](#16-todo-pages)
 
 # 1. Setting Up the Development Environment for Three.js
 
@@ -194,6 +196,19 @@ Before working with Three.js, it’s essential to set up a development environme
   ```bash
   npx vite build
   ```
+
+## 1.3. Gitignore & Folders
+Here are some quick notes about folders and files:  
+
+1. The `node_modules` directory contains all installed modules and should be ignored by GitHub. Add this directory to the `.gitignore` file:
+```bash
+# Ignore node_modules folder
+/node_modules/
+```
+2. The `package.json` file lists all installed packages and is used on a different machine to quickly set up the same environment with the correct packages.
+3. The `dist` directory contains the website build.
+4. The `public` directory contains linked files like images that should not be processed by the build tool.
+5. The `src` directory is often used to store the application files, keeping them separate.
 
 # 2. Linking Project Files  
 For a basic website, you need an `index.html`, `main.js`, and `style.css`.
@@ -486,6 +501,8 @@ init();
 ```
 
 # 6. lil-gui (brwoser controls)
+[Example](../dist/src/06_lil-gui/index.html)
+
 [lil-gui](https://lil-gui.georgealways.com/) is a lightweight library for adding interactive controls to your project. It’s perfect for quickly tweaking parameters in real-time, making it ideal for debugging, prototyping, and creative coding. 
 
 You can simply load it as an addon:
@@ -556,6 +573,8 @@ folder.add(nestedSettings, 'setting');
 ```
 
 # 7. Responsive Canvas
+[Example](../dist/src/03_responsive/index.html)
+
 A canvas has two sizes: its visible display size on the page and its internal pixel resolution. To maintain responsiveness, both sizes must be set and updated accordingly. Additionally, you can adjust the camera distance for fixed elements.
 
 ## 7.1. Canvas Handling
@@ -636,19 +655,19 @@ To start, ignore the aspect ratio and calculate the distance using only the FOV,
 You halve the FOV to form a right triangle. With this, you can now calculate the height:
 
 $$
-\text{height} = \tan\left(\frac{\text{length of the opposite side}}{\text{FOV angle}}\right)
+height = tan(\frac{length \, of \, the \, opposite \, side}{FOV \, angle})
 $$
 
 - To calculate the FOV angle, first convert the FOV from degrees to radians and then halve it:
 
 $$
-\text{FOV angle (radians)} = \frac{\frac{\text{FOV (degrees)} \times \pi}{180}}{2}
+FOV\,angle\,(radians) = \frac{\frac{FOV\,(degrees) \times \pi}{180}}{2}
 $$
 
 - For the opposite side, take half of the object's width or height and add the padding. To ensure the object fits in the viewport, use the width if the aspect ratio is portrait, and the height if the aspect ratio is landscape:
 
 $$
-\text{Opposite side} = \frac{\text{Object width or height}}{2} + \text{Padding}
+Opposite\,side = \frac{Object\,width\,or\,height}{2} + Padding
 $$
 
 After the calculation, simply divide the result by the aspect ratio when the browser is in portrait mode to adjust for the aspect ratio.
@@ -686,6 +705,10 @@ function adjustCameraToObject() {
 ```
 
 # 8. Nesting
+[Example 1 Nesting](../dist/src/05_nesting/index.html)
+
+[Example 2 lilgui](../dist/src/06_lil-gui/index.html)
+
 Nesting in Three.js allows you to group objects under a parent, simplifying the management of complex structures. When a parent object is transformed (position, rotation, scale), its child objects inherit those transformations.
 
 ## 8.1. Supported Nestable Objects
@@ -741,6 +764,10 @@ parent.attach(child); // Reattach to parent
 After reattaching, the child will retain its visual position but its coordinates will update to match the parent’s local space. This behavior ensures a consistent relationship in the hierarchy.
 
 # 9. Load GLTF File
+[Example 1 Load GLTF](../dist/src/07_load_gltf/index.html)
+
+[Example 2 Load Bunny](../dist/src/08_load_bunny/index.html)
+
 To load a custom 3D model, use a `.glb` or `.gltf` file. A `.glb` file contains all assets, like UV maps and textures, in one file. In contrast, a `.gltf` file stores the model separately, along with additional `.bin` and texture files. For simplicity, using a `.glb` file is recommended.
 
 Export your model from Blender via `Export > glTF 2.0`. In the export menu, you can choose between `.glb` or `.gltf`, and adjust other settings as needed.
@@ -794,6 +821,8 @@ model.traverse((child) => {
 ```
 
 # 10. Materials
+[Example](../dist/src/09_materials/index.html)
+
 In Three.js, there are different types of materials, most of which are also found in other 3D programs. (This section focuses on the first six "normal color materials" and does **not** cover the specialized materials in the second list).
 
 - [MeshBasicMaterial](https://threejs.org/docs/index.html#api/en/materials/MeshBasicMaterial)
@@ -876,6 +905,9 @@ Manual refresh is required for:
 - Adding or removing a texture
 
 # 11. Load Textures
+[Example 1 Textures](../dist/src/10_textures/index.html)
+
+[Example 2 Textures GLTF](../dist/src/11_textures_gltf/index.html)
 
 Loading image textures is a complex topic with many details to consider. It's highly recommended to load models with all assets, including UV maps, textures, etc., as GLTF files handle these automatically when stored in the file (see the section on loading GLTF models). This approach simplifies the workflow and ensures that necessary settings are saved within the GLTF file.
 
@@ -1094,6 +1126,8 @@ const texture2 = textureLoader.load('path/texture2.jpg');
 ```
 
 # 12. Animations
+[Example](../dist/src/12_animations/index.html)
+
 The Three.js animation system has completely changed in 2015. Beware of outdated information! It now works similar to Unity and Unreal Engine 4.
 
 Different properties of a 3D object can be changed, such as bones and material color. The animated properties can be faded in, faded out, crossfaded, and warped. The weight and time scales of animations can be changed independently. [Animation system overview](https://threejs.org/docs/index.html#manual/en/introduction/Animation-system)
@@ -1224,6 +1258,8 @@ action.play();
 The `AnimationAction` can only manage a single `AnimationClip`. To play and manage the same `AnimationClip` across multiple objects simultaneously, group the objects using an [AnimationObjectGroup](https://threejs.org/docs/index.html#api/en/animation/AnimationObjectGroup). Link the `AnimationObjectGroup` to the `AnimationMixer`. Using a group can be more efficient than creating individual `AnimationActions` for each object.
 
 # 13. Lighting
+[Example](../dist/src/13_lighting/index.html)
+
 When thinking about lighting, it's not just about light. There are a few things to consider, such as the environment map, shadows, and lights.
 
 ## 13.1. Shadows
@@ -1307,14 +1343,14 @@ Most light sources work with a light position and a target position (not with ro
 ## 13.3. Environment Map
 The `environmentMap` is a texture used to simulate an environment for realistic lighting and reflections. The texture can be set as:  
 
-- `scene.environment`: for lighting and reflections  
-- `scene.background`: for displaying the texture visually  
+- `scene.environment`: for lighting and reflections
+- `scene.background`: for displaying the texture visually
 
 ### 13.3.1. Mapping Types
 There are two mapping types:
 
-| Equirectangular | Cube |
-| --------------- | ---- |
+| Equirectangular                                             | Cube                                     |
+| ----------------------------------------------------------- | ---------------------------------------- |
 | ![Equirectangular](images/environment_equirectangular.jpeg) | ![Cube](images/environment_cubemap.jpeg) |
 
 [Images: © trekview.org](https://www.trekview.org/blog/projection-type-360-photography/)
@@ -1346,9 +1382,46 @@ exrLoader.load('../../hdri/Sky.exr', (texture) => {
 });
 ```
 
-# 14. User Interaction
+# 14. Canvas Background
+[Example](../dist/src/14_background/index.html)
 
-## 14.1. Orbit Controls (Orbit, Pan & Zoom)
+To integrate 3D models into websites, the background of the canvas is important. In Three.js, the background can be modified in four main ways, all set using `scene.background`:
+
+- Transparent: 
+```javascript
+// Configure the renderer:
+// - alpha: true
+// - premultipliedAlpha: false
+renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false, canvas });
+scene.background = null;
+```
+- Color: 
+```javascript
+scene.background = new THREE.Color('#ffffff');
+```
+- Texture: 
+
+A static image that does **not** move with the model or scene.
+```javascript
+const textureLoader = new THREE.TextureLoader();
+texture = textureLoader.load('path/img.png');
+scene.background = texture;
+```
+- Environment Map:
+
+The `environmentMap` can also be used to simulate realistic lighting and reflections. Further information, including the loading code, is explained in [Environment Map](#133-environment-map).
+```javascript
+scene.background = envmap;
+// used to set the map as environment:
+scene.environment = envmap;
+```
+
+# 15. User Interaction
+[Example 1 Orbit Controlls](../dist/src/04_orbit/index.html)
+
+[Example 2 User Interaction](../dist/src/15_userinteraction/index.html)
+
+## 15.1. Orbit Controls (Orbit, Pan & Zoom)
 The [OrbitControls library](https://threejs.org/docs/index.html#examples/en/controls/OrbitControls) provides an easy way to orbit, pan, and zoom the camera using mouse or touch input.
 
 ``` javascript
@@ -1372,7 +1445,7 @@ function render() {
 }
 ```
 
-### 14.1.1. Disable functions
+### 15.1.1. Disable functions
 Out of the box, orbit, pan, and zoom are enabled. You can easily disable them by:
 
 ``` javascript
@@ -1381,7 +1454,7 @@ controls.enableZoom = false;   // Disable zooming
 controls.enablePan = false;    // Disable panning
 ```
 
-### 14.1.2. Set Limits
+### 15.1.2. Set Limits
 For all the settings, you can set limits such as:
 
 ``` javascript
@@ -1390,7 +1463,7 @@ controls.minDistance = 1;             // Limit the zoom in distance
 controls.maxPolarAngle = Math.PI / 2; // Limit the vertical rotation (no flipping)
 ```
 
-### 14.1.3. Damping
+### 15.1.3. Damping
 For a smoother orbit and pan, it is recommended to set this setting to `true`. Additionally, it's important to update the camera controls every frame to account for the post-touch smoothing.
 
 ``` javascript
@@ -1405,9 +1478,36 @@ function render() {
 }
 ```
 
-## 14.2. Scroll
+## 15.2. Scroll
+There are countless ways to implement a scroll interaction. The following explanation uses a `scrollFraction` calculation based on the height of the entire website. The `scrollFraction` value, ranging from 0 to 1, is then multiplied by the model's rotation to create the interaction.
 
-## 14.3. Mouse & Touch (Hover & Click)
+```javascript
+// Set scrollFraction var
+let scrollFraction;
+
+// Scroll event
+window.addEventListener('scroll', getScrollFraction);
+
+// Calc scrollFraction
+function getScrollFraction() {
+  const scrollPosition = window.pageYOffset;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  scrollFraction = scrollPosition / maxScroll;
+}
+
+// Calc rotation in the render function
+function render() {
+  ...
+
+  // Rotate bunny
+  if (bunny) bunny.rotation.y = scrollFraction * Math.PI * -2;
+
+  // Render the scene
+  renderer.render(scene, camera);
+}
+```
+
+## 15.3. Mouse & Touch (Hover & Click)
 There are multiple ways to detect and process click interactions. [Threejs.org features two approaches:](https://threejs.org/manual/#en/picking)  
 
 - **The CPU approach**: This uses a raycast to check the entire scene for intersections with the bounding boxes of objects. Afterward, it checks every triangle (face) of the intersected objects.
@@ -1415,7 +1515,7 @@ There are multiple ways to detect and process click interactions. [Threejs.org f
 
 Below is an example of a CPU-based method to detect hover interactions.  
 
-### 14.3.1. mousemovement
+### 15.3.1. mousemovement
 Set variables:
 ```javascript
 let intersectedObject = null;
@@ -1477,7 +1577,7 @@ function render() {
 }
 ```
 
-### 14.3.2. touchmovement
+### 15.3.2. touchmovement
 The touch inputs are passed to the previously set functions:
 ```javascript
 function handleTouchStart(event) {
@@ -1498,7 +1598,7 @@ window.addEventListener('touchmove', handleTouchMove);
 window.addEventListener('touchend', handleTouchEnd);
 ```
 
-# 15. Todo Pages
+# 16. Todo Pages
 - [x] responsive
 - [x] orbit / zoom / pan
 - [x] nesting
