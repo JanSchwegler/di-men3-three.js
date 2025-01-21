@@ -12,4 +12,4 @@ Ich bin der Meinung, ich konnte mein Ziel des Mentorates erreichen. Ich habe Thr
 
 Dennoch hätte ich gerne mehr ausprobiert. Da die Kapitel umfangreicher waren als erwartet, konnte ich nicht verschiede konkrete Anwendungsbeispiele erarbeiten. Ich hätte gerne mehr Zeit gehabt, um mit Samuel Dunkel konkretere Webanwendungen anzuschauen und auszuprobieren.
 
-Ich möchte mich herzlich bei [Samuel Dunkel](https://dunkel.cc/){:target="_blank"} für seine Zusammenarbeit und Unterstützung als Mentor bedanken.
+Ich möchte mich herzlich bei [Samuel Dunkel](https://dunkel.cc/) für seine Zusammenarbeit und Unterstützung als Mentor bedanken.
