@@ -223,7 +223,7 @@ function getTargetURL(buttonName) {
         return '../' + pageNames[buttonNumber - 1] + '/index.html';
     } else {
         if (buttonNumber == 1) return null; // check if button links to main page
-        return 'dist/src/' + pageNames[buttonNumber - 1] + '/index.html';
+        return 'src/' + pageNames[buttonNumber - 1] + '/index.html';
     }
 }
 
