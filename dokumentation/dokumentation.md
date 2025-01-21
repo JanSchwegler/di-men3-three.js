@@ -1613,3 +1613,5 @@ window.addEventListener('touchend', handleTouchEnd);
 - [ ] tween between meshes -> visualize data
 - [ ] create usecases
 - [ ] create overview and menu
+- [ ] create screenshots
+- [ ] polish overview
