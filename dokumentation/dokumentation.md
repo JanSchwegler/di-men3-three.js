@@ -658,6 +658,13 @@ $$
 height = tan(\frac{length \, of \, the \, opposite \, side}{FOV \, angle})
 $$
 
+$height = tan(\frac{length \, of \, the \, opposite \, side}{FOV \, angle})$
+
+$$height=tan(\frac{length\,of\,the\,opposite\,side}{FOV\,angle})$$
+
+\[height=tan(\frac{length\,of\,the\,opposite\,side}{FOV\,angle})\]
+
+
 - To calculate the FOV angle, first convert the FOV from degrees to radians and then halve it:
 
 $$
