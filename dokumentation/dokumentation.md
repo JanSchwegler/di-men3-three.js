@@ -913,7 +913,7 @@ Loading image textures is a complex topic with many details to consider. It's hi
 
 However, when replacing or manually adding new assets to the model, these settings **do not** apply to the new textures. Even if manual changes in Three.js are not involved, it's important to understand the settings and apply them as needed.
 
-For more information, refer to the [Overview](https://threejs.org/manual/#en/textures) & [Settings](https://threejs.org/docs/index.html#api/en/constants/Textures)
+For more information, refer to the [Overview](https://threejs.org/manual/#en/textures) & [Settings](https://threejs.org/docs/index.html#api/en/constants/Textures) on threejs.org.
 
 ## 11.1. Load Texturemaps (jpg, png, etc.)
 The `TextureLoader` does not require any additional addons and is included with base Three.js. It is recommended to first load textures into variables (for compressed textures, an extra decompression `Loader` is needed). For Three.js to read the textures correctly, the following settings are required:
@@ -1101,7 +1101,7 @@ The `LoadingManager` in Three.js is a utility that helps manage and monitor the 
 // Create a LoadingManager
 const manager = new THREE.LoadingManager();
 
-// Define callbacks
+// Optionally, define callbacks to handle specific events or processes.
 manager.onStart = (url, itemsLoaded, itemsTotal) => {
     console.log(`Started loading: ${url}`);
     console.log(`Loaded ${itemsLoaded} of ${itemsTotal} items.`);
@@ -1268,14 +1268,14 @@ When thinking about lighting, it's not just about light. There are a few things 
 [Extended overview on threejs.org](https://threejs.org/manual/#en/shadows)
 
 ### 13.1.1. Renderer
-First, shadows have to be activated in the renderer. This is called a [shadowMap](). There are multiple `shadowMap.types`:
+First, shadows have to be activated in the renderer. This is called a [shadowMap](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.shadowMap). There are multiple `shadowMap.types`:
 
-| Shadow Map Type  | Quality     |
-| ---------------- | ----------- |
-| BasicShadowMap   | Low         |
-| PCFShadowMap     | Medium      |
-| PCFSoftShadowMap | High        |
-| VSMShadowMap     | Medium-High |
+| Shadow Map Type  | Quality          |
+| ---------------- | ---------------- |
+| BasicShadowMap   | Low              |
+| PCFShadowMap     | Medium (default) |
+| PCFSoftShadowMap | High             |
+| VSMShadowMap     | Medium-High      |
 
 ```javascript
 renderer.shadowMap.enabled = true;
@@ -1607,12 +1607,9 @@ window.addEventListener('touchend', handleTouchEnd);
 - [x] materials
 - [x] textures
 - [x] animations
-- [ ] lights
-- [ ] environment / background
-- [ ] user interaction -> scroll / click
+- [x] lights
+- [x] environment / background
+- [x] user interaction -> scroll / click
 - [ ] tween between meshes -> visualize data
-- [ ] create usecases?
+- [ ] create usecases
 - [ ] create overview and menu
-- [ ] for setup: gitignore / install packages on new machine
-- [ ] userinteraction - scroll
-- [ ] background -> transparent
