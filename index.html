@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Übersicht | Mentoart 3</title>
     <script>
-        
+        const currentURL = window.location.pathname.split('/');
+        if (currentURL[0] == 'di-men3-three.js' && currentURL[1] != 'dist') {
+            window.location.href = 'dist/';
+        }
     </script>
 </head>
 <body>
