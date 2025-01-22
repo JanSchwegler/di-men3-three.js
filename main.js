@@ -107,7 +107,7 @@ function init() {
     // Load model
     const glbLoader = new GLTFLoader(loadingManager);
     glbLoader.load(
-        './models/control_panel/v17_control_panel.glb',
+        './models/control_panel/v18_control_panel.glb',
         (gltf) => {
             model = gltf.scene;
             const boundingBox = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
