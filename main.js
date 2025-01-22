@@ -16,7 +16,7 @@ const currentURL = window.location.pathname.split('/');
 const canvas = document.querySelector('#canvas');
 
 const pageNames = [
-    'dist', // Dokumentation
+    '/dokumentation/dokumentation', // Dokumentation
     '01_setup',
     '02_line',
     '03_responsive',
@@ -32,7 +32,7 @@ const pageNames = [
     '13_lighting',
     '14_background',
     '15_userinteraction', // + projektdefinition / Github repo
-    'dokumentation',
+    '/dist',
     'https://github.com/JanSchwegler/di-men3-three.js'
 ]
 
@@ -95,6 +95,8 @@ function init() {
     orbitControls.enableDamping = true;
     orbitControls.enablePan = false;
     orbitControls.enableZoom = true;
+    orbitControls.maxDistance = 2;
+    orbitControls.minDistance = 0.8;
     orbitControls.enableRotate = false;
     orbitControls.target.set(cameraInitialPosition.x, cameraInitialPosition.y, 0);
     orbitControls.update();
@@ -110,13 +112,13 @@ function init() {
     // Load model
     const glbLoader = new GLTFLoader(loadingManager);
     glbLoader.load(
-        './models/control_panel/v06_control_panel.glb',
+        './models/control_panel/v16_control_panel.glb',
         (gltf) => {
             model = gltf.scene;
             const boundingBox = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
             model.position.y -= boundingBox.y * 0.5;
-            model.position.x -= boundingBox.x * 0.5;
-            console.log(boundingBox);
+            model.position.x -= boundingBox.x * 0.5 + 0.057;
+            // console.log(model);
             // set light materials
             materialLightGreenUnlit = model.children[1].children[2].children[1].material.clone();
             materialLightGreenLit = materialLightGreenUnlit.clone();
@@ -131,8 +133,7 @@ function init() {
                 const currentPage = Number((currentURL[currentURL.length - 2].match(/\d+/) || [0])[0]);
                 if (currentPage > 0 && currentPage < 16) model.children.find((child) => child.name == 'button_' + (currentPage + 1).toString().padStart(2, '0')).children[3].children[1].material = materialLightRedLit;
             } else { // home page
-                model.children[2].children[3].children[1].material = materialLightRedLit;
-                console.log('home page');
+                model.children[15].children[3].children[1].material = materialLightRedLit;
             }
         },
         undefined,
@@ -220,26 +221,31 @@ function getButtonNumber(buttonName) {
 
 function getTargetURL(buttonName) {
     const buttonNumber = getButtonNumber(buttonName);
-    if (buttonNumber == null) return null;
-    if (currentURL[3] == 'src') { // check if subpage
-        if (currentURL[currentURL.length - 2] == pageNames[buttonNumber - 1]) return null; // check if same page
-        return '../' + pageNames[buttonNumber - 1] + '/index.html';
+    if (buttonNumber == null) return null; // check if button valide
+    if (buttonNumber == 17) return null; // chack if on the overview page / same page
+
+    if (buttonNumber > 1 && buttonNumber < 17) {
+        return '/dist/src/' + pageNames[buttonNumber - 1] + '/index.html'; // Subpages
     } else {
-        if (buttonNumber == 1) return null; // check if button links to main page
-        return 'src/' + pageNames[buttonNumber - 1] + '/index.html';
+        return pageNames[buttonNumber - 1]; // full links
     }
 }
 
 function handleClick() {
     if (intersectedObject && intersectedObject.name.includes('button')) {
-        console.log('Clicked:', intersectedObject.parent.name);
         // Start animation
 
         // switch page
         const targetURL = getTargetURL(intersectedObject.parent.name);
+        if (!targetURL) return; // check if target url is valid
+        if (targetURL) console.log('Switching to: ' + targetURL[0]);
         if (targetURL) {
             setTimeout(() => {
-                window.location.href = targetURL;
+                if (targetURL[0] == 'h') {
+                    window.open(targetURL, "_blank");
+                } else {
+                    window.location.href = targetURL;
+                }
             }, 500);
         }
     }
@@ -349,7 +355,7 @@ function updateCameraLookAt() {
 }
 
 function updateCameraPosition() {
-    const size = new THREE.Vector3(1.4, 0.7, 0.5);
+    const size = new THREE.Vector3(1.8, 0.9, 0.5);
     const aspect = canvas.clientWidth / canvas.clientHeight;
     const fov = camera.fov * (Math.PI / 180);// Calculate the camera distance needed to fit the object
     const distance = Math.max(
@@ -358,6 +364,9 @@ function updateCameraPosition() {
         size.z
     );
     camera.position.z = 0.25 + distance * 1.1; // Add 10% margin
+    if (0.25 + distance * 1.1 > 2) {
+        orbitControls.maxDistance = 0.25 + distance * 1.1;
+    }
 }
 
 init();
