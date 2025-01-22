@@ -1,4 +1,4 @@
-import{ax as A,h as R,j as P,U as x,ay as d,az as C,a as o,aA as u,a4 as h,aB as m,C as O,m as g,I as N,an as T,aC as _,ak as k,V as S,aD as I}from"./three.module-C2ykHa-j.js";const b={name:"CopyShader",uniforms:{tDiffuse:{value:null},opacity:{value:1}},vertexShader:`
+import{ax as A,h as R,j as P,X as x,ay as d,az as C,a as o,aA as u,a5 as h,aB as m,C as O,m as g,J as N,ao as T,aC as _,al as k,V as S,aD as I}from"./three.module-DxiGFAu0.js";const b={name:"CopyShader",uniforms:{tDiffuse:{value:null},opacity:{value:1}},vertexShader:`
 
 		varying vec2 vUv;
 
