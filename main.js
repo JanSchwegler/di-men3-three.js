@@ -92,12 +92,8 @@ function init() {
     orbitControls = new OrbitControls(camera, renderer.domElement);
     orbitControls.listenToKeyEvents( window );
     orbitControls.enableDamping = true;
-    orbitControls.enablePan = true;
-    orbitControls.touches.ONE = THREE.TOUCH.PAN;
+    orbitControls.enablePan = false;
     orbitControls.enableZoom = true;
-    const panLimit = 1;
-    orbitControls.minPan = new THREE.Vector3(-panLimit, -panLimit, -panLimit);
-    orbitControls.maxPan = new THREE.Vector3(panLimit, panLimit, panLimit);
     orbitControls.maxDistance = 2;
     orbitControls.minDistance = 0.8;
     orbitControls.enableRotate = false;
