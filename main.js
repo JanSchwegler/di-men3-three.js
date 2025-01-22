@@ -11,12 +11,12 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 
-let scene, camera, cameraInitialPosition = {x: 0, y: 0.22, z: 1.2}, renderer, clock, stats, model, envmap, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000}, raycaster, mouse, loadingManager, exrLoader, pmremGenerator, orbitControls, composter, renderPass, outlinePass, fxaaPass, gammaCorrectionPass, materialLightGreenUnlit, materialLightGreenLit, materialLightRedUnlit, materialLightRedLit, lookAtLerpAmount = 0.1, lookAtMovementAmount = 0.03, lookAtTarget = new THREE.Vector3(), currentLookAt = new THREE.Vector3();
+let scene, camera, cameraInitialPosition = {x: 0, y: 0.22, z: 1.2}, renderer, clock, stats, model, animationButtonPress, animationMixer, animationAction, envmap, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000}, raycaster, mouse, loadingManager, exrLoader, pmremGenerator, orbitControls, composter, renderPass, outlinePass, fxaaPass, gammaCorrectionPass, materialLightGreenUnlit, materialLightGreenLit, materialLightRedUnlit, materialLightRedLit, lookAtLerpAmount = 0.1, lookAtMovementAmount = 0.03, lookAtTarget = new THREE.Vector3(), currentLookAt = new THREE.Vector3();
 const currentURL = window.location.pathname.split('/');
 const canvas = document.querySelector('#canvas');
 
 const pageNames = [
-    '/dokumentation/dokumentation', // Dokumentation
+    '/di-men3-three.js/dokumentation/dokumentation', // Dokumentation
     '01_setup',
     '02_line',
     '03_responsive',
@@ -32,7 +32,7 @@ const pageNames = [
     '13_lighting',
     '14_background',
     '15_userinteraction', // + projektdefinition / Github repo
-    '/dist',
+    '/di-men3-three.js/dist',
     'https://github.com/JanSchwegler/di-men3-three.js'
 ]
 
@@ -112,13 +112,16 @@ function init() {
     // Load model
     const glbLoader = new GLTFLoader(loadingManager);
     glbLoader.load(
-        './models/control_panel/v16_control_panel.glb',
+        './models/control_panel/v17_control_panel.glb',
         (gltf) => {
             model = gltf.scene;
             const boundingBox = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
             model.position.y -= boundingBox.y * 0.5;
             model.position.x -= boundingBox.x * 0.5 + 0.057;
-            // console.log(model);
+            animationButtonPress = gltf.animations[0];
+            animationButtonPress = createCustomAnimationClip();
+            console.log(animationButtonPress);
+            console.log(animationButtonPress.tracks[0].name);
             // set light materials
             materialLightGreenUnlit = model.children[1].children[2].children[1].material.clone();
             materialLightGreenLit = materialLightGreenUnlit.clone();
@@ -182,6 +185,7 @@ function render() {
     // Update hover
     touchSelector();
     updateCameraLookAt();
+    animationMixer ? animationMixer.update(deltaTime) : null;
 
     // Render the scene
     composter.render(scene, camera);
@@ -225,7 +229,7 @@ function getTargetURL(buttonName) {
     if (buttonNumber == 17) return null; // chack if on the overview page / same page
 
     if (buttonNumber > 1 && buttonNumber < 17) {
-        return '/dist/src/' + pageNames[buttonNumber - 1] + '/index.html'; // Subpages
+        return '/di-men3-three.js/dist/src/' + pageNames[buttonNumber - 1] + '/index.html'; // Subpages
     } else {
         return pageNames[buttonNumber - 1]; // full links
     }
@@ -233,22 +237,38 @@ function getTargetURL(buttonName) {
 
 function handleClick() {
     if (intersectedObject && intersectedObject.name.includes('button')) {
-        // Start animation
-
-        // switch page
+        // Get target URL
         const targetURL = getTargetURL(intersectedObject.parent.name);
         if (!targetURL) return; // check if target url is valid
-        if (targetURL) console.log('Switching to: ' + targetURL[0]);
+
+        // Start animation
+        animationMixer = new THREE.AnimationMixer(intersectedObject.parent.children[1]);
+        animationAction = animationMixer.clipAction(animationButtonPress);
+        animationAction.loop = THREE.LoopOnce;
+        animationAction.clampWhenFinished = true;
+        animationAction.play();
+
+        // switch page
         if (targetURL) {
             setTimeout(() => {
                 if (targetURL[0] == 'h') {
-                    window.open(targetURL, "_blank");
+                    window.open(targetURL, "_self");
                 } else {
                     window.location.href = targetURL;
                 }
-            }, 500);
+            }, 300);
         }
     }
+}
+
+function createCustomAnimationClip() {
+    const times = [0, 5]; // Start and end times in seconds
+    const values = [0, -0.5]; // Start and end z positions
+    const trackName = `.position[z]`;
+    const track = new THREE.KeyframeTrack(trackName, times, values);
+    const duration = 5 / 30; // Assuming 30 fps, duration in seconds
+    const clip = new THREE.AnimationClip('ButtonPress', duration, [track]);
+    return clip;
 }
 
 function handleTouchStart(event) {
