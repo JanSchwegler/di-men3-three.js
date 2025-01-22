@@ -1,5 +1,7 @@
 # ignore node_modules folder
 /node_modules/
+blender/
+substance/
 *.blend
 *.blend1
 *.zip
