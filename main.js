@@ -1,6 +1,5 @@
 import './style.scss';
 import * as THREE from "three";
-import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -11,7 +10,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 
-let scene, camera, cameraInitialPosition = {x: 0, y: 0.22, z: 1.2}, renderer, clock, stats, model, animationButtonPress, animationMixer, animationAction, envmap, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000}, raycaster, mouse, loadingManager, exrLoader, pmremGenerator, orbitControls, composter, renderPass, outlinePass, fxaaPass, gammaCorrectionPass, materialLightGreenUnlit, materialLightGreenLit, materialLightRedUnlit, materialLightRedLit, lookAtLerpAmount = 0.1, lookAtMovementAmount = 0.03, lookAtTarget = new THREE.Vector3(), currentLookAt = new THREE.Vector3();
+let scene, camera, cameraInitialPosition = {x: 0, y: 0.22, z: 1.2}, renderer, clock, model, animationButtonPress, animationMixer, animationAction, envmap, intersectedObject = null, touchPosition = {x: -100000, y: -100000}, touchStartTime, touchStartPosition = {x: -100000, y: -100000}, raycaster, mouse, loadingManager, exrLoader, pmremGenerator, orbitControls, composter, renderPass, outlinePass, fxaaPass, gammaCorrectionPass, materialLightGreenUnlit, materialLightGreenLit, materialLightRedUnlit, materialLightRedLit, lookAtLerpAmount = 0.1, lookAtMovementAmount = 0.03, lookAtTarget = new THREE.Vector3(), currentLookAt = new THREE.Vector3();
 const currentURL = window.location.pathname.split('/');
 const canvas = document.querySelector('#canvas');
 
@@ -105,10 +104,6 @@ function init() {
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    // Add stats
-    stats = new Stats();
-    document.body.appendChild( stats.dom );
-
     // Load model
     const glbLoader = new GLTFLoader(loadingManager);
     glbLoader.load(
@@ -118,10 +113,7 @@ function init() {
             const boundingBox = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
             model.position.y -= boundingBox.y * 0.5;
             model.position.x -= boundingBox.x * 0.5 + 0.057;
-            animationButtonPress = gltf.animations[0];
             animationButtonPress = createCustomAnimationClip();
-            console.log(animationButtonPress);
-            console.log(animationButtonPress.tracks[0].name);
             // set light materials
             materialLightGreenUnlit = model.children[1].children[2].children[1].material.clone();
             materialLightGreenLit = materialLightGreenUnlit.clone();
@@ -180,12 +172,11 @@ function render() {
     const deltaTime = clock.getDelta();
 
     // Update
-    stats.update();
+    animationMixer ? animationMixer.update(deltaTime) : null;
 
     // Update hover
     touchSelector();
     updateCameraLookAt();
-    animationMixer ? animationMixer.update(deltaTime) : null;
 
     // Render the scene
     composter.render(scene, camera);
