@@ -1610,8 +1610,6 @@ window.addEventListener('touchend', handleTouchEnd);
 - [x] lights
 - [x] environment / background
 - [x] user interaction -> scroll / click
-- [ ] create overview and menu
+- [x] create overview and menu
 - [ ] tween between meshes -> visualize data
 - [ ] create usecases
-- [ ] create screenshots
-- [ ] polish overview
