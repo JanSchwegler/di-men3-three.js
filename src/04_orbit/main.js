@@ -54,7 +54,7 @@ function main() {
     customText.innerHTML = `
         <strong>Controls:</strong><br>
         Orbit: Left Mouse Button<br>
-        Zoom: Right Mouse Button<br>
+        Zoom: Mouse Wheel<br>
         Pan: Right Mouse Button
     `;
     gui.domElement.querySelector(".children").appendChild(customText);
