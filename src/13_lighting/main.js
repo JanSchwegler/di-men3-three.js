@@ -284,6 +284,8 @@ function setupGUI() {
         let value = window.innerWidth > window.innerHeight ? window.innerWidth * size / 50 : window.innerHeight * size / 50;
         light.shadow.mapSize.width = value;
         light.shadow.mapSize.height = value;
+        light.shadow.bias = -0.0001;
+        light.shadow.normalBias = 0.1;
         light.shadow.map = null;
     }
     updateShadowMapSize(shadowSettings.mapSize);
