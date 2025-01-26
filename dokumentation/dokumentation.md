@@ -1,6 +1,6 @@
 # Introduction <!-- omit from toc -->
 
-This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques. visual 
+This documentation provides a comprehensive guide to getting started with Three.js. It offers code snippets for the basic structure of a Three.js application, covering essential components like scenes, cameras, renderers, and objects. Additionally, it dives into specific features and techniques.
 
 Visual examples and comparisons can be explored in detail on [the Github page](../dist/), which showcases a variety of projects and experiments demonstrating Three.js in action.
 
@@ -83,9 +83,9 @@ Further information can be found in the in-depth overviews provided in the [Thre
     - [15.1.2. Set Limits](#1512-set-limits)
     - [15.1.3. Damping](#1513-damping)
   - [15.2. Scroll](#152-scroll)
-  - [15.3. Mouse \& Touch (Hover \& Click)](#153-mouse--touch-hover--click)
-    - [15.3.1. mousemovement](#1531-mousemovement)
-    - [15.3.2. touchmovement](#1532-touchmovement)
+  - [15.3. Mouse \& Touch Events (Hover \& Click)](#153-mouse--touch-events-hover--click)
+    - [15.3.1. Mousemovement](#1531-mousemovement)
+    - [15.3.2. Touchmovement](#1532-touchmovement)
 - [16. ToDo](#16-todo)
 
 # 1. Setting Up the Development Environment for Three.js
@@ -1507,7 +1507,7 @@ function render() {
 }
 ```
 
-## 15.3. Mouse & Touch (Hover & Click)
+## 15.3. Mouse & Touch Events (Hover & Click)
 There are multiple ways to detect and process click interactions. [Threejs.org features two approaches:](https://threejs.org/manual/#en/picking)  
 
 - **The CPU approach**: This uses a raycast to check the entire scene for intersections with the bounding boxes of objects. Afterward, it checks every triangle (face) of the intersected objects.
@@ -1515,7 +1515,7 @@ There are multiple ways to detect and process click interactions. [Threejs.org f
 
 Below is an example of a CPU-based method to detect hover interactions.  
 
-### 15.3.1. mousemovement
+### 15.3.1. Mousemovement
 Set variables:
 ```javascript
 let intersectedObject = null;
@@ -1577,7 +1577,7 @@ function render() {
 }
 ```
 
-### 15.3.2. touchmovement
+### 15.3.2. Touchmovement
 The touch inputs are passed to the previously set functions:
 ```javascript
 function handleTouchStart(event) {
