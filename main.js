@@ -54,7 +54,6 @@ function init() {
         console.log(`Progress: ${progress.toFixed(2)}% (${itemsLoaded} of ${itemsTotal})`);
     };
     loadingManager.onLoad = function () {
-        //scene.background = null;
         scene.environment = envmap;
         scene.add(model);
     };
